@@ -47,6 +47,26 @@ class DraftUpdate(BaseModel):
     placements: list[PlacementEdit] = Field(max_length=2000)
 
 
+class EditOperation(BaseModel):
+    type: Literal["move", "move_line", "set_gap", "replace_variant", "split_word"]
+    line: int | None = Field(default=None, ge=0)
+    column: int | None = Field(default=None, ge=0)
+    end_column: int | None = Field(default=None, ge=0)
+    dx: int | None = Field(default=None, ge=-12000, le=12000)
+    dy: int | None = Field(default=None, ge=-12000, le=12000)
+    gap_px: int | None = Field(default=None, ge=-100, le=300)
+    sample_file: str | None = None
+
+
+class DraftTransformRequest(DraftUpdate):
+    operations: list[EditOperation] = Field(min_length=1, max_length=2000)
+
+
+class DraftTransformResponse(BaseModel):
+    revision: int
+    placements: list[dict]
+
+
 class DraftResponse(BaseModel):
     id: str
     font_id: str

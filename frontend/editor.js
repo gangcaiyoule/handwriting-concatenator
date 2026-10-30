@@ -346,49 +346,37 @@ function replaceVariant(variant) {
   commit(before);
 }
 
-function breakWord() {
+async function breakWord() {
   if (state.selected === null || state.saving) return;
   const index = state.selected;
   const item = state.placements[index];
   if (item.kind !== "word") return;
-  const letters = [...item.character];
-  const choices = letters.map((character) => [...state.variants.values()].find((variant) =>
-    variant.kind === "glyph" && variant.character === character && variant.accepted));
-  if (choices.some((variant) => !variant)) {
-    showError("这个词有字母缺少可用字形，暂时无法拆开。");
-    return;
-  }
   const before = snapshot();
-  const side = Math.round(state.draft.cell_height_px * 0.05 * item.scale);
-  const usableWidth = Math.max(1, item.width - side * 2);
-  const naturalWidth = choices.reduce((sum, variant) => sum + variant.width, 0);
-  const scale = Math.max(0.5, Math.min(1.5, usableWidth / naturalWidth));
-  const widths = choices.map((variant) => Math.max(1, Math.round(variant.width * scale)));
-  const gap = letters.length > 1 ? Math.max(-state.draft.cell_height_px * 0.2,
-    Math.min(state.draft.cell_height_px * 0.3,
-      (usableWidth - widths.reduce((sum, width) => sum + width, 0)) / (letters.length - 1))) : 0;
-  let cursor = item.x + side;
-  const replacements = letters.map((character, offset) => {
-    const variant = choices[offset];
-    const height = Math.max(1, Math.round(variant.height * scale));
-    const replacement = {
-      kind: "glyph", character, line: item.line, column: item.column + offset,
-      sample_file: variant.sample_file, x: Math.max(0, Math.round(cursor)),
-      y: Math.max(0, Math.round(item.y + (item.height - height) / 2)),
-      width: widths[offset], height, scale,
-    };
-    cursor += widths[offset] + gap;
-    return replacement;
-  });
-  const newRight = replacements.at(-1).x + replacements.at(-1).width;
-  const difference = newRight - (item.x + item.width);
-  state.placements.splice(index, 1, ...replacements);
-  shiftFollowing(index + replacements.length - 1, difference);
-  state.selectedIndices = new Set(replacements.map((_, offset) => index + offset));
-  state.selected = replacements.length === 1 ? index : null;
-  state.anchor = index;
+  const count = item.character.length;
+  state.saving = true;
   clearError();
-  commit(before);
+  markState();
+  try {
+    const transformed = await requestJSON(`/api/compositions/${state.draft.id}/transform`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        revision: state.draft.revision,
+        placements: editPayload(),
+        operations: [{ type: "split_word", line: item.line, column: item.column }],
+      }),
+    });
+    state.placements = transformed.placements;
+    state.selectedIndices = new Set(Array.from({ length: count }, (_, offset) => index + offset));
+    state.selected = count === 1 ? index : null;
+    state.anchor = index;
+    commit(before);
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    state.saving = false;
+    markState();
+  }
 }
 
 function changeScale(percent) {

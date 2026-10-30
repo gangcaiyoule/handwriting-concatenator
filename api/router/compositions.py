@@ -14,6 +14,7 @@ from api.handler.compositions import (
     load_composition,
     load_draft,
     save_draft,
+    transform_draft,
 )
 from api.handler.imports import ImportErrorMessage
 from api.handler.libraries import LibraryError
@@ -22,6 +23,7 @@ from api.handler.words import (
 )
 from api.model.compositions import (
     CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
+    DraftTransformRequest, DraftTransformResponse,
     SaveWordsRequest, SavedWord, WordCandidate,
 )
 
@@ -70,6 +72,19 @@ async def put_draft(request: Request, render_id: str,
                     payload: DraftUpdate) -> DraftResponse:
     try:
         return await save_draft(request.app.state.data_root, render_id, payload)
+    except EditConflict as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except (CompositionError, ImportErrorMessage, LibraryError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/{render_id}/transform", response_model=DraftTransformResponse)
+async def post_transform(request: Request, render_id: str,
+                         payload: DraftTransformRequest) -> DraftTransformResponse:
+    try:
+        return await transform_draft(request.app.state.data_root, render_id, payload)
     except EditConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     except (CompositionError, ImportErrorMessage, LibraryError) as exc:

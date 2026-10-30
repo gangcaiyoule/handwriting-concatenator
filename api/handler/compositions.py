@@ -15,11 +15,13 @@ from handwriting_concat.composition import (
     load_word_library, word_spans,
     render_edited,
 )
+from handwriting_concat.editing import apply_edit_operations
 
 from api.handler.imports import checked_run_id
 from api.handler.libraries import library_root
 from api.model.compositions import (
     CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
+    DraftTransformRequest, DraftTransformResponse,
 )
 
 
@@ -118,9 +120,7 @@ def load_draft(data_root: Path, render_id: str) -> DraftResponse:
     )
 
 
-async def save_draft(data_root: Path, render_id: str,
-                     request: DraftUpdate) -> DraftResponse:
-    path, data = _manifest(data_root, render_id)
+def _checked_placements(data: dict, request: DraftUpdate) -> list[dict]:
     if request.revision != data.get("revision", 0):
         raise EditConflict("此拼接图已在别处更新，请刷新后再编辑")
     original = data["placements"]
@@ -174,6 +174,34 @@ async def save_draft(data_root: Path, render_id: str,
         })
     if cursor != len(expected):
         raise CompositionError("编辑数据缺少字符")
+    return placements
+
+
+async def transform_draft(data_root: Path, render_id: str,
+                          request: DraftTransformRequest) -> DraftTransformResponse:
+    _, data = _manifest(data_root, render_id)
+    placements = _checked_placements(data, request)
+    font_root = library_root(data_root, data["font_id"])
+    await run_in_threadpool(
+        render_edited, font_root, placements, data["cell_height_px"],
+        data["background"], (data["width"], data["height"]),
+    )
+    draft = load_draft(data_root, render_id)
+    transformed = apply_edit_operations(
+        placements, draft.variants, data["cell_height_px"],
+        [operation.model_dump() for operation in request.operations],
+    )
+    await run_in_threadpool(
+        render_edited, font_root, transformed, data["cell_height_px"],
+        data["background"], (data["width"], data["height"]),
+    )
+    return DraftTransformResponse(revision=request.revision, placements=transformed)
+
+
+async def save_draft(data_root: Path, render_id: str,
+                     request: DraftUpdate) -> DraftResponse:
+    path, data = _manifest(data_root, render_id)
+    placements = _checked_placements(data, request)
     font_root = library_root(data_root, data["font_id"])
     image = await run_in_threadpool(
         render_edited, font_root, placements, data["cell_height_px"],

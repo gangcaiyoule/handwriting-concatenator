@@ -14,7 +14,7 @@ python -m venv .venv
 
 PNG、JPEG、TIFF 由 Pillow 解码。PDF 输入另外需要系统能运行 `pdfinfo` 和 `pdftoppm`（Poppler）；这两个命令不安装进 `.venv`。模板与 JSON 在本项目中：[A4 PDF](手写字母采集模板_A4.pdf)、[坐标数据](pkg/handwriting_concat/assets/template_v2.json)。
 
-只需命令行核心、不启动网页时，可以改用 `pip install -e .` 安装较少依赖。
+只需单页字形提取命令行时，可以改用 `pip install -e .` 安装较少依赖。本地 agent CLI 复用网页的编辑处理层，需要安装 `.[web]`。
 
 ## 启动上传页面
 
@@ -44,9 +44,26 @@ data/
     manifest.json                        原文、参数、随机种子、字形选取与位置
 ```
 
-每次上传和拼接仍有独立编号，避免覆盖旧结果。HTTP 接口包括 `GET/POST /api/fonts`、`POST /api/fonts/{字体名称}/claim/{旧编号}`、`POST /api/imports`（表单需传 `font_name`）、`GET /api/imports/{字体名称}`、`PATCH /api/imports/{字体名称}/sample`、`POST /api/compositions`、`GET /api/compositions/{id}`、`GET/PUT /api/compositions/{id}/draft`、`GET /api/compositions/{id}/word-candidates` 和 `POST /api/compositions/{id}/words`，以及对应图片、原图和清单的读取接口；FastAPI 的 `/docs` 提供接口文档。编辑保存使用修订号防止旧页面覆盖新结果。上传大小限制为 50 MB。
+每次上传和拼接仍有独立编号，避免覆盖旧结果。HTTP 接口包括 `GET/POST /api/fonts`、`POST /api/fonts/{字体名称}/claim/{旧编号}`、`POST /api/imports`（表单需传 `font_name`）、`GET /api/imports/{字体名称}`、`PATCH /api/imports/{字体名称}/sample`、`POST /api/compositions`、`GET /api/compositions/{id}`、`GET/PUT /api/compositions/{id}/draft`、`POST /api/compositions/{id}/transform`、`GET /api/compositions/{id}/word-candidates` 和 `POST /api/compositions/{id}/words`，以及对应图片、原图和清单的读取接口；FastAPI 的 `/docs` 提供接口文档。编辑保存使用修订号防止旧页面覆盖新结果。上传大小限制为 50 MB。
 
 ## 命令行运行
+
+### 让本地 agent 拼接和编辑
+
+项目根目录的 `AGENTS.md` 记录了 agent 的完整操作流程。无需启动网页或配置 MCP；直接使用项目 `.venv` 中的 Python 调用本地 CLI：
+
+```powershell
+.\.venv\Scripts\python.exe -m api.agent_cli fonts
+Get-Content -Raw -Encoding UTF8 .\text.txt | .\.venv\Scripts\python.exe -m api.agent_cli compose --font "en-潦草" --text-file -
+.\.venv\Scripts\python.exe -m api.agent_cli inspect <拼接编号> --line 0
+.\.venv\Scripts\python.exe -m api.agent_cli apply <拼接编号> --revision 0 --ops .\edits.json
+.\.venv\Scripts\python.exe -m api.agent_cli word-candidates <拼接编号>
+.\.venv\Scripts\python.exe -m api.agent_cli export <拼接编号> --output .\final.png
+```
+
+命令返回 JSON 和图片绝对路径。`apply` 的操作示例及各命令用途见 `AGENTS.md`。词候选需要用户挑选后，才用 `save-words` 存入字体库。HTTP 编辑器的“拆开整词”也使用同一套后端变换规则；变换不会自动保存，仍可在网页里撤销后再保存。
+
+### 单页字形提取
 
 ```powershell
 .\.venv\Scripts\python.exe -m handwriting_concat "填写后的扫描图.jpg" -o "output\我的字迹"
@@ -78,7 +95,7 @@ output/my-handwriting/
 
 ## 代码结构
 
-`pkg/handwriting_concat` 是独立核心包。`pipeline.py` 编排字形提取，`composition.py` 负责缺字检查、随机选样和保留换行的排版。`api/router` 处理 HTTP，`api/handler` 管理导入及拼接结果，`api/model` 定义响应，`frontend` 是静态页面。提取细节见[提取技术方案](docs/handwriting-extraction.md)。
+`pkg/handwriting_concat` 是独立核心包。`pipeline.py` 编排字形提取，`composition.py` 负责缺字检查、随机选样和保留换行的排版，`editing.py` 处理按原文位置定位的编辑操作。`api/router` 处理 HTTP，`api/handler` 管理导入及拼接结果，`api/model` 定义请求与响应，`api/agent_cli.py` 是本地 agent 入口，`frontend` 是静态页面。提取细节见[提取技术方案](docs/handwriting-extraction.md)。
 
 运行测试：
 
