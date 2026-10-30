@@ -36,6 +36,10 @@ class PlacementEdit(BaseModel):
     x: int = Field(ge=0, le=12000)
     y: int = Field(ge=0, le=12000)
     scale: float = Field(ge=0.5, le=1.5)
+    kind: Literal["glyph", "word"] | None = None
+    character: str | None = None
+    line: int | None = Field(default=None, ge=0)
+    column: int | None = Field(default=None, ge=0)
 
 
 class DraftUpdate(BaseModel):
@@ -55,3 +59,22 @@ class DraftResponse(BaseModel):
     cell_height_px: int
     placements: list[dict]
     variants: list[dict]
+
+
+class WordCandidate(BaseModel):
+    key: str
+    word: str
+    line: int
+    column: int
+    saved: bool
+    preview_url: str
+
+
+class SaveWordsRequest(BaseModel):
+    revision: int = Field(ge=0)
+    keys: list[str] = Field(max_length=2000)
+
+
+class SavedWord(BaseModel):
+    word: str
+    file: str

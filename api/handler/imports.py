@@ -13,6 +13,7 @@ from fastapi import UploadFile
 from starlette.concurrency import run_in_threadpool
 
 from handwriting_concat import extract_page
+from handwriting_concat.composition import load_word_library
 
 from api.handler.libraries import (
     checked_new_font_name, legacy_imports, library_root,
@@ -79,6 +80,7 @@ def load_result(data_root: Path, font_name: str) -> ImportResponse:
         samples=samples,
         upload_count=upload_count,
         latest_upload_id=latest_upload_id,
+        word_counts={word: len(files) for word, files in load_word_library(run_root).items()},
         legacy_imports=(legacy_imports(data_root, name)
                         if manifest.get("schema_version") == 2 else []),
     )
@@ -152,7 +154,7 @@ def resolve_result_image(data_root: Path, font_name: str, image_path: str) -> Pa
         raise ImportErrorMessage("无效的图片路径")
     parts = Path(image_path).parts
     if ".." in parts or not parts or parts[0] not in {
-        "cells", "glyphs", "pages", "registered_page.png"
+        "cells", "glyphs", "words", "pages", "registered_page.png"
     }:
         raise ImportErrorMessage("无效的图片路径")
     image = (run_root / image_path).resolve()

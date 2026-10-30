@@ -28,6 +28,8 @@
 #editor-stage.is-transparent { background-color: white; background-image: linear-gradient(45deg, var(--soft) 25%, transparent 25%), linear-gradient(-45deg, var(--soft) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--soft) 75%), linear-gradient(-45deg, transparent 75%, var(--soft) 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0; }
 .edit-glyph { position: absolute; z-index: 1; display: block; padding: 0; border: 1px solid transparent; border-radius: 2px; background: transparent; cursor: grab; touch-action: none; }
 .edit-glyph:hover { border-color: var(--green); }
+.edit-glyph.is-word { border-radius: 5px; }
+.edit-glyph.is-word:hover { border-style: dashed; }
 .edit-glyph.is-selected { z-index: 3; border: 2px solid var(--green); background: oklch(0.94 0.03 145 / .15); }
 .edit-glyph.is-group-selected { z-index: 3; border-color: var(--green); background: oklch(0.94 0.03 145 / .12); }
 .edit-glyph:active { cursor: grabbing; }
@@ -59,6 +61,29 @@
 .editor-variant img { max-width: 90%; max-height: 36px; object-fit: contain; }
 .editor-danger-link { display: block; margin: 10px 0 0; padding: 3px 0; border: 0; background: none; color: var(--error); font-size: 12px; text-align: left; }
 .editor-danger-link:hover { text-decoration: underline; }
+.editor-break-word { display: block; width: 100%; min-height: 38px; margin-top: 11px; border: 1px solid var(--green); border-radius: 7px; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 700; }
+.editor-break-word:hover { background: white; }
+.editor-word-status { padding: 10px 14px; margin: 0 0 17px; border-radius: 8px; background: var(--green-soft); color: var(--green-hover); font-size: 13px; }
+.editor-words-dialog { width: min(680px, calc(100% - 28px)); max-height: min(82vh, 760px); padding: 24px; border: 0; border-radius: 12px; color: var(--ink); }
+.editor-words-dialog::backdrop { background: oklch(0.2 0 0 / .48); }
+.editor-words-heading { display: flex; justify-content: space-between; gap: 16px; }
+.editor-words-heading p { margin: 0 0 5px; color: var(--green); font-size: 12px; font-weight: 700; }
+.editor-words-heading h2 { margin: 0; font-size: 22px; }
+.editor-words-heading button { align-self: start; border: 0; background: transparent; color: var(--muted); font-size: 25px; }
+.editor-words-dialog > p { margin: 13px 0 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.editor-words-dialog > p.error-message { color: var(--error); margin: 12px 0 0; }
+.editor-words-list { display: grid; gap: 9px; max-height: 48vh; overflow: auto; }
+.editor-word-choice { display: grid; grid-template-columns: auto minmax(90px, 1fr) minmax(100px, 2fr); align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.editor-word-choice:has(input:checked) { border-color: var(--green); background: var(--green-soft); }
+.editor-word-choice:has(input:disabled) { opacity: .65; cursor: default; }
+.editor-word-choice input { accent-color: var(--green); }
+.editor-word-choice strong { display: block; font-size: 14px; }
+.editor-word-choice small { color: var(--muted); font-size: 11px; }
+.editor-word-choice img { width: 100%; max-height: 65px; object-fit: contain; background: white; }
+.editor-words-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 18px; }
+.editor-words-actions button { min-height: 39px; padding: 0 14px; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--ink); font-size: 13px; font-weight: 700; }
+.editor-words-actions button:last-child { border-color: var(--green); background: var(--green); color: white; }
+.editor-words-actions button:disabled { opacity: .5; cursor: not-allowed; }
 .editor-panel-note { margin: 7px 0 0; }
 .editor-control-group { margin-top: 23px; padding-top: 17px; border-top: 1px solid var(--line); }
 .editor-control-group h3 { margin: 0 0 12px; font-size: 13px; }
@@ -86,4 +111,6 @@
   #editor-stage-wrap { margin: 16px; }
   .editor-panel { display: block; }
   .editor-line-controls { margin-top: 23px; padding-top: 17px; border-top: 1px solid var(--line); }
+  .editor-word-choice { grid-template-columns: auto 1fr; }
+  .editor-word-choice img { grid-column: 2; }
 }

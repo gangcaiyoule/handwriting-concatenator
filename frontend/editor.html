@@ -26,16 +26,18 @@
         <div>
           <p class="editor-overline">逐字调整</p>
           <h1>编辑拼接结果</h1>
-          <p class="editor-intro">点击字母逐字调整；Shift 点击连选，Ctrl 点击增减，或从画布空白处拖动框选。拖动选中的字可整体移动。</p>
+          <p class="editor-intro">点击字母或整词调整位置；选中整词后可拆成字母重新拼接。Shift 点击连选，Ctrl 点击增减，或从画布空白处拖动框选。</p>
         </div>
         <div class="editor-save-actions">
           <span id="editor-save-state" role="status" aria-live="polite">正在加载…</span>
           <button id="editor-save" class="editor-secondary" type="button" disabled>保存编辑</button>
+          <button id="editor-save-words" class="editor-secondary" type="button" disabled>挑选词存入词库</button>
           <button id="editor-export" class="editor-primary" type="button" disabled>下载 PNG</button>
         </div>
       </div>
 
       <p id="editor-error" class="error-message" role="alert" hidden></p>
+      <p id="editor-word-status" class="editor-word-status" role="status" hidden></p>
       <div id="editor-loading" class="editor-loading">正在读取字形和编辑草稿…</div>
       <div id="editor-workspace" class="editor-workspace" hidden>
         <section class="editor-main" aria-label="拼接画布">
@@ -69,8 +71,8 @@
 
         <aside class="editor-panel" aria-label="编辑属性">
           <div id="editor-no-selection" class="editor-panel-empty">
-            <strong>选择一个字母</strong>
-            <p>点击画布中的任意手写字，查看其他版本并调整它的位置、大小和字距。</p>
+            <strong>选择字母或整词</strong>
+            <p>点击画布中的字形，查看其他版本并调整位置、大小和间距。</p>
           </div>
           <div id="editor-selection" hidden>
             <div class="editor-panel-heading">
@@ -80,7 +82,8 @@
             <p class="editor-panel-label">选择手写版本</p>
             <div id="editor-variants" class="editor-variants"></div>
             <button id="editor-toggle-sample" class="editor-danger-link" type="button"></button>
-            <p class="editor-panel-note">停用只影响以后生成的拼接图。当前字母可以继续替换成其他版本。</p>
+            <button id="editor-break-word" class="editor-break-word" type="button" hidden>拆成字母重新拼接</button>
+            <p id="editor-sample-note" class="editor-panel-note">停用只影响以后生成的拼接图。当前字母可以继续替换成其他版本。</p>
 
             <div class="editor-control-group">
               <h3>位置与大小</h3>
@@ -94,7 +97,7 @@
           </div>
           <div id="editor-group-selection" hidden>
             <div class="editor-panel-heading">
-              <div><small>批量调整</small><h2>已选 <span id="editor-group-count">0</span> 字</h2></div>
+              <div><small>批量调整</small><h2>已选 <span id="editor-group-count">0</span> 项</h2></div>
               <button id="editor-clear-group" type="button" aria-label="清除选择">×</button>
             </div>
             <p class="editor-panel-note">拖动任一选中字形，整组会保持内部间距一起移动。方向键也可微调。</p>
@@ -118,5 +121,18 @@
         </aside>
       </div>
     </main>
+    <dialog id="editor-words-dialog" class="editor-words-dialog" aria-labelledby="editor-words-title">
+      <div class="editor-words-heading">
+        <div><p>完成编辑后</p><h2 id="editor-words-title">选择要保存的词</h2></div>
+        <button id="editor-words-close" type="button" aria-label="关闭">×</button>
+      </div>
+      <p>只保存勾选的词。每个出现位置可单独选择；以后拼接相同词时会优先使用整词图片。</p>
+      <div id="editor-words-list" class="editor-words-list"></div>
+      <p id="editor-words-error" class="error-message" role="alert" hidden></p>
+      <div class="editor-words-actions">
+        <button id="editor-words-skip" type="button">暂不保存</button>
+        <button id="editor-words-confirm" type="button" disabled>保存选中的词</button>
+      </div>
+    </dialog>
   </body>
 </html>

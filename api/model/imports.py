@@ -32,6 +32,7 @@ class ImportResponse(BaseModel):
     samples: list[SampleResponse]
     upload_count: int = 0
     latest_upload_id: str | None = None
+    word_counts: dict[str, int] = Field(default_factory=dict)
     legacy_imports: list[str] = Field(default_factory=list)
 
 

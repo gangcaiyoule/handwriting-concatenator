@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 
 from handwriting_concat.composition import CompositionError, MissingGlyphs
 
@@ -17,8 +17,12 @@ from api.handler.compositions import (
 )
 from api.handler.imports import ImportErrorMessage
 from api.handler.libraries import LibraryError
+from api.handler.words import (
+    WordConflict, list_word_candidates, preview_word, save_words,
+)
 from api.model.compositions import (
     CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
+    SaveWordsRequest, SavedWord, WordCandidate,
 )
 
 
@@ -69,6 +73,43 @@ async def put_draft(request: Request, render_id: str,
     except EditConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     except (CompositionError, ImportErrorMessage, LibraryError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.get("/{render_id}/word-candidates", response_model=list[WordCandidate])
+def get_word_candidates(request: Request, render_id: str) -> list[WordCandidate]:
+    try:
+        return [WordCandidate(**item) for item in
+                list_word_candidates(request.app.state.data_root, render_id)]
+    except ImportErrorMessage as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.get("/{render_id}/word-candidates/{key}/preview")
+def get_word_preview(request: Request, render_id: str, key: str) -> Response:
+    try:
+        return Response(preview_word(request.app.state.data_root, render_id, key),
+                        media_type="image/png")
+    except (CompositionError, ImportErrorMessage) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/{render_id}/words", response_model=list[SavedWord])
+def post_words(request: Request, render_id: str,
+               payload: SaveWordsRequest) -> list[SavedWord]:
+    try:
+        return [SavedWord(**item) for item in save_words(
+            request.app.state.data_root, render_id, payload.revision, payload.keys
+        )]
+    except WordConflict as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except (CompositionError, ImportErrorMessage) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc

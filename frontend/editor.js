@@ -18,6 +18,10 @@ const state = {
 function editPayload() {
   return state.placements.map((item, index) => ({
     index,
+    kind: item.kind || "glyph",
+    character: item.character,
+    line: item.line,
+    column: item.column,
     sample_file: item.sample_file,
     x: item.x,
     y: item.y,
@@ -25,7 +29,7 @@ function editPayload() {
   }));
 }
 
-function snapshot() { return JSON.stringify(editPayload()); }
+function snapshot() { return JSON.stringify(state.placements); }
 function variantFor(file) { return state.variants.get(file); }
 function isDirty() { return Boolean(state.draft && snapshot() !== state.saved); }
 
@@ -102,12 +106,14 @@ function markState() {
   $("editor-save-state").textContent = state.saving ? "保存中…" : isDirty() ? "尚未保存" : "已保存";
   $("editor-save").disabled = state.saving || !isDirty();
   $("editor-export").disabled = state.saving;
+  $("editor-save-words").disabled = state.saving;
   $("editor-undo").disabled = state.saving || !state.undo.length;
   $("editor-redo").disabled = state.saving || !state.redo.length;
 }
 
 function commit(previous) {
   if (snapshot() === previous) return;
+  $("editor-word-status").hidden = true;
   state.undo.push(previous);
   if (state.undo.length > 100) state.undo.shift();
   state.redo.length = 0;
@@ -115,15 +121,10 @@ function commit(previous) {
 }
 
 function restore(serialized) {
-  const edits = JSON.parse(serialized);
-  for (const [index, edit] of edits.entries()) {
-    const item = state.placements[index];
-    const variant = variantFor(edit.sample_file);
-    Object.assign(item, edit, {
-      width: Math.max(1, Math.round(variant.width * edit.scale)),
-      height: Math.max(1, Math.round(variant.height * edit.scale)),
-    });
-  }
+  state.placements = JSON.parse(serialized);
+  state.selectedIndices = new Set();
+  state.selected = null;
+  state.anchor = null;
   renderAll();
 }
 
@@ -209,7 +210,8 @@ function renderStage() {
       (state.selectedIndices.size > 1 ? " is-group-selected" : " is-selected") : ""}`;
     glyph.dataset.index = String(index);
     glyph.setAttribute("aria-pressed", state.selectedIndices.has(index) ? "true" : "false");
-    glyph.setAttribute("aria-label", `第 ${item.line + 1} 行，第 ${item.column + 1} 个字符 ${item.character}`);
+    glyph.setAttribute("aria-label", `第 ${item.line + 1} 行，第 ${item.column + 1} 位${item.kind === "word" ? "整词" : "字符"} ${item.character}`);
+    glyph.classList.toggle("is-word", item.kind === "word");
     glyph.style.left = `${item.x}px`;
     glyph.style.top = `${item.y}px`;
     glyph.style.width = `${item.width}px`;
@@ -232,7 +234,7 @@ function renderStage() {
     outline.style.width = `${bounds.right - bounds.left + 8}px`;
     outline.style.height = `${bounds.bottom - bounds.top + 8}px`;
     const label = document.createElement("span");
-    label.textContent = `已选 ${state.selectedIndices.size} 字`;
+    label.textContent = `已选 ${state.selectedIndices.size} 项`;
     outline.append(label);
     stage.append(outline);
   }
@@ -282,9 +284,11 @@ function renderPanel() {
   if (selected === null) return;
   const item = state.placements[selected];
   $("editor-character").textContent = item.character;
-  $("editor-character-meta").textContent = `第 ${item.line + 1} 行 · 第 ${item.column + 1} 格`;
+  const isWord = item.kind === "word";
+  $("editor-character-meta").textContent = `第 ${item.line + 1} 行 · 第 ${item.column + 1} 位 · ${isWord ? "整词" : "字母"}`;
   $("editor-line").value = String(item.line);
-  const variants = [...state.variants.values()].filter((variant) => variant.character === item.character);
+  const variants = [...state.variants.values()].filter((variant) =>
+    variant.character === item.character && variant.kind === (isWord ? "word" : "glyph"));
   const list = $("editor-variants");
   list.replaceChildren();
   for (const variant of variants) {
@@ -303,6 +307,11 @@ function renderPanel() {
     list.append(button);
   }
   const current = variantFor(item.sample_file);
+  $("editor-toggle-sample").hidden = isWord;
+  $("editor-break-word").hidden = !isWord;
+  $("editor-sample-note").textContent = isWord
+    ? "整词会作为一张图片使用。拆成字母后可重新调整并保存为新词版本。"
+    : "停用只影响以后生成的拼接图。当前字母可以继续替换成其他版本。";
   $("editor-toggle-sample").textContent = current.accepted ? "以后不再使用这个版本" : "重新启用这个版本";
   $("editor-toggle-sample").disabled = state.toggling;
   renderSelectionFields();
@@ -334,6 +343,51 @@ function replaceVariant(variant) {
   item.height = Math.max(1, Math.round(variant.height * item.scale));
   item.y = Math.max(0, item.y + Math.round((oldHeight - item.height) / 2));
   shiftFollowing(state.selected, item.width - oldWidth);
+  commit(before);
+}
+
+function breakWord() {
+  if (state.selected === null || state.saving) return;
+  const index = state.selected;
+  const item = state.placements[index];
+  if (item.kind !== "word") return;
+  const letters = [...item.character];
+  const choices = letters.map((character) => [...state.variants.values()].find((variant) =>
+    variant.kind === "glyph" && variant.character === character && variant.accepted));
+  if (choices.some((variant) => !variant)) {
+    showError("这个词有字母缺少可用字形，暂时无法拆开。");
+    return;
+  }
+  const before = snapshot();
+  const side = Math.round(state.draft.cell_height_px * 0.05 * item.scale);
+  const usableWidth = Math.max(1, item.width - side * 2);
+  const naturalWidth = choices.reduce((sum, variant) => sum + variant.width, 0);
+  const scale = Math.max(0.5, Math.min(1.5, usableWidth / naturalWidth));
+  const widths = choices.map((variant) => Math.max(1, Math.round(variant.width * scale)));
+  const gap = letters.length > 1 ? Math.max(-state.draft.cell_height_px * 0.2,
+    Math.min(state.draft.cell_height_px * 0.3,
+      (usableWidth - widths.reduce((sum, width) => sum + width, 0)) / (letters.length - 1))) : 0;
+  let cursor = item.x + side;
+  const replacements = letters.map((character, offset) => {
+    const variant = choices[offset];
+    const height = Math.max(1, Math.round(variant.height * scale));
+    const replacement = {
+      kind: "glyph", character, line: item.line, column: item.column + offset,
+      sample_file: variant.sample_file, x: Math.max(0, Math.round(cursor)),
+      y: Math.max(0, Math.round(item.y + (item.height - height) / 2)),
+      width: widths[offset], height, scale,
+    };
+    cursor += widths[offset] + gap;
+    return replacement;
+  });
+  const newRight = replacements.at(-1).x + replacements.at(-1).width;
+  const difference = newRight - (item.x + item.width);
+  state.placements.splice(index, 1, ...replacements);
+  shiftFollowing(index + replacements.length - 1, difference);
+  state.selectedIndices = new Set(replacements.map((_, offset) => index + offset));
+  state.selected = replacements.length === 1 ? index : null;
+  state.anchor = index;
+  clearError();
   commit(before);
 }
 
@@ -478,6 +532,7 @@ function shiftLine(amount) {
 
 async function toggleSample() {
   if (state.selected === null || state.toggling) return;
+  if (state.placements[state.selected].kind === "word") return;
   const variant = variantFor(state.placements[state.selected].sample_file);
   state.toggling = true;
   $("editor-toggle-sample").disabled = true;
@@ -512,6 +567,7 @@ async function save() {
     });
     state.draft = updated;
     state.placements = updated.placements.map((item) => ({ ...item }));
+    state.variants = new Map(updated.variants.map((variant) => [variant.sample_file, variant]));
     state.saved = snapshot();
     renderAll();
     return true;
@@ -533,6 +589,72 @@ async function exportPNG() {
   document.body.append(link);
   link.click();
   link.remove();
+  await chooseWords();
+}
+
+async function chooseWords() {
+  if (!(await save())) return;
+  clearError();
+  try {
+    const candidates = await requestJSON(`/api/compositions/${state.draft.id}/word-candidates`);
+    const list = $("editor-words-list");
+    list.replaceChildren();
+    if (!candidates.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "当前没有由单个字母拼出的词。整词图片拆成字母并调整后，可再次保存为新版本。";
+      list.append(empty);
+    }
+    for (const candidate of candidates) {
+      const row = document.createElement("label");
+      row.className = "editor-word-choice";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = candidate.key;
+      checkbox.disabled = candidate.saved;
+      checkbox.addEventListener("change", () => {
+        $("editor-words-confirm").disabled = !list.querySelector("input:checked");
+      });
+      const title = document.createElement("span");
+      const word = document.createElement("strong");
+      word.textContent = candidate.word;
+      const location = document.createElement("small");
+      location.textContent = candidate.saved ? "本次已保存" :
+        `第 ${candidate.line + 1} 行 · 第 ${candidate.column + 1} 位`;
+      title.append(word, location);
+      const preview = document.createElement("img");
+      preview.src = `${candidate.preview_url}?revision=${state.draft.revision}`;
+      preview.loading = "lazy";
+      preview.alt = `${candidate.word} 的编辑结果`;
+      row.append(checkbox, title, preview);
+      list.append(row);
+    }
+    $("editor-words-confirm").disabled = true;
+    $("editor-words-error").hidden = true;
+    $("editor-words-dialog").showModal();
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
+async function saveSelectedWords() {
+  const keys = [...$("editor-words-list").querySelectorAll("input:checked")]
+    .map((input) => input.value);
+  if (!keys.length) return;
+  $("editor-words-confirm").disabled = true;
+  try {
+    const saved = await requestJSON(`/api/compositions/${state.draft.id}/words`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ revision: state.draft.revision, keys }),
+    });
+    $("editor-words-dialog").close();
+    $("editor-word-status").textContent = `已将 ${saved.length} 个词图片保存到 ${state.draft.font_id} 的词库。`;
+    $("editor-word-status").hidden = false;
+  } catch (error) {
+    $("editor-words-error").textContent = error.message;
+    $("editor-words-error").hidden = false;
+    $("editor-words-confirm").disabled = false;
+  }
 }
 
 async function load() {
@@ -655,8 +777,13 @@ $("editor-undo").addEventListener("click", undo);
 $("editor-redo").addEventListener("click", redo);
 $("editor-align").addEventListener("click", alignBaselines);
 $("editor-save").addEventListener("click", save);
+$("editor-save-words").addEventListener("click", chooseWords);
 $("editor-export").addEventListener("click", exportPNG);
 $("editor-toggle-sample").addEventListener("click", toggleSample);
+$("editor-break-word").addEventListener("click", breakWord);
+$("editor-words-close").addEventListener("click", () => $("editor-words-dialog").close());
+$("editor-words-skip").addEventListener("click", () => $("editor-words-dialog").close());
+$("editor-words-confirm").addEventListener("click", saveSelectedWords);
 $("editor-guides").addEventListener("change", renderStage);
 $("editor-zoom").addEventListener("change", () => {
   state.zoom = $("editor-zoom").value === "fit"

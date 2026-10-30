@@ -225,7 +225,8 @@ function renderResult(result) {
   $("manifest-link").href = `/api/imports/${encodeURIComponent(result.id)}/manifest`;
   $("save-location").textContent = `data/fonts/english/${result.id}`;
   if (hasSamples) renderGallery();
-  $("composer-font").textContent = `当前字体库 · ${result.id}`;
+  const wordVersions = Object.values(result.word_counts || {}).reduce((sum, count) => sum + count, 0);
+  $("composer-font").textContent = `当前字体库 · ${result.id} · ${wordVersions} 个整词版本`;
   if (state.composition && state.composition.font_id !== result.id) hideCompositionPreview();
   updateComposeAvailability();
   renderLegacy(result.legacy_imports || []);
@@ -267,6 +268,19 @@ function labelCharacter(character) {
 function updateComposeAvailability() {
   const text = $("compose-text").value.replace(/\r\n?|\n/g, "\n");
   const characters = [...text].filter((char) => char !== " " && char !== "\n");
+  const fallbackCharacters = [];
+  let wholeWords = 0;
+  for (const line of text.split("\n")) {
+    let cursor = 0;
+    for (const match of line.matchAll(/[A-Za-z]+/g)) {
+      if ((state.result?.word_counts?.[match[0]] || 0) > 0) {
+        fallbackCharacters.push(...[...line.slice(cursor, match.index)].filter((char) => char !== " "));
+        wholeWords++;
+        cursor = match.index + match[0].length;
+      }
+    }
+    fallbackCharacters.push(...[...line.slice(cursor)].filter((char) => char !== " "));
+  }
   const lineCount = text ? text.split("\n").length : 0;
   $("compose-count").textContent = `${lineCount} 行 · ${characters.length} 个需拼接字符`;
   const availability = $("compose-availability");
@@ -276,7 +290,8 @@ function updateComposeAvailability() {
   let canCompose = false;
   if (!state.result) {
     availability.textContent = "先选择字体库，或上传到新字体库。";
-  } else if (!state.result.summary.glyph_count) {
+  } else if (!state.result.summary.glyph_count &&
+             !Object.values(state.result.word_counts || {}).some((count) => count > 0)) {
     availability.textContent = "先上传采集页，或导入旧字形库。";
   } else if (!characters.length) {
     availability.textContent = "粘贴要拼接的文字后，系统会检查是否有缺失的字形。";
@@ -291,7 +306,7 @@ function updateComposeAvailability() {
       }
     }
     const required = new Map();
-    for (const character of characters) {
+    for (const character of fallbackCharacters) {
       required.set(character, (required.get(character) || 0) + 1);
     }
     const missing = [...required].filter(([character]) => !available.get(character));
@@ -323,7 +338,7 @@ function updateComposeAvailability() {
         if (reused.length > 8) availability.append(`另有 ${reused.length - 8} 个字符未列出。`);
       } else {
         availability.classList.add("is-ready");
-        availability.textContent = `可以生成。将按输入的 ${lineCount} 行排版，每张字形图只用一次。`;
+        availability.textContent = `可以生成。将按输入的 ${lineCount} 行排版；${wholeWords} 个词使用已保存的整词图片。`;
       }
       canCompose = true;
     }
