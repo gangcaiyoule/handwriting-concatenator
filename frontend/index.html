@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>采集手写字 · 手写字拼接器</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="手写字拼接器首页">
+          <span class="brand-mark" aria-hidden="true">字</span>
+          <span>手写字拼接器</span>
+        </a>
+        <a class="header-note" href="#composer">拼接文字 ↓</a>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="intro-label">字形库 / 上传采集页</p>
+        <h1 id="page-title">把纸上的字，拼成你想写的话</h1>
+        <p>上传填写好的 A4 模板，或直接使用已提取的字形。粘贴文字时，每个换行都会保留在结果中。</p>
+      </section>
+
+      <div class="workspace">
+        <section class="upload-section" aria-labelledby="upload-title">
+          <div class="section-heading">
+            <h2 id="upload-title">上传手写页</h2>
+            <a href="/api/template" target="_blank" rel="noopener">下载采集模板 <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="section-copy">支持 JPG、PNG、TIFF、WEBP、BMP 和单页 PDF，最大 50 MB。</p>
+
+          <div class="dropzone" id="dropzone">
+            <div class="drop-icon" aria-hidden="true">↑</div>
+            <strong>将图片拖到这里</strong>
+            <span>或从电脑选择文件</span>
+            <button class="choose-button" id="choose-file" type="button">选择图片</button>
+            <input id="file-input" type="file" accept=".jpg,.jpeg,.png,.tif,.tiff,.webp,.bmp,.pdf,image/*,application/pdf" hidden />
+          </div>
+
+          <div class="selected-file" id="selected-file" hidden>
+            <div class="selected-preview" id="selected-preview" aria-hidden="true"></div>
+            <div class="selected-details">
+              <strong id="selected-name"></strong>
+              <span id="selected-size"></span>
+            </div>
+            <button class="text-button" id="remove-file" type="button" aria-label="移除已选文件">移除</button>
+          </div>
+
+          <button class="primary-button" id="upload-button" type="button" disabled>上传并提取字形</button>
+          <div class="upload-status" id="upload-status" role="status" aria-live="polite" hidden>
+            <span class="status-pulse" aria-hidden="true"></span>
+            <span id="status-text"></span>
+          </div>
+          <p class="error-message" id="error-message" role="alert" hidden></p>
+
+          <div class="upload-tips">
+            <h3>上传前确认</h3>
+            <ul>
+              <li>四角定位码完整入镜</li>
+              <li>页面平整，字迹清晰，尽量避开阴影</li>
+              <li>每个字符写在指定格内，不碰边框</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="overview" aria-labelledby="overview-title">
+          <div class="section-heading">
+            <h2 id="overview-title">提取结果</h2>
+            <span class="section-caption" id="run-caption">等待上传</span>
+          </div>
+          <div class="empty-overview" id="empty-overview">
+            <div class="empty-sheet" aria-hidden="true"><span></span><span></span><span></span></div>
+            <h3>上传后在这里查看整页校正结果</h3>
+            <p>每个字符会保留原格裁图和透明字形，方便逐一核对。</p>
+          </div>
+          <div class="result-overview" id="result-overview" hidden>
+            <div class="summary" aria-label="提取统计">
+              <div><strong id="sample-count">0</strong><span>应填写格</span></div>
+              <div><strong id="glyph-count">0</strong><span>已提取字形</span></div>
+              <div><strong id="review-count">0</strong><span>待复核</span></div>
+            </div>
+            <a class="page-preview" id="registered-link" href="#" target="_blank" rel="noopener" aria-label="打开校正后的整页图片">
+              <img id="registered-image" alt="校正后的手写采集页" />
+            </a>
+            <div class="result-links">
+              <a id="original-link" href="#" target="_blank" rel="noopener">查看上传原图 ↗</a>
+              <a id="manifest-link" href="#" target="_blank" rel="noopener">查看提取清单 ↗</a>
+            </div>
+            <p class="save-location">字形保存于 <code id="save-location"></code></p>
+          </div>
+        </section>
+      </div>
+
+      <section class="composer" id="composer" aria-labelledby="composer-title">
+        <div class="library-heading">
+          <div>
+            <h2 id="composer-title">拼接文字</h2>
+            <p>直接粘贴内容。每一行按原样生成，空行也会保留。</p>
+          </div>
+          <span id="composer-font" class="visible-count">等待字形库</span>
+        </div>
+        <div class="composer-workspace">
+          <div class="composer-form">
+            <label class="field-label" for="compose-text">要写的文字</label>
+            <textarea id="compose-text" rows="7" maxlength="2000" spellcheck="false" placeholder="Hello, David!&#10;This is my handwriting."></textarea>
+            <p class="compose-count" id="compose-count">0 行 · 0 个字符</p>
+            <div id="compose-availability" class="compose-availability" role="status" aria-live="polite">先上传采集页，或打开已有提取结果。</div>
+
+            <details class="compose-settings">
+              <summary>排版设置</summary>
+              <div class="settings-grid">
+                <label>字大小 <output id="size-value">72 px</output>
+                  <input id="compose-size" type="range" min="40" max="120" step="4" value="72" />
+                </label>
+                <label>间距变化 <output id="jitter-value">5%</output>
+                  <input id="compose-jitter" type="range" min="0" max="20" step="1" value="5" />
+                </label>
+                <label>行距 <output id="line-height-value">1.55</output>
+                  <input id="compose-line-height" type="range" min="1.1" max="2.5" step="0.05" value="1.55" />
+                </label>
+                <label>背景
+                  <select id="compose-background">
+                    <option value="white">白色</option>
+                    <option value="transparent">透明</option>
+                  </select>
+                </label>
+              </div>
+            </details>
+
+            <button id="compose-button" class="primary-button" type="button" disabled>生成拼接预览</button>
+            <p id="compose-error" class="error-message" role="alert" hidden></p>
+          </div>
+          <div class="composer-result">
+            <div id="compose-empty" class="compose-empty">
+              <div class="compose-empty-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+              <strong>预览会出现在这里</strong>
+              <p>同一字符先用完不同字形；字形数量不足时会循环复用。</p>
+            </div>
+            <div id="compose-rendered" hidden>
+              <div class="compose-preview-toolbar">
+                <span id="compose-render-meta"></span>
+                <button id="compose-reroll" class="text-button" type="button">换一种排法</button>
+              </div>
+              <a id="compose-image-link" class="compose-image" href="#" target="_blank" rel="noopener" aria-label="打开原尺寸拼接图"><img id="compose-image" alt="拼接后的手写文字" /></a>
+              <div class="compose-actions">
+                <a id="compose-download" class="download-button" href="#">下载 PNG</a>
+                <span>点击图片可打开原尺寸</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="library" id="library" aria-labelledby="library-title" hidden>
+        <div class="library-heading">
+          <div>
+            <h2 id="library-title">逐字查看</h2>
+            <p>点开字形，可并排对照原格与透明提取结果。</p>
+          </div>
+          <span id="visible-count" class="visible-count"></span>
+        </div>
+        <div class="toolbar">
+          <label class="search-field">
+            <span>查找字符</span>
+            <input id="character-search" type="search" placeholder="输入 a、A、? 或 U+0061" autocomplete="off" />
+          </label>
+          <label class="filter-field">
+            <span>筛选状态</span>
+            <select id="status-filter">
+              <option value="all">全部字形</option>
+              <option value="ready">已提取</option>
+              <option value="review">待复核</option>
+              <option value="empty">空白格</option>
+            </select>
+          </label>
+        </div>
+        <div id="glyph-grid" class="glyph-grid"></div>
+        <div class="no-results" id="no-results" hidden>没有匹配的字形。试试其他字符或状态。</div>
+        <button class="load-more" id="load-more" type="button" hidden>显示更多字形</button>
+      </section>
+    </main>
+
+    <dialog id="glyph-dialog" class="glyph-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-header">
+        <div><p>单格详情</p><h2 id="dialog-title"></h2></div>
+        <button id="dialog-close" type="button" aria-label="关闭详情">×</button>
+      </div>
+      <div class="comparison">
+        <figure><div class="comparison-image"><img id="dialog-crop" alt="原始书写格" /></div><figcaption>原格裁图</figcaption></figure>
+        <figure><div class="comparison-image transparency"><img id="dialog-glyph" alt="透明背景字形" /><span id="dialog-glyph-empty" hidden>未检测到笔迹</span></div><figcaption>透明字形</figcaption></figure>
+      </div>
+      <p id="dialog-meta" class="dialog-meta"></p>
+      <p id="dialog-flags" class="dialog-flags"></p>
+    </dialog>
+  </body>
+</html>

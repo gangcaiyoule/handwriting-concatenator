@@ -1,0 +1,9863 @@
+{
+  "format": "A4 portrait",
+  "template_version": 2,
+  "page_size_mm": [
+    210,
+    297
+  ],
+  "coordinate_origin": "top-left",
+  "print_scale": "100% / actual size",
+  "letter_target_per_case": 3,
+  "source_passage": "A structural hazard occurs when pipeline stages need the same hardware resource at the same time. For example, instruction fetch and data access conflict if they share one single-port memory. Solutions include stalling a stage or providing separate or additional resources.",
+  "registration_marker_type": "ArUco",
+  "registration_dictionary": "DICT_4X4_50",
+  "registration_marker_size_mm": 9.0,
+  "registration_markers": [
+    {
+      "corner": "top_left",
+      "id": 11,
+      "bbox_mm": [
+        7.5,
+        7.5,
+        16.5,
+        16.5
+      ]
+    },
+    {
+      "corner": "top_right",
+      "id": 17,
+      "bbox_mm": [
+        193.5,
+        7.5,
+        202.5,
+        16.5
+      ]
+    },
+    {
+      "corner": "bottom_left",
+      "id": 23,
+      "bbox_mm": [
+        7.5,
+        281.5,
+        16.5,
+        290.5
+      ]
+    },
+    {
+      "corner": "bottom_right",
+      "id": 29,
+      "bbox_mm": [
+        193.5,
+        281.5,
+        202.5,
+        290.5
+      ]
+    }
+  ],
+  "registration_mark_boxes_mm": [
+    [
+      7.5,
+      7.5,
+      16.5,
+      16.5
+    ],
+    [
+      193.5,
+      7.5,
+      202.5,
+      16.5
+    ],
+    [
+      7.5,
+      281.5,
+      16.5,
+      290.5
+    ],
+    [
+      193.5,
+      281.5,
+      202.5,
+      290.5
+    ]
+  ],
+  "rows": [
+    {
+      "section": "passage",
+      "prompt": "A structural hazard"
+    },
+    {
+      "section": "passage",
+      "prompt": "occurs when pipeline"
+    },
+    {
+      "section": "passage",
+      "prompt": "stages need the same"
+    },
+    {
+      "section": "passage",
+      "prompt": "hardware resource at the"
+    },
+    {
+      "section": "passage",
+      "prompt": "same time. For example,"
+    },
+    {
+      "section": "passage",
+      "prompt": "instruction fetch and"
+    },
+    {
+      "section": "passage",
+      "prompt": "data access conflict if"
+    },
+    {
+      "section": "passage",
+      "prompt": "they share one"
+    },
+    {
+      "section": "passage",
+      "prompt": "single-port memory."
+    },
+    {
+      "section": "passage",
+      "prompt": "Solutions include"
+    },
+    {
+      "section": "passage",
+      "prompt": "stalling a stage or"
+    },
+    {
+      "section": "passage",
+      "prompt": "providing separate or"
+    },
+    {
+      "section": "passage",
+      "prompt": "additional resources."
+    },
+    {
+      "section": "supplement",
+      "prompt": "bjkqvwxyzABCDEFGHIJKLMNO"
+    },
+    {
+      "section": "supplement",
+      "prompt": "PQRSTUVWXYZ!\"#$%&'()*+,-"
+    },
+    {
+      "section": "supplement",
+      "prompt": "/:;<=>?@[\\]^_`{|}~012345"
+    },
+    {
+      "section": "supplement",
+      "prompt": "6789bjkqvxzABCDEFGHIJKLM"
+    },
+    {
+      "section": "supplement",
+      "prompt": "NOPQRSTUVWXYZ!\"'(),-:;?b"
+    },
+    {
+      "section": "supplement",
+      "prompt": "jkqBCDEGHIJKLMNOPQRTUVWX"
+    },
+    {
+      "section": "supplement",
+      "prompt": "YZ!\"'():;?"
+    }
+  ],
+  "final_character_counts": {
+    "A": 3,
+    "s": 18,
+    "t": 19,
+    "r": 19,
+    "u": 8,
+    "c": 12,
+    "a": 22,
+    "l": 10,
+    "h": 8,
+    "z": 3,
+    "d": 9,
+    "o": 15,
+    "w": 3,
+    "e": 29,
+    "n": 14,
+    "p": 6,
+    "i": 15,
+    "g": 5,
+    "m": 6,
+    ".": 3,
+    "F": 3,
+    "x": 3,
+    ",": 3,
+    "f": 3,
+    "y": 3,
+    "-": 3,
+    "S": 3,
+    "v": 3,
+    "b": 3,
+    "j": 3,
+    "k": 3,
+    "q": 3,
+    "B": 3,
+    "C": 3,
+    "D": 3,
+    "E": 3,
+    "G": 3,
+    "H": 3,
+    "I": 3,
+    "J": 3,
+    "K": 3,
+    "L": 3,
+    "M": 3,
+    "N": 3,
+    "O": 3,
+    "P": 3,
+    "Q": 3,
+    "R": 3,
+    "T": 3,
+    "U": 3,
+    "V": 3,
+    "W": 3,
+    "X": 3,
+    "Y": 3,
+    "Z": 3,
+    "!": 3,
+    "\"": 3,
+    "#": 1,
+    "$": 1,
+    "%": 1,
+    "&": 1,
+    "'": 3,
+    "(": 3,
+    ")": 3,
+    "*": 1,
+    "+": 1,
+    "/": 1,
+    ":": 3,
+    ";": 3,
+    "<": 1,
+    "=": 1,
+    ">": 1,
+    "?": 3,
+    "@": 1,
+    "[": 1,
+    "\\": 1,
+    "]": 1,
+    "^": 1,
+    "_": 1,
+    "`": 1,
+    "{": 1,
+    "|": 1,
+    "}": 1,
+    "~": 1,
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1,
+    "9": 1
+  },
+  "cells": [
+    {
+      "row": 0,
+      "column": 0,
+      "section": "passage",
+      "character": "A",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        53.9,
+        25.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        54.45,
+        24.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        25.0,
+        53.9,
+        32.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        54.45,
+        31.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        32.5,
+        53.9,
+        40.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        54.45,
+        39.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        53.9,
+        47.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        54.45,
+        46.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 4,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        47.5,
+        53.9,
+        55.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        54.45,
+        54.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 5,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        55.0,
+        53.9,
+        62.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        54.45,
+        61.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 6,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        62.5,
+        53.9,
+        70.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        54.45,
+        69.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 7,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        70.0,
+        53.9,
+        77.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        54.45,
+        76.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 8,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        77.5,
+        53.9,
+        85.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        54.45,
+        84.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 9,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        85.0,
+        53.9,
+        92.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        54.45,
+        91.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 10,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        92.5,
+        53.9,
+        100.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        54.45,
+        99.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 11,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        100.0,
+        53.9,
+        107.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        54.45,
+        106.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 12,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        107.5,
+        53.9,
+        115.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        54.45,
+        114.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 13,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        115.0,
+        53.9,
+        122.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        54.45,
+        121.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 14,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        122.5,
+        53.9,
+        130.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        54.45,
+        129.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 15,
+      "section": "passage",
+      "character": "z",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        130.0,
+        53.9,
+        137.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        54.45,
+        136.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 16,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        137.5,
+        53.9,
+        145.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        54.45,
+        144.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 17,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        145.0,
+        53.9,
+        152.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        54.45,
+        151.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 18,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        152.5,
+        53.9,
+        160.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        54.45,
+        159.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 19,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        160.0,
+        53.9,
+        167.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        54.45,
+        166.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        53.9,
+        175.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        54.45,
+        174.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        53.9,
+        182.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        54.45,
+        181.95,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        53.9,
+        190.0,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        54.45,
+        189.45,
+        60.65
+      ]
+    },
+    {
+      "row": 0,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        53.9,
+        197.5,
+        61.2
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        54.45,
+        196.95,
+        60.65
+      ]
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        65.25,
+        25.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        65.8,
+        24.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        25.0,
+        65.25,
+        32.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        65.8,
+        31.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        32.5,
+        65.25,
+        40.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        65.8,
+        39.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        40.0,
+        65.25,
+        47.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        65.8,
+        46.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 4,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        47.5,
+        65.25,
+        55.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        65.8,
+        54.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 5,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        55.0,
+        65.25,
+        62.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        65.8,
+        61.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 6,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        62.5,
+        65.25,
+        70.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        65.8,
+        69.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 7,
+      "section": "passage",
+      "character": "w",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        70.0,
+        65.25,
+        77.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        65.8,
+        76.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 8,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        77.5,
+        65.25,
+        85.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        65.8,
+        84.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 9,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        85.0,
+        65.25,
+        92.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        65.8,
+        91.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 10,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        92.5,
+        65.25,
+        100.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        65.8,
+        99.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 11,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        100.0,
+        65.25,
+        107.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        65.8,
+        106.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 12,
+      "section": "passage",
+      "character": "p",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        107.5,
+        65.25,
+        115.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        65.8,
+        114.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 13,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        115.0,
+        65.25,
+        122.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        65.8,
+        121.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 14,
+      "section": "passage",
+      "character": "p",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        122.5,
+        65.25,
+        130.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        65.8,
+        129.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 15,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        130.0,
+        65.25,
+        137.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        65.8,
+        136.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 16,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        137.5,
+        65.25,
+        145.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        65.8,
+        144.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 17,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        145.0,
+        65.25,
+        152.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        65.8,
+        151.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 18,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        152.5,
+        65.25,
+        160.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        65.8,
+        159.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 19,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        160.0,
+        65.25,
+        167.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        65.8,
+        166.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        65.25,
+        175.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        65.8,
+        174.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        65.25,
+        182.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        65.8,
+        181.95,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        65.25,
+        190.0,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        65.8,
+        189.45,
+        72.0
+      ]
+    },
+    {
+      "row": 1,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        65.25,
+        197.5,
+        72.55
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        65.8,
+        196.95,
+        72.0
+      ]
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        17.5,
+        76.6,
+        25.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        77.15,
+        24.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        25.0,
+        76.6,
+        32.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        77.15,
+        31.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        32.5,
+        76.6,
+        40.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        77.15,
+        39.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 3,
+      "section": "passage",
+      "character": "g",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        76.6,
+        47.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        77.15,
+        46.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 4,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        47.5,
+        76.6,
+        55.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        77.15,
+        54.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 5,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        55.0,
+        76.6,
+        62.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        77.15,
+        61.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 6,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        62.5,
+        76.6,
+        70.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        77.15,
+        69.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 7,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        70.0,
+        76.6,
+        77.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        77.15,
+        76.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 8,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        77.5,
+        76.6,
+        85.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        77.15,
+        84.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 9,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        85.0,
+        76.6,
+        92.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        77.15,
+        91.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 10,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        92.5,
+        76.6,
+        100.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        77.15,
+        99.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 11,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        100.0,
+        76.6,
+        107.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        77.15,
+        106.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 12,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        107.5,
+        76.6,
+        115.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        77.15,
+        114.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 13,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        115.0,
+        76.6,
+        122.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        77.15,
+        121.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 14,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        122.5,
+        76.6,
+        130.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        77.15,
+        129.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 15,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        130.0,
+        76.6,
+        137.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        77.15,
+        136.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 16,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        137.5,
+        76.6,
+        145.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        77.15,
+        144.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 17,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        145.0,
+        76.6,
+        152.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        77.15,
+        151.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 18,
+      "section": "passage",
+      "character": "m",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        152.5,
+        76.6,
+        160.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        77.15,
+        159.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 19,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        160.0,
+        76.6,
+        167.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        77.15,
+        166.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        76.6,
+        175.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        77.15,
+        174.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        76.6,
+        182.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        77.15,
+        181.95,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        76.6,
+        190.0,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        77.15,
+        189.45,
+        83.35
+      ]
+    },
+    {
+      "row": 2,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        76.6,
+        197.5,
+        83.9
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        77.15,
+        196.95,
+        83.35
+      ]
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        17.5,
+        87.95,
+        25.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        88.5,
+        24.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        25.0,
+        87.95,
+        32.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        88.5,
+        31.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        32.5,
+        87.95,
+        40.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        88.5,
+        39.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 3,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        40.0,
+        87.95,
+        47.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        88.5,
+        46.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 4,
+      "section": "passage",
+      "character": "w",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        47.5,
+        87.95,
+        55.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        88.5,
+        54.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 5,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        55.0,
+        87.95,
+        62.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        88.5,
+        61.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 6,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        62.5,
+        87.95,
+        70.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        88.5,
+        69.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 7,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        70.0,
+        87.95,
+        77.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        88.5,
+        76.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 8,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        77.5,
+        87.95,
+        85.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        88.5,
+        84.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 9,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        85.0,
+        87.95,
+        92.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        88.5,
+        91.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 10,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        92.5,
+        87.95,
+        100.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        88.5,
+        99.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 11,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        100.0,
+        87.95,
+        107.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        88.5,
+        106.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 12,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        107.5,
+        87.95,
+        115.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        88.5,
+        114.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 13,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        115.0,
+        87.95,
+        122.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        88.5,
+        121.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 14,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        122.5,
+        87.95,
+        130.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        88.5,
+        129.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 15,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        130.0,
+        87.95,
+        137.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        88.5,
+        136.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 16,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        137.5,
+        87.95,
+        145.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        88.5,
+        144.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 17,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        145.0,
+        87.95,
+        152.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        88.5,
+        151.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 18,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        152.5,
+        87.95,
+        160.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        88.5,
+        159.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 19,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        160.0,
+        87.95,
+        167.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        88.5,
+        166.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 20,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        87.95,
+        175.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        88.5,
+        174.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 21,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        175.0,
+        87.95,
+        182.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        88.5,
+        181.95,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 22,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        182.5,
+        87.95,
+        190.0,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        88.5,
+        189.45,
+        94.7
+      ]
+    },
+    {
+      "row": 3,
+      "column": 23,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        190.0,
+        87.95,
+        197.5,
+        95.25
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        88.5,
+        196.95,
+        94.7
+      ]
+    },
+    {
+      "row": 4,
+      "column": 0,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        17.5,
+        99.3,
+        25.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        99.85,
+        24.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 1,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        25.0,
+        99.3,
+        32.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        99.85,
+        31.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 2,
+      "section": "passage",
+      "character": "m",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        32.5,
+        99.3,
+        40.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        99.85,
+        39.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 3,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        40.0,
+        99.3,
+        47.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        99.85,
+        46.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 4,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        47.5,
+        99.3,
+        55.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        99.85,
+        54.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 5,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        55.0,
+        99.3,
+        62.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        99.85,
+        61.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 6,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        62.5,
+        99.3,
+        70.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        99.85,
+        69.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 7,
+      "section": "passage",
+      "character": "m",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        70.0,
+        99.3,
+        77.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        99.85,
+        76.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 8,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        77.5,
+        99.3,
+        85.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        99.85,
+        84.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 9,
+      "section": "passage",
+      "character": ".",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        85.0,
+        99.3,
+        92.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        99.85,
+        91.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 10,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        92.5,
+        99.3,
+        100.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        99.85,
+        99.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 11,
+      "section": "passage",
+      "character": "F",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        100.0,
+        99.3,
+        107.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        99.85,
+        106.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 12,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        107.5,
+        99.3,
+        115.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        99.85,
+        114.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 13,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        115.0,
+        99.3,
+        122.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        99.85,
+        121.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 14,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        122.5,
+        99.3,
+        130.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        99.85,
+        129.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 15,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        130.0,
+        99.3,
+        137.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        99.85,
+        136.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 16,
+      "section": "passage",
+      "character": "x",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        137.5,
+        99.3,
+        145.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        99.85,
+        144.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 17,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        145.0,
+        99.3,
+        152.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        99.85,
+        151.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 18,
+      "section": "passage",
+      "character": "m",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        152.5,
+        99.3,
+        160.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        99.85,
+        159.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 19,
+      "section": "passage",
+      "character": "p",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        160.0,
+        99.3,
+        167.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        99.85,
+        166.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 20,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        167.5,
+        99.3,
+        175.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        99.85,
+        174.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 21,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 16,
+      "cell_bbox_mm": [
+        175.0,
+        99.3,
+        182.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        99.85,
+        181.95,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 22,
+      "section": "passage",
+      "character": ",",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        182.5,
+        99.3,
+        190.0,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        99.85,
+        189.45,
+        106.05
+      ]
+    },
+    {
+      "row": 4,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        99.3,
+        197.5,
+        106.6
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        99.85,
+        196.95,
+        106.05
+      ]
+    },
+    {
+      "row": 5,
+      "column": 0,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        17.5,
+        110.65,
+        25.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        111.2,
+        24.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 1,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        25.0,
+        110.65,
+        32.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        111.2,
+        31.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 2,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        32.5,
+        110.65,
+        40.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        111.2,
+        39.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 3,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        40.0,
+        110.65,
+        47.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        111.2,
+        46.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 4,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        47.5,
+        110.65,
+        55.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        111.2,
+        54.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 5,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        55.0,
+        110.65,
+        62.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        111.2,
+        61.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 6,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        62.5,
+        110.65,
+        70.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        111.2,
+        69.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 7,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        70.0,
+        110.65,
+        77.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        111.2,
+        76.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 8,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        77.5,
+        110.65,
+        85.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        111.2,
+        84.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 9,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        85.0,
+        110.65,
+        92.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        111.2,
+        91.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 10,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        92.5,
+        110.65,
+        100.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        111.2,
+        99.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 11,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        100.0,
+        110.65,
+        107.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        111.2,
+        106.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 12,
+      "section": "passage",
+      "character": "f",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        107.5,
+        110.65,
+        115.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        111.2,
+        114.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 13,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 17,
+      "cell_bbox_mm": [
+        115.0,
+        110.65,
+        122.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        111.2,
+        121.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 14,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        122.5,
+        110.65,
+        130.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        111.2,
+        129.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 15,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        130.0,
+        110.65,
+        137.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        111.2,
+        136.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 16,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        137.5,
+        110.65,
+        145.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        111.2,
+        144.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 17,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        145.0,
+        110.65,
+        152.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        111.2,
+        151.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 18,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        152.5,
+        110.65,
+        160.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        111.2,
+        159.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 19,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        160.0,
+        110.65,
+        167.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        111.2,
+        166.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 20,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        167.5,
+        110.65,
+        175.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        111.2,
+        174.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        110.65,
+        182.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        111.2,
+        181.95,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        110.65,
+        190.0,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        111.2,
+        189.45,
+        117.4
+      ]
+    },
+    {
+      "row": 5,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        110.65,
+        197.5,
+        117.95
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        111.2,
+        196.95,
+        117.4
+      ]
+    },
+    {
+      "row": 6,
+      "column": 0,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        17.5,
+        122.0,
+        25.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        122.55,
+        24.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 1,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        25.0,
+        122.0,
+        32.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        122.55,
+        31.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 2,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        32.5,
+        122.0,
+        40.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        122.55,
+        39.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 3,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        40.0,
+        122.0,
+        47.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        122.55,
+        46.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 4,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        47.5,
+        122.0,
+        55.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        122.55,
+        54.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 5,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        55.0,
+        122.0,
+        62.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        122.55,
+        61.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 6,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        62.5,
+        122.0,
+        70.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        122.55,
+        69.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 7,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        70.0,
+        122.0,
+        77.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        122.55,
+        76.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 8,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 18,
+      "cell_bbox_mm": [
+        77.5,
+        122.0,
+        85.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        122.55,
+        84.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 9,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        85.0,
+        122.0,
+        92.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        122.55,
+        91.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 10,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        92.5,
+        122.0,
+        100.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        122.55,
+        99.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 11,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        100.0,
+        122.0,
+        107.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        122.55,
+        106.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 12,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        107.5,
+        122.0,
+        115.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        122.55,
+        114.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 13,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        115.0,
+        122.0,
+        122.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        122.55,
+        121.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 14,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        122.5,
+        122.0,
+        130.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        122.55,
+        129.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 15,
+      "section": "passage",
+      "character": "f",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        130.0,
+        122.0,
+        137.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        122.55,
+        136.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 16,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        137.5,
+        122.0,
+        145.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        122.55,
+        144.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 17,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        145.0,
+        122.0,
+        152.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        122.55,
+        151.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 18,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        152.5,
+        122.0,
+        160.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        122.55,
+        159.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 19,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        160.0,
+        122.0,
+        167.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        122.55,
+        166.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 20,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        122.0,
+        175.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        122.55,
+        174.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 21,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        175.0,
+        122.0,
+        182.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        122.55,
+        181.95,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 22,
+      "section": "passage",
+      "character": "f",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        182.5,
+        122.0,
+        190.0,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        122.55,
+        189.45,
+        128.75
+      ]
+    },
+    {
+      "row": 6,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        122.0,
+        197.5,
+        129.3
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        122.55,
+        196.95,
+        128.75
+      ]
+    },
+    {
+      "row": 7,
+      "column": 0,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        17.5,
+        133.35,
+        25.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        133.9,
+        24.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 1,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        25.0,
+        133.35,
+        32.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        133.9,
+        31.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 2,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 19,
+      "cell_bbox_mm": [
+        32.5,
+        133.35,
+        40.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        133.9,
+        39.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 3,
+      "section": "passage",
+      "character": "y",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        133.35,
+        47.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        133.9,
+        46.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 4,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        47.5,
+        133.35,
+        55.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        133.9,
+        54.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 5,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        55.0,
+        133.35,
+        62.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        133.9,
+        61.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 6,
+      "section": "passage",
+      "character": "h",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        62.5,
+        133.35,
+        70.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        133.9,
+        69.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 7,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        70.0,
+        133.35,
+        77.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        133.9,
+        76.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 8,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        77.5,
+        133.35,
+        85.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        133.9,
+        84.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 9,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 20,
+      "cell_bbox_mm": [
+        85.0,
+        133.35,
+        92.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        133.9,
+        91.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 10,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        92.5,
+        133.35,
+        100.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        133.9,
+        99.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 11,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        100.0,
+        133.35,
+        107.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        133.9,
+        106.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 12,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        107.5,
+        133.35,
+        115.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        133.9,
+        114.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 13,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 21,
+      "cell_bbox_mm": [
+        115.0,
+        133.35,
+        122.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        133.9,
+        121.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 14,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        122.5,
+        133.35,
+        130.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        133.9,
+        129.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 15,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        130.0,
+        133.35,
+        137.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        133.9,
+        136.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 16,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        137.5,
+        133.35,
+        145.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        133.9,
+        144.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 17,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        145.0,
+        133.35,
+        152.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        133.9,
+        151.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 18,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        152.5,
+        133.35,
+        160.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        133.9,
+        159.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 19,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        160.0,
+        133.35,
+        167.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        133.9,
+        166.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        133.35,
+        175.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        133.9,
+        174.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        133.35,
+        182.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        133.9,
+        181.95,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        133.35,
+        190.0,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        133.9,
+        189.45,
+        140.1
+      ]
+    },
+    {
+      "row": 7,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        133.35,
+        197.5,
+        140.65
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        133.9,
+        196.95,
+        140.1
+      ]
+    },
+    {
+      "row": 8,
+      "column": 0,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        17.5,
+        144.7,
+        25.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        145.25,
+        24.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 1,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        25.0,
+        144.7,
+        32.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        145.25,
+        31.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 2,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        32.5,
+        144.7,
+        40.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        145.25,
+        39.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 3,
+      "section": "passage",
+      "character": "g",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        40.0,
+        144.7,
+        47.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        145.25,
+        46.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 4,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        47.5,
+        144.7,
+        55.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        145.25,
+        54.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 5,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 22,
+      "cell_bbox_mm": [
+        55.0,
+        144.7,
+        62.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        145.25,
+        61.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 6,
+      "section": "passage",
+      "character": "-",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        62.5,
+        144.7,
+        70.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        145.25,
+        69.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 7,
+      "section": "passage",
+      "character": "p",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        70.0,
+        144.7,
+        77.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        145.25,
+        76.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 8,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        77.5,
+        144.7,
+        85.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        145.25,
+        84.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 9,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        85.0,
+        144.7,
+        92.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        145.25,
+        91.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 10,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        92.5,
+        144.7,
+        100.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        145.25,
+        99.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 11,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        100.0,
+        144.7,
+        107.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        145.25,
+        106.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 12,
+      "section": "passage",
+      "character": "m",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        107.5,
+        144.7,
+        115.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        145.25,
+        114.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 13,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 23,
+      "cell_bbox_mm": [
+        115.0,
+        144.7,
+        122.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        145.25,
+        121.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 14,
+      "section": "passage",
+      "character": "m",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        122.5,
+        144.7,
+        130.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        145.25,
+        129.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 15,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        130.0,
+        144.7,
+        137.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        145.25,
+        136.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 16,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        137.5,
+        144.7,
+        145.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        145.25,
+        144.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 17,
+      "section": "passage",
+      "character": "y",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        145.0,
+        144.7,
+        152.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        145.25,
+        151.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 18,
+      "section": "passage",
+      "character": ".",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        152.5,
+        144.7,
+        160.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        145.25,
+        159.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 19,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        160.0,
+        144.7,
+        167.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        145.25,
+        166.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        144.7,
+        175.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        145.25,
+        174.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        144.7,
+        182.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        145.25,
+        181.95,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        144.7,
+        190.0,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        145.25,
+        189.45,
+        151.45
+      ]
+    },
+    {
+      "row": 8,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        144.7,
+        197.5,
+        152.0
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        145.25,
+        196.95,
+        151.45
+      ]
+    },
+    {
+      "row": 9,
+      "column": 0,
+      "section": "passage",
+      "character": "S",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        156.05,
+        25.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        156.6,
+        24.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 1,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        25.0,
+        156.05,
+        32.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        156.6,
+        31.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 2,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        32.5,
+        156.05,
+        40.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        156.6,
+        39.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 3,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        40.0,
+        156.05,
+        47.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        156.6,
+        46.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 4,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        47.5,
+        156.05,
+        55.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        156.6,
+        54.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 5,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        55.0,
+        156.05,
+        62.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        156.6,
+        61.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 6,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        62.5,
+        156.05,
+        70.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        156.6,
+        69.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 7,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        70.0,
+        156.05,
+        77.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        156.6,
+        76.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 8,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        77.5,
+        156.05,
+        85.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        156.6,
+        84.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 9,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        85.0,
+        156.05,
+        92.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        156.6,
+        91.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 10,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        92.5,
+        156.05,
+        100.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        156.6,
+        99.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 11,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        100.0,
+        156.05,
+        107.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        156.6,
+        106.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 12,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        107.5,
+        156.05,
+        115.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        156.6,
+        114.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 13,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        115.0,
+        156.05,
+        122.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        156.6,
+        121.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 14,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        122.5,
+        156.05,
+        130.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        156.6,
+        129.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 15,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        130.0,
+        156.05,
+        137.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        156.6,
+        136.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 16,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 24,
+      "cell_bbox_mm": [
+        137.5,
+        156.05,
+        145.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        156.6,
+        144.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 17,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        145.0,
+        156.05,
+        152.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        156.6,
+        151.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 18,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        152.5,
+        156.05,
+        160.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        156.6,
+        159.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 19,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        160.0,
+        156.05,
+        167.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        156.6,
+        166.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        156.05,
+        175.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        156.6,
+        174.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        156.05,
+        182.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        156.6,
+        181.95,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        156.05,
+        190.0,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        156.6,
+        189.45,
+        162.8
+      ]
+    },
+    {
+      "row": 9,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        156.05,
+        197.5,
+        163.35
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        156.6,
+        196.95,
+        162.8
+      ]
+    },
+    {
+      "row": 10,
+      "column": 0,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        17.5,
+        167.4,
+        25.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        167.95,
+        24.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 1,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 16,
+      "cell_bbox_mm": [
+        25.0,
+        167.4,
+        32.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        167.95,
+        31.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 2,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 16,
+      "cell_bbox_mm": [
+        32.5,
+        167.4,
+        40.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        167.95,
+        39.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 3,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        40.0,
+        167.4,
+        47.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        167.95,
+        46.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 4,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        47.5,
+        167.4,
+        55.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        167.95,
+        54.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 5,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        55.0,
+        167.4,
+        62.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        167.95,
+        61.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 6,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        62.5,
+        167.4,
+        70.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        167.95,
+        69.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 7,
+      "section": "passage",
+      "character": "g",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        70.0,
+        167.4,
+        77.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        167.95,
+        76.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 8,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        77.5,
+        167.4,
+        85.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        167.95,
+        84.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 9,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 17,
+      "cell_bbox_mm": [
+        85.0,
+        167.4,
+        92.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        167.95,
+        91.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 10,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        92.5,
+        167.4,
+        100.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        167.95,
+        99.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 11,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        100.0,
+        167.4,
+        107.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        167.95,
+        106.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 12,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 17,
+      "cell_bbox_mm": [
+        107.5,
+        167.4,
+        115.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        167.95,
+        114.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 13,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 18,
+      "cell_bbox_mm": [
+        115.0,
+        167.4,
+        122.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        167.95,
+        121.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 14,
+      "section": "passage",
+      "character": "g",
+      "write": true,
+      "occurrence": 4,
+      "cell_bbox_mm": [
+        122.5,
+        167.4,
+        130.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        167.95,
+        129.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 15,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 25,
+      "cell_bbox_mm": [
+        130.0,
+        167.4,
+        137.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        167.95,
+        136.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 16,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        137.5,
+        167.4,
+        145.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        167.95,
+        144.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 17,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 11,
+      "cell_bbox_mm": [
+        145.0,
+        167.4,
+        152.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        167.95,
+        151.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 18,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        152.5,
+        167.4,
+        160.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        167.95,
+        159.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 19,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        160.0,
+        167.4,
+        167.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        167.95,
+        166.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 20,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        167.4,
+        175.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        167.95,
+        174.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        167.4,
+        182.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        167.95,
+        181.95,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        167.4,
+        190.0,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        167.95,
+        189.45,
+        174.15
+      ]
+    },
+    {
+      "row": 10,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        167.4,
+        197.5,
+        174.7
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        167.95,
+        196.95,
+        174.15
+      ]
+    },
+    {
+      "row": 11,
+      "column": 0,
+      "section": "passage",
+      "character": "p",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        17.5,
+        178.75,
+        25.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        179.3,
+        24.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 1,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        25.0,
+        178.75,
+        32.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        179.3,
+        31.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 2,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        32.5,
+        178.75,
+        40.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        179.3,
+        39.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 3,
+      "section": "passage",
+      "character": "v",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        178.75,
+        47.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        179.3,
+        46.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 4,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        47.5,
+        178.75,
+        55.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        179.3,
+        54.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 5,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 7,
+      "cell_bbox_mm": [
+        55.0,
+        178.75,
+        62.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        179.3,
+        61.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 6,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        62.5,
+        178.75,
+        70.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        179.3,
+        69.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 7,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        70.0,
+        178.75,
+        77.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        179.3,
+        76.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 8,
+      "section": "passage",
+      "character": "g",
+      "write": true,
+      "occurrence": 5,
+      "cell_bbox_mm": [
+        77.5,
+        178.75,
+        85.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        179.3,
+        84.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 9,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        85.0,
+        178.75,
+        92.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        179.3,
+        91.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 10,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 16,
+      "cell_bbox_mm": [
+        92.5,
+        178.75,
+        100.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        179.3,
+        99.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 11,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 26,
+      "cell_bbox_mm": [
+        100.0,
+        178.75,
+        107.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        179.3,
+        106.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 12,
+      "section": "passage",
+      "character": "p",
+      "write": true,
+      "occurrence": 6,
+      "cell_bbox_mm": [
+        107.5,
+        178.75,
+        115.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        179.3,
+        114.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 13,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 19,
+      "cell_bbox_mm": [
+        115.0,
+        178.75,
+        122.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        179.3,
+        121.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 14,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 16,
+      "cell_bbox_mm": [
+        122.5,
+        178.75,
+        130.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        179.3,
+        129.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 15,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 20,
+      "cell_bbox_mm": [
+        130.0,
+        178.75,
+        137.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        179.3,
+        136.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 16,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 18,
+      "cell_bbox_mm": [
+        137.5,
+        178.75,
+        145.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        179.3,
+        144.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 17,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 27,
+      "cell_bbox_mm": [
+        145.0,
+        178.75,
+        152.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        179.3,
+        151.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 18,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        152.5,
+        178.75,
+        160.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        179.3,
+        159.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 19,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 13,
+      "cell_bbox_mm": [
+        160.0,
+        178.75,
+        167.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        179.3,
+        166.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 20,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 17,
+      "cell_bbox_mm": [
+        167.5,
+        178.75,
+        175.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        179.3,
+        174.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        178.75,
+        182.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        179.3,
+        181.95,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        178.75,
+        190.0,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        179.3,
+        189.45,
+        185.5
+      ]
+    },
+    {
+      "row": 11,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        178.75,
+        197.5,
+        186.05
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        179.3,
+        196.95,
+        185.5
+      ]
+    },
+    {
+      "row": 12,
+      "column": 0,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 21,
+      "cell_bbox_mm": [
+        17.5,
+        190.1,
+        25.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        190.65,
+        24.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 1,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        25.0,
+        190.1,
+        32.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        190.65,
+        31.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 2,
+      "section": "passage",
+      "character": "d",
+      "write": true,
+      "occurrence": 9,
+      "cell_bbox_mm": [
+        32.5,
+        190.1,
+        40.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        190.65,
+        39.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 3,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        40.0,
+        190.1,
+        47.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        190.65,
+        46.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 4,
+      "section": "passage",
+      "character": "t",
+      "write": true,
+      "occurrence": 19,
+      "cell_bbox_mm": [
+        47.5,
+        190.1,
+        55.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        190.65,
+        54.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 5,
+      "section": "passage",
+      "character": "i",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        55.0,
+        190.1,
+        62.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        190.65,
+        61.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 6,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        62.5,
+        190.1,
+        70.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        190.65,
+        69.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 7,
+      "section": "passage",
+      "character": "n",
+      "write": true,
+      "occurrence": 14,
+      "cell_bbox_mm": [
+        70.0,
+        190.1,
+        77.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        190.65,
+        76.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 8,
+      "section": "passage",
+      "character": "a",
+      "write": true,
+      "occurrence": 22,
+      "cell_bbox_mm": [
+        77.5,
+        190.1,
+        85.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        190.65,
+        84.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 9,
+      "section": "passage",
+      "character": "l",
+      "write": true,
+      "occurrence": 10,
+      "cell_bbox_mm": [
+        85.0,
+        190.1,
+        92.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        190.65,
+        91.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 10,
+      "section": "passage",
+      "character": " ",
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        92.5,
+        190.1,
+        100.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        190.65,
+        99.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 11,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 18,
+      "cell_bbox_mm": [
+        100.0,
+        190.1,
+        107.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        190.65,
+        106.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 12,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 28,
+      "cell_bbox_mm": [
+        107.5,
+        190.1,
+        115.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        190.65,
+        114.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 13,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 17,
+      "cell_bbox_mm": [
+        115.0,
+        190.1,
+        122.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        190.65,
+        121.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 14,
+      "section": "passage",
+      "character": "o",
+      "write": true,
+      "occurrence": 15,
+      "cell_bbox_mm": [
+        122.5,
+        190.1,
+        130.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        190.65,
+        129.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 15,
+      "section": "passage",
+      "character": "u",
+      "write": true,
+      "occurrence": 8,
+      "cell_bbox_mm": [
+        130.0,
+        190.1,
+        137.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        190.65,
+        136.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 16,
+      "section": "passage",
+      "character": "r",
+      "write": true,
+      "occurrence": 19,
+      "cell_bbox_mm": [
+        137.5,
+        190.1,
+        145.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        190.65,
+        144.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 17,
+      "section": "passage",
+      "character": "c",
+      "write": true,
+      "occurrence": 12,
+      "cell_bbox_mm": [
+        145.0,
+        190.1,
+        152.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        190.65,
+        151.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 18,
+      "section": "passage",
+      "character": "e",
+      "write": true,
+      "occurrence": 29,
+      "cell_bbox_mm": [
+        152.5,
+        190.1,
+        160.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        190.65,
+        159.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 19,
+      "section": "passage",
+      "character": "s",
+      "write": true,
+      "occurrence": 18,
+      "cell_bbox_mm": [
+        160.0,
+        190.1,
+        167.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        190.65,
+        166.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 20,
+      "section": "passage",
+      "character": ".",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        167.5,
+        190.1,
+        175.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        190.65,
+        174.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 21,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        190.1,
+        182.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        190.65,
+        181.95,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 22,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        190.1,
+        190.0,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        190.65,
+        189.45,
+        196.85
+      ]
+    },
+    {
+      "row": 12,
+      "column": 23,
+      "section": "passage",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        190.1,
+        197.5,
+        197.4
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        190.65,
+        196.95,
+        196.85
+      ]
+    },
+    {
+      "row": 13,
+      "column": 0,
+      "section": "supplement",
+      "character": "b",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        201.45,
+        25.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        202.0,
+        24.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 1,
+      "section": "supplement",
+      "character": "j",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        25.0,
+        201.45,
+        32.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        202.0,
+        31.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 2,
+      "section": "supplement",
+      "character": "k",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        32.5,
+        201.45,
+        40.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        202.0,
+        39.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 3,
+      "section": "supplement",
+      "character": "q",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        201.45,
+        47.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        202.0,
+        46.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 4,
+      "section": "supplement",
+      "character": "v",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        47.5,
+        201.45,
+        55.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        202.0,
+        54.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 5,
+      "section": "supplement",
+      "character": "w",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        55.0,
+        201.45,
+        62.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        202.0,
+        61.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 6,
+      "section": "supplement",
+      "character": "x",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        62.5,
+        201.45,
+        70.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        202.0,
+        69.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 7,
+      "section": "supplement",
+      "character": "y",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        70.0,
+        201.45,
+        77.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        202.0,
+        76.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 8,
+      "section": "supplement",
+      "character": "z",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        77.5,
+        201.45,
+        85.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        202.0,
+        84.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 9,
+      "section": "supplement",
+      "character": "A",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        85.0,
+        201.45,
+        92.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        202.0,
+        91.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 10,
+      "section": "supplement",
+      "character": "B",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        92.5,
+        201.45,
+        100.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        202.0,
+        99.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 11,
+      "section": "supplement",
+      "character": "C",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        100.0,
+        201.45,
+        107.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        202.0,
+        106.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 12,
+      "section": "supplement",
+      "character": "D",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        107.5,
+        201.45,
+        115.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        202.0,
+        114.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 13,
+      "section": "supplement",
+      "character": "E",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        115.0,
+        201.45,
+        122.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        202.0,
+        121.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 14,
+      "section": "supplement",
+      "character": "F",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        122.5,
+        201.45,
+        130.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        202.0,
+        129.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 15,
+      "section": "supplement",
+      "character": "G",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        130.0,
+        201.45,
+        137.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        202.0,
+        136.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 16,
+      "section": "supplement",
+      "character": "H",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        137.5,
+        201.45,
+        145.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        202.0,
+        144.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 17,
+      "section": "supplement",
+      "character": "I",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        145.0,
+        201.45,
+        152.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        202.0,
+        151.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 18,
+      "section": "supplement",
+      "character": "J",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        152.5,
+        201.45,
+        160.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        202.0,
+        159.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 19,
+      "section": "supplement",
+      "character": "K",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        160.0,
+        201.45,
+        167.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        202.0,
+        166.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 20,
+      "section": "supplement",
+      "character": "L",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        167.5,
+        201.45,
+        175.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        202.0,
+        174.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 21,
+      "section": "supplement",
+      "character": "M",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        175.0,
+        201.45,
+        182.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        202.0,
+        181.95,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 22,
+      "section": "supplement",
+      "character": "N",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        182.5,
+        201.45,
+        190.0,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        202.0,
+        189.45,
+        208.2
+      ]
+    },
+    {
+      "row": 13,
+      "column": 23,
+      "section": "supplement",
+      "character": "O",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        190.0,
+        201.45,
+        197.5,
+        208.75
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        202.0,
+        196.95,
+        208.2
+      ]
+    },
+    {
+      "row": 14,
+      "column": 0,
+      "section": "supplement",
+      "character": "P",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        212.8,
+        25.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        213.35,
+        24.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 1,
+      "section": "supplement",
+      "character": "Q",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        25.0,
+        212.8,
+        32.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        213.35,
+        31.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 2,
+      "section": "supplement",
+      "character": "R",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        32.5,
+        212.8,
+        40.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        213.35,
+        39.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 3,
+      "section": "supplement",
+      "character": "S",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        40.0,
+        212.8,
+        47.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        213.35,
+        46.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 4,
+      "section": "supplement",
+      "character": "T",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        47.5,
+        212.8,
+        55.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        213.35,
+        54.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 5,
+      "section": "supplement",
+      "character": "U",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        55.0,
+        212.8,
+        62.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        213.35,
+        61.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 6,
+      "section": "supplement",
+      "character": "V",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        62.5,
+        212.8,
+        70.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        213.35,
+        69.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 7,
+      "section": "supplement",
+      "character": "W",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        70.0,
+        212.8,
+        77.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        213.35,
+        76.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 8,
+      "section": "supplement",
+      "character": "X",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        77.5,
+        212.8,
+        85.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        213.35,
+        84.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 9,
+      "section": "supplement",
+      "character": "Y",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        85.0,
+        212.8,
+        92.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        213.35,
+        91.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 10,
+      "section": "supplement",
+      "character": "Z",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        92.5,
+        212.8,
+        100.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        213.35,
+        99.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 11,
+      "section": "supplement",
+      "character": "!",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        100.0,
+        212.8,
+        107.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        213.35,
+        106.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 12,
+      "section": "supplement",
+      "character": "\"",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        107.5,
+        212.8,
+        115.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        213.35,
+        114.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 13,
+      "section": "supplement",
+      "character": "#",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        115.0,
+        212.8,
+        122.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        213.35,
+        121.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 14,
+      "section": "supplement",
+      "character": "$",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        122.5,
+        212.8,
+        130.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        213.35,
+        129.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 15,
+      "section": "supplement",
+      "character": "%",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        130.0,
+        212.8,
+        137.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        213.35,
+        136.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 16,
+      "section": "supplement",
+      "character": "&",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        137.5,
+        212.8,
+        145.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        213.35,
+        144.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 17,
+      "section": "supplement",
+      "character": "'",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        145.0,
+        212.8,
+        152.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        213.35,
+        151.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 18,
+      "section": "supplement",
+      "character": "(",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        152.5,
+        212.8,
+        160.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        213.35,
+        159.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 19,
+      "section": "supplement",
+      "character": ")",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        160.0,
+        212.8,
+        167.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        213.35,
+        166.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 20,
+      "section": "supplement",
+      "character": "*",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        167.5,
+        212.8,
+        175.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        213.35,
+        174.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 21,
+      "section": "supplement",
+      "character": "+",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        175.0,
+        212.8,
+        182.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        213.35,
+        181.95,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 22,
+      "section": "supplement",
+      "character": ",",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        182.5,
+        212.8,
+        190.0,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        213.35,
+        189.45,
+        219.55
+      ]
+    },
+    {
+      "row": 14,
+      "column": 23,
+      "section": "supplement",
+      "character": "-",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        190.0,
+        212.8,
+        197.5,
+        220.1
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        213.35,
+        196.95,
+        219.55
+      ]
+    },
+    {
+      "row": 15,
+      "column": 0,
+      "section": "supplement",
+      "character": "/",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        224.15,
+        25.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        224.7,
+        24.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 1,
+      "section": "supplement",
+      "character": ":",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        25.0,
+        224.15,
+        32.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        224.7,
+        31.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 2,
+      "section": "supplement",
+      "character": ";",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        32.5,
+        224.15,
+        40.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        224.7,
+        39.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 3,
+      "section": "supplement",
+      "character": "<",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        224.15,
+        47.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        224.7,
+        46.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 4,
+      "section": "supplement",
+      "character": "=",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        47.5,
+        224.15,
+        55.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        224.7,
+        54.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 5,
+      "section": "supplement",
+      "character": ">",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        55.0,
+        224.15,
+        62.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        224.7,
+        61.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 6,
+      "section": "supplement",
+      "character": "?",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        62.5,
+        224.15,
+        70.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        224.7,
+        69.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 7,
+      "section": "supplement",
+      "character": "@",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        70.0,
+        224.15,
+        77.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        224.7,
+        76.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 8,
+      "section": "supplement",
+      "character": "[",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        77.5,
+        224.15,
+        85.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        224.7,
+        84.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 9,
+      "section": "supplement",
+      "character": "\\",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        85.0,
+        224.15,
+        92.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        224.7,
+        91.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 10,
+      "section": "supplement",
+      "character": "]",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        92.5,
+        224.15,
+        100.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        224.7,
+        99.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 11,
+      "section": "supplement",
+      "character": "^",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        100.0,
+        224.15,
+        107.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        224.7,
+        106.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 12,
+      "section": "supplement",
+      "character": "_",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        107.5,
+        224.15,
+        115.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        224.7,
+        114.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 13,
+      "section": "supplement",
+      "character": "`",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        115.0,
+        224.15,
+        122.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        224.7,
+        121.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 14,
+      "section": "supplement",
+      "character": "{",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        122.5,
+        224.15,
+        130.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        224.7,
+        129.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 15,
+      "section": "supplement",
+      "character": "|",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        130.0,
+        224.15,
+        137.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        224.7,
+        136.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 16,
+      "section": "supplement",
+      "character": "}",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        137.5,
+        224.15,
+        145.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        224.7,
+        144.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 17,
+      "section": "supplement",
+      "character": "~",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        145.0,
+        224.15,
+        152.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        224.7,
+        151.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 18,
+      "section": "supplement",
+      "character": "0",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        152.5,
+        224.15,
+        160.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        224.7,
+        159.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 19,
+      "section": "supplement",
+      "character": "1",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        160.0,
+        224.15,
+        167.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        224.7,
+        166.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 20,
+      "section": "supplement",
+      "character": "2",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        167.5,
+        224.15,
+        175.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        224.7,
+        174.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 21,
+      "section": "supplement",
+      "character": "3",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        175.0,
+        224.15,
+        182.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        224.7,
+        181.95,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 22,
+      "section": "supplement",
+      "character": "4",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        182.5,
+        224.15,
+        190.0,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        224.7,
+        189.45,
+        230.9
+      ]
+    },
+    {
+      "row": 15,
+      "column": 23,
+      "section": "supplement",
+      "character": "5",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        190.0,
+        224.15,
+        197.5,
+        231.45
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        224.7,
+        196.95,
+        230.9
+      ]
+    },
+    {
+      "row": 16,
+      "column": 0,
+      "section": "supplement",
+      "character": "6",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        17.5,
+        235.5,
+        25.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        236.05,
+        24.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 1,
+      "section": "supplement",
+      "character": "7",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        25.0,
+        235.5,
+        32.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        236.05,
+        31.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 2,
+      "section": "supplement",
+      "character": "8",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        32.5,
+        235.5,
+        40.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        236.05,
+        39.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 3,
+      "section": "supplement",
+      "character": "9",
+      "write": true,
+      "occurrence": 1,
+      "cell_bbox_mm": [
+        40.0,
+        235.5,
+        47.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        236.05,
+        46.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 4,
+      "section": "supplement",
+      "character": "b",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        47.5,
+        235.5,
+        55.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        236.05,
+        54.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 5,
+      "section": "supplement",
+      "character": "j",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        55.0,
+        235.5,
+        62.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        236.05,
+        61.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 6,
+      "section": "supplement",
+      "character": "k",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        62.5,
+        235.5,
+        70.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        236.05,
+        69.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 7,
+      "section": "supplement",
+      "character": "q",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        70.0,
+        235.5,
+        77.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        236.05,
+        76.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 8,
+      "section": "supplement",
+      "character": "v",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        77.5,
+        235.5,
+        85.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        236.05,
+        84.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 9,
+      "section": "supplement",
+      "character": "x",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        85.0,
+        235.5,
+        92.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        236.05,
+        91.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 10,
+      "section": "supplement",
+      "character": "z",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        92.5,
+        235.5,
+        100.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        236.05,
+        99.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 11,
+      "section": "supplement",
+      "character": "A",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        100.0,
+        235.5,
+        107.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        236.05,
+        106.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 12,
+      "section": "supplement",
+      "character": "B",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        107.5,
+        235.5,
+        115.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        236.05,
+        114.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 13,
+      "section": "supplement",
+      "character": "C",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        115.0,
+        235.5,
+        122.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        236.05,
+        121.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 14,
+      "section": "supplement",
+      "character": "D",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        122.5,
+        235.5,
+        130.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        236.05,
+        129.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 15,
+      "section": "supplement",
+      "character": "E",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        130.0,
+        235.5,
+        137.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        236.05,
+        136.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 16,
+      "section": "supplement",
+      "character": "F",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        137.5,
+        235.5,
+        145.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        236.05,
+        144.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 17,
+      "section": "supplement",
+      "character": "G",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        145.0,
+        235.5,
+        152.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        236.05,
+        151.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 18,
+      "section": "supplement",
+      "character": "H",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        152.5,
+        235.5,
+        160.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        236.05,
+        159.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 19,
+      "section": "supplement",
+      "character": "I",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        160.0,
+        235.5,
+        167.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        236.05,
+        166.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 20,
+      "section": "supplement",
+      "character": "J",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        167.5,
+        235.5,
+        175.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        236.05,
+        174.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 21,
+      "section": "supplement",
+      "character": "K",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        175.0,
+        235.5,
+        182.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        236.05,
+        181.95,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 22,
+      "section": "supplement",
+      "character": "L",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        182.5,
+        235.5,
+        190.0,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        236.05,
+        189.45,
+        242.25
+      ]
+    },
+    {
+      "row": 16,
+      "column": 23,
+      "section": "supplement",
+      "character": "M",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        190.0,
+        235.5,
+        197.5,
+        242.8
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        236.05,
+        196.95,
+        242.25
+      ]
+    },
+    {
+      "row": 17,
+      "column": 0,
+      "section": "supplement",
+      "character": "N",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        17.5,
+        246.85,
+        25.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        247.4,
+        24.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 1,
+      "section": "supplement",
+      "character": "O",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        25.0,
+        246.85,
+        32.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        247.4,
+        31.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 2,
+      "section": "supplement",
+      "character": "P",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        32.5,
+        246.85,
+        40.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        247.4,
+        39.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 3,
+      "section": "supplement",
+      "character": "Q",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        40.0,
+        246.85,
+        47.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        247.4,
+        46.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 4,
+      "section": "supplement",
+      "character": "R",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        47.5,
+        246.85,
+        55.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        247.4,
+        54.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 5,
+      "section": "supplement",
+      "character": "S",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        55.0,
+        246.85,
+        62.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        247.4,
+        61.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 6,
+      "section": "supplement",
+      "character": "T",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        62.5,
+        246.85,
+        70.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        247.4,
+        69.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 7,
+      "section": "supplement",
+      "character": "U",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        70.0,
+        246.85,
+        77.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        247.4,
+        76.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 8,
+      "section": "supplement",
+      "character": "V",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        77.5,
+        246.85,
+        85.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        247.4,
+        84.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 9,
+      "section": "supplement",
+      "character": "W",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        85.0,
+        246.85,
+        92.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        247.4,
+        91.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 10,
+      "section": "supplement",
+      "character": "X",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        92.5,
+        246.85,
+        100.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        247.4,
+        99.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 11,
+      "section": "supplement",
+      "character": "Y",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        100.0,
+        246.85,
+        107.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        247.4,
+        106.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 12,
+      "section": "supplement",
+      "character": "Z",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        107.5,
+        246.85,
+        115.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        247.4,
+        114.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 13,
+      "section": "supplement",
+      "character": "!",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        115.0,
+        246.85,
+        122.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        247.4,
+        121.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 14,
+      "section": "supplement",
+      "character": "\"",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        122.5,
+        246.85,
+        130.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        247.4,
+        129.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 15,
+      "section": "supplement",
+      "character": "'",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        130.0,
+        246.85,
+        137.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        247.4,
+        136.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 16,
+      "section": "supplement",
+      "character": "(",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        137.5,
+        246.85,
+        145.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        247.4,
+        144.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 17,
+      "section": "supplement",
+      "character": ")",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        145.0,
+        246.85,
+        152.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        247.4,
+        151.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 18,
+      "section": "supplement",
+      "character": ",",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        152.5,
+        246.85,
+        160.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        247.4,
+        159.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 19,
+      "section": "supplement",
+      "character": "-",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        160.0,
+        246.85,
+        167.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        247.4,
+        166.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 20,
+      "section": "supplement",
+      "character": ":",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        167.5,
+        246.85,
+        175.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        247.4,
+        174.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 21,
+      "section": "supplement",
+      "character": ";",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        175.0,
+        246.85,
+        182.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        247.4,
+        181.95,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 22,
+      "section": "supplement",
+      "character": "?",
+      "write": true,
+      "occurrence": 2,
+      "cell_bbox_mm": [
+        182.5,
+        246.85,
+        190.0,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        247.4,
+        189.45,
+        253.6
+      ]
+    },
+    {
+      "row": 17,
+      "column": 23,
+      "section": "supplement",
+      "character": "b",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        190.0,
+        246.85,
+        197.5,
+        254.15
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        247.4,
+        196.95,
+        253.6
+      ]
+    },
+    {
+      "row": 18,
+      "column": 0,
+      "section": "supplement",
+      "character": "j",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        17.5,
+        258.2,
+        25.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        258.75,
+        24.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 1,
+      "section": "supplement",
+      "character": "k",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        25.0,
+        258.2,
+        32.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        258.75,
+        31.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 2,
+      "section": "supplement",
+      "character": "q",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        32.5,
+        258.2,
+        40.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        258.75,
+        39.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 3,
+      "section": "supplement",
+      "character": "B",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        40.0,
+        258.2,
+        47.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        258.75,
+        46.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 4,
+      "section": "supplement",
+      "character": "C",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        47.5,
+        258.2,
+        55.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        258.75,
+        54.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 5,
+      "section": "supplement",
+      "character": "D",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        55.0,
+        258.2,
+        62.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        258.75,
+        61.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 6,
+      "section": "supplement",
+      "character": "E",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        62.5,
+        258.2,
+        70.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        258.75,
+        69.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 7,
+      "section": "supplement",
+      "character": "G",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        70.0,
+        258.2,
+        77.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        258.75,
+        76.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 8,
+      "section": "supplement",
+      "character": "H",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        77.5,
+        258.2,
+        85.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        258.75,
+        84.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 9,
+      "section": "supplement",
+      "character": "I",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        85.0,
+        258.2,
+        92.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        258.75,
+        91.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 10,
+      "section": "supplement",
+      "character": "J",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        92.5,
+        258.2,
+        100.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        258.75,
+        99.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 11,
+      "section": "supplement",
+      "character": "K",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        100.0,
+        258.2,
+        107.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        258.75,
+        106.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 12,
+      "section": "supplement",
+      "character": "L",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        107.5,
+        258.2,
+        115.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        258.75,
+        114.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 13,
+      "section": "supplement",
+      "character": "M",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        115.0,
+        258.2,
+        122.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        258.75,
+        121.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 14,
+      "section": "supplement",
+      "character": "N",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        122.5,
+        258.2,
+        130.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        258.75,
+        129.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 15,
+      "section": "supplement",
+      "character": "O",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        130.0,
+        258.2,
+        137.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        258.75,
+        136.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 16,
+      "section": "supplement",
+      "character": "P",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        137.5,
+        258.2,
+        145.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        258.75,
+        144.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 17,
+      "section": "supplement",
+      "character": "Q",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        145.0,
+        258.2,
+        152.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        258.75,
+        151.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 18,
+      "section": "supplement",
+      "character": "R",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        152.5,
+        258.2,
+        160.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        258.75,
+        159.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 19,
+      "section": "supplement",
+      "character": "T",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        160.0,
+        258.2,
+        167.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        258.75,
+        166.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 20,
+      "section": "supplement",
+      "character": "U",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        167.5,
+        258.2,
+        175.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        258.75,
+        174.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 21,
+      "section": "supplement",
+      "character": "V",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        175.0,
+        258.2,
+        182.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        258.75,
+        181.95,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 22,
+      "section": "supplement",
+      "character": "W",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        182.5,
+        258.2,
+        190.0,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        258.75,
+        189.45,
+        264.95
+      ]
+    },
+    {
+      "row": 18,
+      "column": 23,
+      "section": "supplement",
+      "character": "X",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        190.0,
+        258.2,
+        197.5,
+        265.5
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        258.75,
+        196.95,
+        264.95
+      ]
+    },
+    {
+      "row": 19,
+      "column": 0,
+      "section": "supplement",
+      "character": "Y",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        17.5,
+        269.55,
+        25.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        18.05,
+        270.1,
+        24.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 1,
+      "section": "supplement",
+      "character": "Z",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        25.0,
+        269.55,
+        32.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        25.55,
+        270.1,
+        31.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 2,
+      "section": "supplement",
+      "character": "!",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        32.5,
+        269.55,
+        40.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        33.05,
+        270.1,
+        39.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 3,
+      "section": "supplement",
+      "character": "\"",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        40.0,
+        269.55,
+        47.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        40.55,
+        270.1,
+        46.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 4,
+      "section": "supplement",
+      "character": "'",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        47.5,
+        269.55,
+        55.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        48.05,
+        270.1,
+        54.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 5,
+      "section": "supplement",
+      "character": "(",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        55.0,
+        269.55,
+        62.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        55.55,
+        270.1,
+        61.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 6,
+      "section": "supplement",
+      "character": ")",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        62.5,
+        269.55,
+        70.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        63.05,
+        270.1,
+        69.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 7,
+      "section": "supplement",
+      "character": ":",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        70.0,
+        269.55,
+        77.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        70.55,
+        270.1,
+        76.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 8,
+      "section": "supplement",
+      "character": ";",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        77.5,
+        269.55,
+        85.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        78.05,
+        270.1,
+        84.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 9,
+      "section": "supplement",
+      "character": "?",
+      "write": true,
+      "occurrence": 3,
+      "cell_bbox_mm": [
+        85.0,
+        269.55,
+        92.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        85.55,
+        270.1,
+        91.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 10,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        92.5,
+        269.55,
+        100.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        93.05,
+        270.1,
+        99.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 11,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        100.0,
+        269.55,
+        107.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        100.55,
+        270.1,
+        106.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 12,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        107.5,
+        269.55,
+        115.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        108.05,
+        270.1,
+        114.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 13,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        115.0,
+        269.55,
+        122.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        115.55,
+        270.1,
+        121.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 14,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        122.5,
+        269.55,
+        130.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        123.05,
+        270.1,
+        129.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 15,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        130.0,
+        269.55,
+        137.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        130.55,
+        270.1,
+        136.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 16,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        137.5,
+        269.55,
+        145.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        138.05,
+        270.1,
+        144.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 17,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        145.0,
+        269.55,
+        152.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        145.55,
+        270.1,
+        151.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 18,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        152.5,
+        269.55,
+        160.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        153.05,
+        270.1,
+        159.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 19,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        160.0,
+        269.55,
+        167.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        160.55,
+        270.1,
+        166.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 20,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        167.5,
+        269.55,
+        175.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        168.05,
+        270.1,
+        174.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 21,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        175.0,
+        269.55,
+        182.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        175.55,
+        270.1,
+        181.95,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 22,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        182.5,
+        269.55,
+        190.0,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        183.05,
+        270.1,
+        189.45,
+        276.3
+      ]
+    },
+    {
+      "row": 19,
+      "column": 23,
+      "section": "supplement",
+      "character": null,
+      "write": false,
+      "occurrence": null,
+      "cell_bbox_mm": [
+        190.0,
+        269.55,
+        197.5,
+        276.85
+      ],
+      "safe_bbox_mm": [
+        190.55,
+        270.1,
+        196.95,
+        276.3
+      ]
+    }
+  ]
+}

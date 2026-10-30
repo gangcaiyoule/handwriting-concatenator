@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+output/
+data/file/*
+data/fonts/english/*
+data/renders/*
+!data/file/.gitkeep
+!data/fonts/english/.gitkeep
+*.pdf
+docs/

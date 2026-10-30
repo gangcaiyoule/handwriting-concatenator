@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "handwriting-concat"
+version = "0.1.0"
+description = "Extract handwritten glyphs from the handwriting collection sheet"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26,<3",
+    "Pillow>=10,<12",
+    "opencv-contrib-python-headless>=4.10,<5",
+]
+
+[project.optional-dependencies]
+web = [
+    "fastapi>=0.115,<1",
+    "uvicorn>=0.32,<1",
+    "python-multipart>=0.0.12,<1",
+]
+test = [
+    "pytest>=8,<10",
+    "httpx>=0.27,<1",
+]
+
+[project.scripts]
+handwriting-extract = "handwriting_concat.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "pkg"}
+
+[tool.setuptools.packages.find]
+where = ["pkg"]
+
+[tool.setuptools.package-data]
+handwriting_concat = ["assets/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
