@@ -9,6 +9,7 @@ from handwriting_concat.composition import CompositionError, MissingGlyphs
 
 from api.handler.compositions import (
     EditConflict,
+    align_draft_baselines,
     composition_image,
     create_composition,
     load_composition,
@@ -22,7 +23,7 @@ from api.handler.words import (
     WordConflict, list_word_candidates, preview_word, save_words,
 )
 from api.model.compositions import (
-    CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
+    AlignBaselinesRequest, CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
     DraftTransformRequest, DraftTransformResponse,
     SaveWordsRequest, SavedWord, WordCandidate,
 )
@@ -85,6 +86,19 @@ async def post_transform(request: Request, render_id: str,
                          payload: DraftTransformRequest) -> DraftTransformResponse:
     try:
         return await transform_draft(request.app.state.data_root, render_id, payload)
+    except EditConflict as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except (CompositionError, ImportErrorMessage, LibraryError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/{render_id}/align-baselines", response_model=DraftResponse)
+async def post_align_baselines(request: Request, render_id: str,
+                               payload: AlignBaselinesRequest) -> DraftResponse:
+    try:
+        return await align_draft_baselines(request.app.state.data_root, render_id, payload)
     except EditConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     except (CompositionError, ImportErrorMessage, LibraryError) as exc:

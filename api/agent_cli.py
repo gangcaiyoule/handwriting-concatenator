@@ -14,7 +14,7 @@ from pydantic import ValidationError
 from handwriting_concat.composition import CompositionError, MissingGlyphs
 
 from api.handler.compositions import (
-    EditConflict, composition_image, create_composition, load_draft, save_draft,
+    EditConflict, align_draft_baselines, composition_image, create_composition, load_draft, save_draft,
     transform_draft,
 )
 from api.handler.imports import ImportErrorMessage
@@ -22,7 +22,7 @@ from api.handler.libraries import LibraryError, list_libraries, library_root
 from api.handler.words import WordConflict, list_word_candidates, preview_word, save_words
 from api.main import PROJECT_ROOT
 from api.model.compositions import (
-    CompositionRequest, DraftTransformRequest, DraftUpdate, PlacementEdit,
+    AlignBaselinesRequest, CompositionRequest, DraftTransformRequest, DraftUpdate, PlacementEdit,
 )
 
 
@@ -51,6 +51,10 @@ def _parser() -> argparse.ArgumentParser:
     apply.add_argument("id")
     apply.add_argument("--revision", type=int, required=True)
     apply.add_argument("--ops", type=Path, required=True, help="UTF-8 JSON 操作数组")
+    align = commands.add_parser("align-baselines", help="一次对齐各行的普通英文字母基线")
+    align.add_argument("id")
+    align.add_argument("--revision", type=int, required=True)
+    align.add_argument("--line", type=int, help="只对齐指定行，行号从 0 开始")
     candidates = commands.add_parser("word-candidates", help="列出并生成词候选预览")
     candidates.add_argument("id")
     save = commands.add_parser("save-words", help="保存明确选中的词")
@@ -178,6 +182,17 @@ async def _execute(args: argparse.Namespace) -> dict:
                 "image": str(composition_image(data_root, args.id).resolve()),
                 "width": saved.width, "height": saved.height,
                 "operation_count": len(operations)}
+    if args.command == "align-baselines":
+        before = load_draft(data_root, args.id)
+        saved = await align_draft_baselines(data_root, args.id, AlignBaselinesRequest(
+            revision=args.revision, line=args.line,
+        ))
+        moved = sum(old["y"] != new["y"] for old, new in
+                    zip(before.placements, saved.placements))
+        return {"id": args.id, "revision": saved.revision,
+                "image": str(composition_image(data_root, args.id).resolve()),
+                "width": saved.width, "height": saved.height,
+                "moved_count": moved}
     if args.command == "word-candidates":
         draft = load_draft(data_root, args.id)
         candidates = list_word_candidates(data_root, args.id)

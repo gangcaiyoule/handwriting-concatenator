@@ -3,8 +3,36 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from statistics import median
 
 from .composition import CompositionError
+
+
+def align_baselines_exact(placements: list[dict], line: int | None = None) -> list[dict]:
+    """Align eligible letter bottoms in one step using the editor's median rule.
+
+    The browser's light alignment uses the same eligible letters, but moves
+    toward this median gradually. A taller glyph can require a nonnegative
+    baseline so its top remains on the canvas.
+    """
+    items = deepcopy(placements)
+    lines = {item["line"] for item in items} if line is None else {line}
+    for current_line in lines:
+        eligible = [item for item in items
+                    if item["line"] == current_line
+                    and item.get("kind", "glyph") == "glyph"
+                    and len(item["character"]) == 1
+                    and item["character"].isascii()
+                    and item["character"].isalpha()
+                    and item["character"] not in "gjpqy"]
+        if not eligible:
+            continue
+        target = max(int(median(item["y"] + item["height"] for item in eligible) + 0.5),
+                     max(item["height"] for item in eligible))
+        for item in eligible:
+            item["y"] = target - item["height"]
+    _check_positions(items)
+    return items
 
 
 def _target(items: list[dict], line: int, column: int) -> int:

@@ -15,12 +15,12 @@ from handwriting_concat.composition import (
     load_word_library, word_spans,
     render_edited,
 )
-from handwriting_concat.editing import apply_edit_operations
+from handwriting_concat.editing import align_baselines_exact, apply_edit_operations
 
 from api.handler.imports import checked_run_id
 from api.handler.libraries import library_root
 from api.model.compositions import (
-    CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
+    AlignBaselinesRequest, CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
     DraftTransformRequest, DraftTransformResponse,
 )
 
@@ -196,6 +196,25 @@ async def transform_draft(data_root: Path, render_id: str,
         data["background"], (data["width"], data["height"]),
     )
     return DraftTransformResponse(revision=request.revision, placements=transformed)
+
+
+async def align_draft_baselines(data_root: Path, render_id: str,
+                                request: AlignBaselinesRequest) -> DraftResponse:
+    """Save one-step baseline alignment for an agent, without changing the browser button."""
+    draft = load_draft(data_root, render_id)
+    if request.revision != draft.revision:
+        raise EditConflict("此拼接图已在别处更新，请刷新后再编辑")
+    if request.line is not None and request.line >= draft.line_count:
+        raise CompositionError("行号超出原文范围")
+    aligned = align_baselines_exact(draft.placements, request.line)
+    if all(before["y"] == after["y"] for before, after in zip(draft.placements, aligned)):
+        return draft
+    return await save_draft(data_root, render_id, DraftUpdate(
+        revision=request.revision,
+        placements=[{key: item[key] for key in (
+            "index", "kind", "character", "line", "column", "sample_file", "x", "y", "scale"
+        )} for item in aligned],
+    ))
 
 
 async def save_draft(data_root: Path, render_id: str,

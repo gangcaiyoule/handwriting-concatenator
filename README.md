@@ -44,7 +44,7 @@ data/
     manifest.json                        原文、参数、随机种子、字形选取与位置
 ```
 
-每次上传和拼接仍有独立编号，避免覆盖旧结果。HTTP 接口包括 `GET/POST /api/fonts`、`POST /api/fonts/{字体名称}/claim/{旧编号}`、`POST /api/imports`（表单需传 `font_name`）、`GET /api/imports/{字体名称}`、`PATCH /api/imports/{字体名称}/sample`、`POST /api/compositions`、`GET /api/compositions/{id}`、`GET/PUT /api/compositions/{id}/draft`、`POST /api/compositions/{id}/transform`、`GET /api/compositions/{id}/word-candidates` 和 `POST /api/compositions/{id}/words`，以及对应图片、原图和清单的读取接口；FastAPI 的 `/docs` 提供接口文档。编辑保存使用修订号防止旧页面覆盖新结果。上传大小限制为 50 MB。
+每次上传和拼接仍有独立编号，避免覆盖旧结果。HTTP 接口包括 `GET/POST /api/fonts`、`POST /api/fonts/{字体名称}/claim/{旧编号}`、`POST /api/imports`（表单需传 `font_name`）、`GET /api/imports/{字体名称}`、`PATCH /api/imports/{字体名称}/sample`、`POST /api/compositions`、`GET /api/compositions/{id}`、`GET/PUT /api/compositions/{id}/draft`、`POST /api/compositions/{id}/transform`、`POST /api/compositions/{id}/align-baselines`、`GET /api/compositions/{id}/word-candidates` 和 `POST /api/compositions/{id}/words`，以及对应图片、原图和清单的读取接口；FastAPI 的 `/docs` 提供接口文档。编辑保存使用修订号防止旧页面覆盖新结果。上传大小限制为 50 MB。
 
 ## 命令行运行
 
@@ -57,6 +57,7 @@ data/
 Get-Content -Raw -Encoding UTF8 .\text.txt | .\.venv\Scripts\python.exe -m api.agent_cli compose --font "en-潦草" --text-file -
 .\.venv\Scripts\python.exe -m api.agent_cli inspect <拼接编号> --line 0
 .\.venv\Scripts\python.exe -m api.agent_cli apply <拼接编号> --revision 0 --ops .\edits.json
+.\.venv\Scripts\python.exe -m api.agent_cli align-baselines <拼接编号> --revision 1
 .\.venv\Scripts\python.exe -m api.agent_cli word-candidates <拼接编号>
 .\.venv\Scripts\python.exe -m api.agent_cli export <拼接编号> --output .\final.png
 ```

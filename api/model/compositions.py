@@ -47,6 +47,11 @@ class DraftUpdate(BaseModel):
     placements: list[PlacementEdit] = Field(max_length=2000)
 
 
+class AlignBaselinesRequest(BaseModel):
+    revision: int = Field(ge=0)
+    line: int | None = Field(default=None, ge=0)
+
+
 class EditOperation(BaseModel):
     type: Literal["move", "move_line", "set_gap", "replace_variant", "split_word"]
     line: int | None = Field(default=None, ge=0)
