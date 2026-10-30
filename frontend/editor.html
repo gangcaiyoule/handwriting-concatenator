@@ -26,7 +26,7 @@
         <div>
           <p class="editor-overline">逐字调整</p>
           <h1>编辑拼接结果</h1>
-          <p class="editor-intro">点击字母更换手写版本，拖动字母调整位置。选中字母后，可拖动它前方的绿色间距线。</p>
+          <p class="editor-intro">点击字母逐字调整；Shift 点击连选，Ctrl 点击增减，或从画布空白处拖动框选。拖动选中的字可整体移动。</p>
         </div>
         <div class="editor-save-actions">
           <span id="editor-save-state" role="status" aria-live="polite">正在加载…</span>
@@ -64,7 +64,7 @@
           <div id="editor-viewport" class="editor-viewport" tabindex="0" aria-label="可滚动的拼接画布">
             <div id="editor-stage-wrap"><div id="editor-stage"></div></div>
           </div>
-          <p class="editor-canvas-help">画布按实际像素显示，可横向滚动。方向键微调选中字母，按住 Shift 每次移动 10 px。Ctrl+Z 撤销。</p>
+          <p class="editor-canvas-help">画布可横向滚动。Shift 点击连选，Ctrl 点击增减，空白处拖动框选。方向键移动选区 1 px，按住 Shift 移动 10 px；Esc 清除选择，Ctrl+Z 撤销。</p>
         </section>
 
         <aside class="editor-panel" aria-label="编辑属性">
@@ -89,6 +89,20 @@
                 <label>纵向位置 <input id="editor-y" type="number" min="0" max="12000" step="1" /></label>
                 <label>大小 % <input id="editor-scale" type="number" min="50" max="150" step="1" /></label>
                 <label>字前间距 <input id="editor-gap" type="number" min="-100" max="300" step="1" /></label>
+              </div>
+            </div>
+          </div>
+          <div id="editor-group-selection" hidden>
+            <div class="editor-panel-heading">
+              <div><small>批量调整</small><h2>已选 <span id="editor-group-count">0</span> 字</h2></div>
+              <button id="editor-clear-group" type="button" aria-label="清除选择">×</button>
+            </div>
+            <p class="editor-panel-note">拖动任一选中字形，整组会保持内部间距一起移动。方向键也可微调。</p>
+            <div class="editor-control-group">
+              <h3>整组位置</h3>
+              <div class="editor-number-grid">
+                <label>左边界 <input id="editor-group-x" type="number" min="0" max="12000" step="1" /></label>
+                <label>上边界 <input id="editor-group-y" type="number" min="0" max="12000" step="1" /></label>
               </div>
             </div>
           </div>

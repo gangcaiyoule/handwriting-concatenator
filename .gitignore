@@ -9,5 +9,4 @@ data/fonts/english/*
 data/renders/*
 !data/file/.gitkeep
 !data/fonts/english/.gitkeep
-*.pdf
 docs/

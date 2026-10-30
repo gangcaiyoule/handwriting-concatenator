@@ -5,6 +5,8 @@ const state = {
   placements: [],
   variants: new Map(),
   selected: null,
+  selectedIndices: new Set(),
+  anchor: null,
   zoom: 1,
   undo: [],
   redo: [],
@@ -26,6 +28,57 @@ function editPayload() {
 function snapshot() { return JSON.stringify(editPayload()); }
 function variantFor(file) { return state.variants.get(file); }
 function isDirty() { return Boolean(state.draft && snapshot() !== state.saved); }
+
+function setSelection(indices, anchor = null) {
+  state.selectedIndices = new Set(indices);
+  state.selected = state.selectedIndices.size === 1 ? [...state.selectedIndices][0] : null;
+  state.anchor = anchor;
+  renderAll();
+}
+
+function clearSelection() { setSelection([], null); }
+
+function selectRange(index) {
+  if (state.anchor === null) { setSelection([index], index); return; }
+  const start = Math.min(state.anchor, index);
+  const end = Math.max(state.anchor, index);
+  setSelection(Array.from({ length: end - start + 1 }, (_, offset) => start + offset), state.anchor);
+}
+
+function toggleSelection(index) {
+  const next = new Set(state.selectedIndices);
+  if (next.has(index)) next.delete(index); else next.add(index);
+  setSelection(next, index);
+}
+
+function selectionBounds() {
+  if (!state.selectedIndices.size) return null;
+  let left = Infinity, top = Infinity, right = -Infinity, bottom = -Infinity;
+  for (const index of state.selectedIndices) {
+    const item = state.placements[index];
+    left = Math.min(left, item.x);
+    top = Math.min(top, item.y);
+    right = Math.max(right, item.x + item.width);
+    bottom = Math.max(bottom, item.y + item.height);
+  }
+  return { left, top, right, bottom };
+}
+
+function boundedMove(indices, dx, dy, positions = null) {
+  const current = positions || state.placements;
+  const first = [...indices];
+  if (!first.length) return;
+  const minX = Math.min(...first.map((index) => current[index].x));
+  const minY = Math.min(...first.map((index) => current[index].y));
+  const maxRight = Math.max(...first.map((index) => current[index].x + state.placements[index].width));
+  const maxBottom = Math.max(...first.map((index) => current[index].y + state.placements[index].height));
+  const moveX = Math.max(-minX, Math.min(12000 - maxRight, dx));
+  const moveY = Math.max(-minY, Math.min(12000 - maxBottom, dy));
+  for (const index of first) {
+    state.placements[index].x = current[index].x + moveX;
+    state.placements[index].y = current[index].y + moveY;
+  }
+}
 
 function showError(message) {
   $("editor-error").textContent = message;
@@ -152,8 +205,10 @@ function renderStage() {
     const variant = variantFor(item.sample_file);
     const glyph = document.createElement("button");
     glyph.type = "button";
-    glyph.className = `edit-glyph${state.selected === index ? " is-selected" : ""}`;
+    glyph.className = `edit-glyph${state.selectedIndices.has(index) ?
+      (state.selectedIndices.size > 1 ? " is-group-selected" : " is-selected") : ""}`;
     glyph.dataset.index = String(index);
+    glyph.setAttribute("aria-pressed", state.selectedIndices.has(index) ? "true" : "false");
     glyph.setAttribute("aria-label", `第 ${item.line + 1} 行，第 ${item.column + 1} 个字符 ${item.character}`);
     glyph.style.left = `${item.x}px`;
     glyph.style.top = `${item.y}px`;
@@ -164,9 +219,22 @@ function renderStage() {
     image.alt = "";
     image.draggable = false;
     glyph.append(image);
-    glyph.addEventListener("pointerdown", (event) => startDrag(event, "glyph", index));
+    glyph.addEventListener("pointerdown", (event) => glyphPointerDown(event, index));
     glyph.addEventListener("click", (event) => event.stopPropagation());
     stage.append(glyph);
+  }
+  if (state.selectedIndices.size > 1) {
+    const bounds = selectionBounds();
+    const outline = document.createElement("div");
+    outline.className = "edit-group-bounds";
+    outline.style.left = `${bounds.left - 4}px`;
+    outline.style.top = `${Math.max(0, bounds.top - 4)}px`;
+    outline.style.width = `${bounds.right - bounds.left + 8}px`;
+    outline.style.height = `${bounds.bottom - bounds.top + 8}px`;
+    const label = document.createElement("span");
+    label.textContent = `已选 ${state.selectedIndices.size} 字`;
+    outline.append(label);
+    stage.append(outline);
   }
   if (state.selected !== null && priorInLine(state.selected) !== null) {
     const item = state.placements[state.selected];
@@ -194,10 +262,23 @@ function renderSelectionFields() {
   $("editor-gap").value = gap === null ? "" : String(gap);
 }
 
+function renderGroupFields() {
+  if (state.selectedIndices.size < 2) return;
+  const bounds = selectionBounds();
+  $("editor-group-x").value = String(bounds.left);
+  $("editor-group-y").value = String(bounds.top);
+}
+
 function renderPanel() {
   const selected = state.selected;
-  $("editor-no-selection").hidden = selected !== null;
+  $("editor-no-selection").hidden = state.selectedIndices.size > 0;
   $("editor-selection").hidden = selected === null;
+  $("editor-group-selection").hidden = state.selectedIndices.size < 2;
+  if (state.selectedIndices.size > 1) {
+    $("editor-group-count").textContent = String(state.selectedIndices.size);
+    renderGroupFields();
+    return;
+  }
   if (selected === null) return;
   const item = state.placements[selected];
   $("editor-character").textContent = item.character;
@@ -285,6 +366,13 @@ function changeGap(gap) {
   commit(before);
 }
 
+function moveSelection(dx, dy) {
+  if (!state.selectedIndices.size || state.saving) return;
+  const before = snapshot();
+  boundedMove(state.selectedIndices, dx, dy);
+  commit(before);
+}
+
 function refreshPositions() {
   for (const glyph of $("editor-stage").querySelectorAll(".edit-glyph")) {
     const item = state.placements[Number(glyph.dataset.index)];
@@ -296,18 +384,42 @@ function refreshPositions() {
     handle.style.left = `${state.placements[state.selected].x - 7}px`;
     handle.style.top = `${Math.max(0, state.placements[state.selected].y - 4)}px`;
   }
+  const outline = $("editor-stage").querySelector(".edit-group-bounds");
+  if (outline) {
+    const bounds = selectionBounds();
+    outline.style.left = `${bounds.left - 4}px`;
+    outline.style.top = `${Math.max(0, bounds.top - 4)}px`;
+  }
   applyZoom();
   renderSelectionFields();
+  renderGroupFields();
+}
+
+function glyphPointerDown(event, index) {
+  if (event.button !== 0 || state.saving) return;
+  if (event.shiftKey) {
+    event.preventDefault();
+    event.stopPropagation();
+    selectRange(index);
+    return;
+  }
+  if (event.ctrlKey || event.metaKey) {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleSelection(index);
+    return;
+  }
+  startDrag(event, "glyph", index);
 }
 
 function startDrag(event, mode, index) {
   if (event.button !== 0 || state.saving) return;
   event.preventDefault();
   event.stopPropagation();
-  if (state.selected !== index) {
-    state.selected = index;
-    renderAll();
+  if (mode === "glyph" && !state.selectedIndices.has(index)) {
+    setSelection([index], index);
   }
+  const moving = mode === "glyph" ? [...state.selectedIndices] : [];
   const start = { x: event.clientX, y: event.clientY };
   const before = snapshot();
   const positions = state.placements.map((item) => ({ x: item.x, y: item.y }));
@@ -318,8 +430,7 @@ function startDrag(event, mode, index) {
     const dx = Math.round((pointer.clientX - start.x) / state.zoom);
     const dy = Math.round((pointer.clientY - start.y) / state.zoom);
     if (mode === "glyph") {
-      state.placements[index].x = Math.max(0, positions[index].x + dx);
-      state.placements[index].y = Math.max(0, positions[index].y + dy);
+      boundedMove(moving, dx, dy, positions);
     } else {
       const bounded = Math.max(-positions[index].x, dx);
       for (let next = index; next < state.placements.length; next++) {
@@ -453,12 +564,93 @@ async function load() {
   }
 }
 
-$("editor-stage").addEventListener("pointerdown", (event) => {
-  if (event.target !== $("editor-stage")) return;
-  state.selected = null;
-  renderAll();
-});
-$("editor-deselect").addEventListener("click", () => { state.selected = null; renderAll(); });
+function canvasPoint(clientX, clientY) {
+  const rect = $("editor-stage").getBoundingClientRect();
+  const [width, height] = stageSize();
+  return {
+    x: Math.max(0, Math.min(width, (clientX - rect.left) / state.zoom)),
+    y: Math.max(0, Math.min(height, (clientY - rect.top) / state.zoom)),
+  };
+}
+
+function startMarquee(event) {
+  if (event.target !== $("editor-stage") || event.button !== 0 || state.saving) return;
+  if (event.pointerType === "touch") return;
+  event.preventDefault();
+  const start = canvasPoint(event.clientX, event.clientY);
+  const origin = { x: event.clientX, y: event.clientY };
+  const pointerId = event.pointerId;
+  const additive = event.ctrlKey || event.metaKey;
+  const existing = new Set(state.selectedIndices);
+  const overlay = document.createElement("div");
+  overlay.className = "edit-marquee";
+  let moved = false;
+  let latest = origin;
+  let end = start;
+  const update = () => {
+    if (!moved) return;
+    const viewport = $("editor-viewport");
+    const bounds = viewport.getBoundingClientRect();
+    if (latest.x >= bounds.left && latest.x <= bounds.right &&
+        latest.y >= bounds.top && latest.y <= bounds.bottom) {
+      if (latest.x < bounds.left + 24) viewport.scrollLeft -= 16;
+      if (latest.x > bounds.right - 24) viewport.scrollLeft += 16;
+      if (latest.y < bounds.top + 24) viewport.scrollTop -= 16;
+      if (latest.y > bounds.bottom - 24) viewport.scrollTop += 16;
+    }
+    end = canvasPoint(latest.x, latest.y);
+    overlay.style.left = `${Math.min(start.x, end.x)}px`;
+    overlay.style.top = `${Math.min(start.y, end.y)}px`;
+    overlay.style.width = `${Math.abs(end.x - start.x)}px`;
+    overlay.style.height = `${Math.abs(end.y - start.y)}px`;
+  };
+  const timer = window.setInterval(update, 40);
+  const move = (pointer) => {
+    if (pointer.pointerId !== pointerId) return;
+    latest = { x: pointer.clientX, y: pointer.clientY };
+    if (!moved && Math.hypot(latest.x - origin.x, latest.y - origin.y) >= 4) {
+      moved = true;
+      $("editor-stage").append(overlay);
+    }
+    update();
+  };
+  const finish = (pointer) => {
+    if (pointer.pointerId !== pointerId) return;
+    window.clearInterval(timer);
+    window.removeEventListener("pointermove", move);
+    window.removeEventListener("pointerup", finish);
+    window.removeEventListener("pointercancel", cancel);
+    latest = { x: pointer.clientX, y: pointer.clientY };
+    if (!moved) { clearSelection(); return; }
+    update();
+    overlay.remove();
+    const left = Math.min(start.x, end.x), right = Math.max(start.x, end.x);
+    const top = Math.min(start.y, end.y), bottom = Math.max(start.y, end.y);
+    const selected = additive ? existing : new Set();
+    for (const [index, item] of state.placements.entries()) {
+      const overlapWidth = Math.max(0, Math.min(right, item.x + item.width) - Math.max(left, item.x));
+      const overlapHeight = Math.max(0, Math.min(bottom, item.y + item.height) - Math.max(top, item.y));
+      if (overlapWidth * overlapHeight >= item.width * item.height * 0.25) selected.add(index);
+    }
+    const indices = [...selected].sort((a, b) => a - b);
+    setSelection(indices, indices.length ? indices[0] : null);
+  };
+  const cancel = (pointer) => {
+    if (pointer.pointerId !== pointerId) return;
+    window.clearInterval(timer);
+    window.removeEventListener("pointermove", move);
+    window.removeEventListener("pointerup", finish);
+    window.removeEventListener("pointercancel", cancel);
+    overlay.remove();
+  };
+  window.addEventListener("pointermove", move);
+  window.addEventListener("pointerup", finish);
+  window.addEventListener("pointercancel", cancel);
+}
+
+$("editor-stage").addEventListener("pointerdown", startMarquee);
+$("editor-deselect").addEventListener("click", clearSelection);
+$("editor-clear-group").addEventListener("click", clearSelection);
 $("editor-undo").addEventListener("click", undo);
 $("editor-redo").addEventListener("click", redo);
 $("editor-align").addEventListener("click", alignBaselines);
@@ -488,29 +680,41 @@ for (const field of ["x", "y"]) {
     commit(before);
   });
 }
+for (const field of ["x", "y"]) {
+  $(`editor-group-${field}`).addEventListener("change", () => {
+    if (state.selectedIndices.size < 2) return;
+    const value = Number($(`editor-group-${field}`).value);
+    if (!Number.isInteger(value) || value < 0 || value > 12000) { renderGroupFields(); return; }
+    const bounds = selectionBounds();
+    moveSelection(field === "x" ? value - bounds.left : 0,
+                  field === "y" ? value - bounds.top : 0);
+    renderGroupFields();
+  });
+}
 $("editor-scale").addEventListener("change", () => changeScale(Number($("editor-scale").value)));
 $("editor-gap").addEventListener("change", () => changeGap(Number($("editor-gap").value)));
 $("editor-line-up").addEventListener("click", () => shiftLine(-4));
 $("editor-line-down").addEventListener("click", () => shiftLine(4));
 window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && state.selectedIndices.size) {
+    event.preventDefault();
+    clearSelection();
+    return;
+  }
   if (event.target.closest("input, select, textarea")) return;
-  if (event.ctrlKey && event.key.toLowerCase() === "z") {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
     event.preventDefault();
     if (event.shiftKey) redo(); else undo();
     return;
   }
-  if (event.ctrlKey && event.key.toLowerCase() === "y") { event.preventDefault(); redo(); return; }
-  if (state.selected === null || state.saving) return;
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "y") { event.preventDefault(); redo(); return; }
+  if (!state.selectedIndices.size || state.saving) return;
   const moves = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
   if (!moves[event.key]) return;
   event.preventDefault();
-  const before = snapshot();
   const [dx, dy] = moves[event.key];
   const step = event.shiftKey ? 10 : 1;
-  const item = state.placements[state.selected];
-  item.x = Math.max(0, item.x + dx * step);
-  item.y = Math.max(0, item.y + dy * step);
-  commit(before);
+  moveSelection(dx * step, dy * step);
 });
 window.addEventListener("beforeunload", (event) => {
   if (!isDirty()) return;
