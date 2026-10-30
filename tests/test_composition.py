@@ -34,15 +34,21 @@ def make_font(root: Path) -> Path:
             image.save(image_path)
             samples.append({
                 "character": character,
+                "codepoint": f"U+{ord(character):04X}",
+                "occurrence": occurrence,
                 "glyph_file": relative,
+                "original_crop": f"cells/{character}-{occurrence}.png",
                 "accepted": None,
+                "flags": [],
                 "crop_size_px": [22, 30],
                 "ink_bbox_in_crop_px": [4, 5, 12, 23],
                 "row": occurrence - 1,
                 "column": 0,
             })
     (root / "manifest.json").write_text(
-        json.dumps({"samples": samples}), encoding="utf-8"
+        json.dumps({"samples": samples, "summary": {
+            "sample_count": 4, "glyph_count": 4, "review_count": 0,
+        }}), encoding="utf-8"
     )
     return root
 
@@ -113,3 +119,62 @@ def test_composition_http_api(tmp_path: Path) -> None:
         })
         assert missing.status_code == 422
         assert missing.json()["detail"]["missing"][0]["character"] == "C"
+
+
+def test_editor_saves_instances_and_rejects_stale_or_wrong_samples(tmp_path: Path) -> None:
+    data_root = tmp_path / "data"
+    make_font(data_root / "fonts" / "english" / FONT_ID)
+    (data_root / "file").mkdir(parents=True)
+    (data_root / "file" / f"{FONT_ID}.jpg").write_bytes(b"source")
+    with TestClient(create_app(data_root)) as client:
+        created = client.post("/api/compositions", json={
+            "font_id": FONT_ID, "text": "AB", "seed": 7,
+        }).json()
+        render_id = created["id"]
+        image_before = client.get(created["image_url"]).content
+        draft_url = f"/api/compositions/{render_id}/draft"
+        draft = client.get(draft_url).json()
+        assert draft["revision"] == 0
+        assert len(draft["variants"]) == 4
+        assert len(draft["placements"]) == 2
+
+        edits = [
+            {key: item[key] for key in ("index", "sample_file", "x", "y", "scale")}
+            for item in draft["placements"]
+        ]
+        edits[0]["x"] += 12
+        edits[0]["y"] += 7
+        edits[0]["scale"] = 1.2
+        another = next(variant for variant in draft["variants"]
+                       if variant["character"] == "A"
+                       and variant["sample_file"] != edits[0]["sample_file"])
+        edits[0]["sample_file"] = another["sample_file"]
+
+        saved = client.put(draft_url, json={"revision": 0, "placements": edits})
+        assert saved.status_code == 200, saved.text
+        assert saved.json()["revision"] == 1
+        assert saved.json()["placements"][0]["sample_file"] == another["sample_file"]
+        assert saved.json()["placements"][0]["x"] == edits[0]["x"]
+        assert client.get(draft_url).json()["placements"][0]["scale"] == 1.2
+        current = client.get(f"/api/compositions/{render_id}").json()
+        assert client.get(current["image_url"]).content != image_before
+
+        stale = client.put(draft_url, json={"revision": 0, "placements": edits})
+        assert stale.status_code == 409
+        wrong = [dict(item) for item in edits]
+        wrong[0]["sample_file"] = next(variant["sample_file"]
+                                       for variant in draft["variants"]
+                                       if variant["character"] == "B")
+        invalid = client.put(draft_url, json={"revision": 1, "placements": wrong})
+        assert invalid.status_code == 422
+        assert client.get(draft_url).json()["revision"] == 1
+
+        excluded = client.patch(f"/api/imports/{FONT_ID}/sample", json={
+            "sample_file": another["sample_file"], "accepted": False,
+        })
+        assert excluded.status_code == 200, excluded.text
+        assert next(variant for variant in client.get(draft_url).json()["variants"]
+                    if variant["sample_file"] == another["sample_file"])["accepted"] is False
+        assert client.post("/api/compositions", json={
+            "font_id": FONT_ID, "text": "AAAA", "seed": 1,
+        }).status_code == 201

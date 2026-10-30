@@ -13,8 +13,9 @@ from api.handler.imports import (
     resolve_original,
     resolve_result_image,
     save_and_extract,
+    set_sample_acceptance,
 )
-from api.model.imports import ImportResponse
+from api.model.imports import ImportResponse, SampleAcceptanceUpdate
 
 
 router = APIRouter(prefix="/api")
@@ -48,6 +49,20 @@ def get_import(request: Request, run_id: str) -> ImportResponse:
         return load_result(request.app.state.data_root, run_id)
     except ImportErrorMessage as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.patch("/imports/{run_id}/sample", response_model=ImportResponse)
+def update_sample(request: Request, run_id: str,
+                  payload: SampleAcceptanceUpdate) -> ImportResponse:
+    try:
+        return set_sample_acceptance(
+            request.app.state.data_root, run_id,
+            payload.sample_file, payload.accepted,
+        )
+    except ImportErrorMessage as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 

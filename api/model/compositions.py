@@ -28,3 +28,30 @@ class CompositionResponse(BaseModel):
     background: Literal["white", "transparent"]
     image_url: str
     download_url: str
+
+
+class PlacementEdit(BaseModel):
+    index: int = Field(ge=0)
+    sample_file: str
+    x: int = Field(ge=0, le=12000)
+    y: int = Field(ge=0, le=12000)
+    scale: float = Field(ge=0.5, le=1.5)
+
+
+class DraftUpdate(BaseModel):
+    revision: int = Field(ge=0)
+    placements: list[PlacementEdit] = Field(max_length=2000)
+
+
+class DraftResponse(BaseModel):
+    id: str
+    font_id: str
+    text: str
+    revision: int
+    width: int
+    height: int
+    line_count: int
+    background: Literal["white", "transparent"]
+    cell_height_px: int
+    placements: list[dict]
+    variants: list[dict]

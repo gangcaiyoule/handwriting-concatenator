@@ -29,3 +29,8 @@ class ImportResponse(BaseModel):
     registered_url: str
     summary: ImportSummary
     samples: list[SampleResponse]
+
+
+class SampleAcceptanceUpdate(BaseModel):
+    sample_file: str
+    accepted: bool

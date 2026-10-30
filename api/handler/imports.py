@@ -67,6 +67,25 @@ def load_result(data_root: Path, run_id: str) -> ImportResponse:
     )
 
 
+def set_sample_acceptance(data_root: Path, run_id: str,
+                          sample_file: str, accepted: bool) -> ImportResponse:
+    checked_run_id(run_id)
+    path = data_root / "fonts" / "english" / run_id / "manifest.json"
+    if not path.is_file():
+        raise FileNotFoundError("找不到字形库")
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    sample = next((item for item in manifest["samples"]
+                   if item.get("glyph_file") == sample_file), None)
+    if sample is None:
+        raise ImportErrorMessage("找不到这个字形版本")
+    sample["accepted"] = accepted
+    temporary = path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
+                         encoding="utf-8")
+    temporary.replace(path)
+    return load_result(data_root, run_id)
+
+
 async def save_and_extract(upload: UploadFile, data_root: Path) -> ImportResponse:
     suffix = Path(upload.filename or "").suffix.lower()
     if suffix not in ALLOWED_SUFFIXES:

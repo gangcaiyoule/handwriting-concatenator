@@ -73,7 +73,7 @@ def _glyph_path(font_dir: Path, relative: str) -> Path:
     return path
 
 
-def load_library(font_dir: str | Path) -> dict[str, list[dict]]:
+def load_library(font_dir: str | Path, *, include_disabled: bool = False) -> dict[str, list[dict]]:
     root = Path(font_dir).resolve()
     try:
         manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
@@ -83,7 +83,7 @@ def load_library(font_dir: str | Path) -> dict[str, list[dict]]:
     seen_files: set[Path] = set()
     for sample in manifest.get("samples", []):
         relative = sample.get("glyph_file")
-        if not relative or sample.get("accepted") is False:
+        if not relative or (sample.get("accepted") is False and not include_disabled):
             continue
         path = _glyph_path(root, relative)
         if path in seen_files or not path.is_file():
@@ -96,6 +96,53 @@ def load_library(font_dir: str | Path) -> dict[str, list[dict]]:
             continue
         library.setdefault(character, []).append(sample)
     return library
+
+
+def render_edited(font_dir: str | Path, placements: list[dict],
+                  cell_height_px: int, background: str,
+                  minimum_size: tuple[int, int]) -> Image.Image:
+    """Render saved instance positions using samples from the same character."""
+    root = Path(font_dir).resolve()
+    library = load_library(root, include_disabled=True)
+    allowed = {
+        sample["glyph_file"]: character
+        for character, samples in library.items()
+        for sample in samples
+    }
+    samples = {
+        sample["glyph_file"]: sample
+        for variants in library.values()
+        for sample in variants
+    }
+    prepared: list[tuple[Image.Image, int, int]] = []
+    right = bottom = 0
+    for placement in placements:
+        relative = placement["sample_file"]
+        if allowed.get(relative) != placement["character"]:
+            raise CompositionError("字形版本与字符不匹配")
+        base, _ = _load_scaled_glyph(samples[relative], root, cell_height_px)
+        scale = float(placement.get("scale", 1))
+        if not 0.5 <= scale <= 1.5:
+            raise CompositionError("字形缩放必须在 50% 到 150% 之间")
+        size = (max(1, round(base.width * scale)),
+                max(1, round(base.height * scale)))
+        glyph = base if scale == 1 else base.resize(size, Image.Resampling.LANCZOS)
+        x, y = int(placement["x"]), int(placement["y"])
+        if x < 0 or y < 0:
+            raise CompositionError("字形不能移出画布左侧或上侧")
+        placement["width"], placement["height"] = glyph.size
+        prepared.append((glyph, x, y))
+        right = max(right, x + glyph.width)
+        bottom = max(bottom, y + glyph.height)
+    width = max(minimum_size[0], right + 20)
+    height = max(minimum_size[1], bottom + 20)
+    if width > MAX_CANVAS_EDGE or height > MAX_CANVAS_EDGE:
+        raise CompositionError("编辑后的画布超过 12000 px，请缩小字距或字形")
+    color = (255, 255, 255, 255) if background == "white" else (0, 0, 0, 0)
+    image = Image.new("RGBA", (width, height), color)
+    for glyph, x, y in prepared:
+        image.alpha_composite(glyph, (x, y))
+    return image
 
 
 def missing_for(text: str, library: dict[str, list[dict]]) -> list[dict[str, int | str]]:

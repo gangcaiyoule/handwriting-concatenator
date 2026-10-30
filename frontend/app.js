@@ -98,6 +98,7 @@ async function upload() {
 
 function sampleState(sample) {
   if (sample.flags.includes("empty")) return "empty";
+  if (sample.accepted === false) return "disabled";
   if (sample.flags.length > 0) return "review";
   return "ready";
 }
@@ -125,6 +126,7 @@ function filteredSamples() {
     const matchesStatus = filter === "all" ||
       (filter === "ready" && status === "ready") ||
       (filter === "review" && status === "review") ||
+      (filter === "disabled" && status === "disabled") ||
       (filter === "empty" && status === "empty");
     return matchesCharacter && matchesStatus;
   });
@@ -162,7 +164,7 @@ function makeGlyphCard(sample) {
   const status = document.createElement("span");
   const kind = sampleState(sample);
   status.className = `glyph-status ${kind === "ready" ? "" : `is-${kind}`}`;
-  status.textContent = kind === "ready" ? "已提取" : kind === "empty" ? "空白待补" : "建议复核";
+  status.textContent = kind === "ready" ? "已提取" : kind === "empty" ? "空白待补" : kind === "disabled" ? "已停用" : "建议复核";
   card.append(imageBox, info, status);
   return card;
 }
@@ -286,6 +288,7 @@ function renderComposition(result) {
   $("compose-image-link").href = result.image_url;
   $("compose-image-link").classList.toggle("is-transparent", result.background === "transparent");
   $("compose-download").href = result.download_url;
+  $("compose-edit").href = `/editor?composition=${result.id}`;
   $("compose-render-meta").textContent = `${result.line_count} 行 · ${result.width} × ${result.height} px · 随机编号 ${result.seed}`;
   window.localStorage.setItem("lastCompositionId", result.id);
   window.history.replaceState(null, "", `/?import=${result.font_id}&composition=${result.id}`);

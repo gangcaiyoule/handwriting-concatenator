@@ -156,6 +156,7 @@ h1 { margin: 0; font-size: clamp(30px, 3.8vw, 45px); letter-spacing: -0.025em; l
 .glyph-card .glyph-info small { color: var(--muted); font-size: 11px; }
 .glyph-status { display: block; padding: 0 11px 11px; font-size: 11px; color: var(--green); }
 .glyph-status.is-review { color: var(--warning); }
+.glyph-status.is-disabled { color: var(--muted); }
 .glyph-status.is-empty { color: var(--muted); }
 .no-results { padding: 50px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 8px; font-size: 13px; }
 .load-more { display: block; margin: 24px auto 0; padding: 10px 20px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); font-weight: 650; }

@@ -1,0 +1,84 @@
+.editor-shell { width: min(1580px, calc(100% - 48px)); margin-inline: auto; }
+.editor-header { min-height: 68px; display: flex; align-items: center; justify-content: space-between; }
+.editor-header-label { color: var(--muted); font-size: 13px; }
+.editor-title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; padding: 34px 0 25px; }
+.editor-overline { margin: 0 0 7px; color: var(--green); font-size: 12px; font-weight: 700; }
+.editor-title-row h1 { font-size: 29px; letter-spacing: -0.025em; }
+.editor-intro { max-width: 72ch; margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.editor-save-actions { display: flex; align-items: center; gap: 10px; flex: none; }
+.editor-save-actions span { min-width: 56px; color: var(--muted); text-align: right; font-size: 12px; }
+.editor-save-actions button, .editor-toolbar button, .editor-line-buttons button { min-height: 36px; padding: 0 13px; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--ink); font-size: 13px; font-weight: 650; }
+.editor-save-actions button:hover:not(:disabled), .editor-toolbar button:hover:not(:disabled), .editor-line-buttons button:hover:not(:disabled) { border-color: var(--green); color: var(--green); }
+.editor-save-actions button:disabled, .editor-toolbar button:disabled, .editor-line-buttons button:disabled { color: var(--muted); cursor: not-allowed; opacity: .55; }
+.editor-save-actions .editor-primary { background: var(--green); border-color: var(--green); color: white; }
+.editor-save-actions .editor-primary:hover:not(:disabled) { background: var(--green-hover); border-color: var(--green-hover); color: white; }
+.editor-loading { min-height: 320px; display: grid; place-items: center; color: var(--muted); border-top: 2px solid var(--ink); }
+.editor-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 315px; gap: 24px; align-items: start; }
+.editor-main { min-width: 0; border-top: 2px solid var(--ink); }
+.editor-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 0; }
+.editor-toolbar-group { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.editor-toolbar-divider { display: block; width: 1px; height: 24px; margin-inline: 4px; background: var(--line); }
+.editor-toolbar label { color: var(--muted); font-size: 12px; }
+.editor-guide-toggle { display: inline-flex; align-items: center; gap: 5px; margin-right: 7px; white-space: nowrap; }
+.editor-guide-toggle input { accent-color: var(--green); }
+.editor-toolbar select, .editor-panel select, .editor-panel input[type="number"] { height: 36px; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--ink); padding: 0 9px; font-size: 13px; }
+.editor-viewport { height: min(64vh, 650px); min-height: 360px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); outline-offset: 3px; }
+#editor-stage-wrap { position: relative; margin: 24px; }
+#editor-stage { position: relative; transform-origin: top left; background: white; box-shadow: 0 2px 8px oklch(0.2 0 0 / 0.1); }
+#editor-stage.is-transparent { background-color: white; background-image: linear-gradient(45deg, var(--soft) 25%, transparent 25%), linear-gradient(-45deg, var(--soft) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--soft) 75%), linear-gradient(-45deg, transparent 75%, var(--soft) 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0; }
+.edit-glyph { position: absolute; z-index: 1; display: block; padding: 0; border: 1px solid transparent; border-radius: 2px; background: transparent; cursor: grab; touch-action: none; }
+.edit-glyph:hover { border-color: var(--green); }
+.edit-glyph.is-selected { z-index: 3; border: 2px solid var(--green); background: oklch(0.94 0.03 145 / .15); }
+.edit-glyph:active { cursor: grabbing; }
+.edit-glyph img { display: block; width: 100%; height: 100%; pointer-events: none; user-select: none; }
+.edit-baseline { position: absolute; z-index: 0; left: 0; right: 0; border-top: 1px dashed oklch(0.63 0.10 145 / .58); pointer-events: none; }
+.edit-baseline span { position: absolute; top: -16px; left: 5px; padding: 0 3px; background: white; color: var(--green); font: 11px/1.3 ui-monospace, Consolas, monospace; }
+.edit-gap-handle { position: absolute; z-index: 4; width: 13px; min-height: 42px; padding: 0; border: 0; border-radius: 3px; background: oklch(0.64 0.12 145 / .20); cursor: ew-resize; touch-action: none; }
+.edit-gap-handle::after { content: ""; position: absolute; left: 6px; top: 3px; bottom: 3px; border-left: 2px solid var(--green); }
+.edit-gap-handle:hover { background: var(--green-soft); }
+.editor-canvas-help { margin: 10px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.editor-panel { border-top: 2px solid var(--ink); padding-top: 18px; }
+.editor-panel-empty { padding: 24px 0; }
+.editor-panel-empty strong { font-size: 15px; }
+.editor-panel-empty p, .editor-panel-note { color: var(--muted); font-size: 12px; line-height: 1.65; }
+.editor-panel-heading { display: flex; align-items: start; justify-content: space-between; margin-bottom: 14px; }
+.editor-panel-heading small { color: var(--muted); font-size: 12px; }
+.editor-panel-heading h2 { margin: 1px 0 0; font-size: 30px; line-height: 1; }
+.editor-panel-heading button { border: 0; background: transparent; color: var(--muted); font-size: 25px; line-height: 1; }
+.editor-panel-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; }
+.editor-variants { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; max-height: 214px; overflow: auto; }
+.editor-variant { min-width: 0; min-height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 7px 3px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--muted); font-size: 10px; }
+.editor-variant:hover:not(:disabled), .editor-variant.is-selected { border-color: var(--green); color: var(--green); }
+.editor-variant.is-selected { background: var(--green-soft); }
+.editor-variant:disabled { cursor: not-allowed; opacity: .45; }
+.editor-variant img { max-width: 90%; max-height: 36px; object-fit: contain; }
+.editor-danger-link { display: block; margin: 10px 0 0; padding: 3px 0; border: 0; background: none; color: var(--error); font-size: 12px; text-align: left; }
+.editor-danger-link:hover { text-decoration: underline; }
+.editor-panel-note { margin: 7px 0 0; }
+.editor-control-group { margin-top: 23px; padding-top: 17px; border-top: 1px solid var(--line); }
+.editor-control-group h3 { margin: 0 0 12px; font-size: 13px; }
+.editor-number-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.editor-number-grid label, .editor-line-controls label { display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: 11px; }
+.editor-number-grid input { width: 100%; }
+.editor-number-grid input:disabled { background: var(--surface); color: var(--muted); }
+.editor-line-controls select { width: 100%; margin-top: 6px; }
+.editor-line-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+
+@media (max-width: 1000px) {
+  .editor-workspace { grid-template-columns: 1fr; }
+  .editor-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, .55fr); gap: 24px; }
+  .editor-line-controls { margin-top: 0; padding-top: 0; border: 0; }
+}
+@media (max-width: 640px) {
+  .editor-shell { width: calc(100% - 32px); }
+  .editor-header { min-height: 60px; }
+  .editor-title-row { display: block; padding: 25px 0 19px; }
+  .editor-title-row h1 { font-size: 25px; }
+  .editor-save-actions { flex-wrap: wrap; margin-top: 19px; }
+  .editor-save-actions span { order: 3; width: 100%; text-align: left; }
+  .editor-toolbar { align-items: start; }
+  .editor-viewport { min-height: 300px; height: 45vh; }
+  #editor-stage-wrap { margin: 16px; }
+  .editor-panel { display: block; }
+  .editor-line-controls { margin-top: 23px; padding-top: 17px; border-top: 1px solid var(--line); }
+}

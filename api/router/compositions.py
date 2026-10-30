@@ -8,12 +8,17 @@ from fastapi.responses import FileResponse
 from handwriting_concat.composition import CompositionError, MissingGlyphs
 
 from api.handler.compositions import (
+    EditConflict,
     composition_image,
     create_composition,
     load_composition,
+    load_draft,
+    save_draft,
 )
 from api.handler.imports import ImportErrorMessage
-from api.model.compositions import CompositionRequest, CompositionResponse
+from api.model.compositions import (
+    CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
+)
 
 
 router = APIRouter(prefix="/api/compositions")
@@ -41,6 +46,29 @@ def get_composition(request: Request, render_id: str) -> CompositionResponse:
         return load_composition(request.app.state.data_root, render_id)
     except ImportErrorMessage as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.get("/{render_id}/draft", response_model=DraftResponse)
+def get_draft(request: Request, render_id: str) -> DraftResponse:
+    try:
+        return load_draft(request.app.state.data_root, render_id)
+    except (CompositionError, ImportErrorMessage) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.put("/{render_id}/draft", response_model=DraftResponse)
+async def put_draft(request: Request, render_id: str,
+                    payload: DraftUpdate) -> DraftResponse:
+    try:
+        return await save_draft(request.app.state.data_root, render_id, payload)
+    except EditConflict as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except (CompositionError, ImportErrorMessage) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 

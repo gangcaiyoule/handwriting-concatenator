@@ -28,6 +28,10 @@ def create_app(data_root: Path | None = None) -> FastAPI:
     def index() -> FileResponse:
         return FileResponse(PROJECT_ROOT / "frontend" / "index.html")
 
+    @app.get("/editor", include_in_schema=False)
+    def editor() -> FileResponse:
+        return FileResponse(PROJECT_ROOT / "frontend" / "editor.html")
+
     return app
 
 

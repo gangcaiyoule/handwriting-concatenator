@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>编辑拼接文字 · 手写字拼接器</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/editor.css" />
+    <script src="/static/editor.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="editor-shell editor-header">
+        <a class="brand" id="editor-back" href="/" aria-label="返回拼接页面">
+          <span class="brand-mark" aria-hidden="true">字</span>
+          <span>手写字拼接器</span>
+        </a>
+        <span class="editor-header-label">拼接编辑器</span>
+      </div>
+    </header>
+
+    <main class="editor-shell">
+      <div class="editor-title-row">
+        <div>
+          <p class="editor-overline">逐字调整</p>
+          <h1>编辑拼接结果</h1>
+          <p class="editor-intro">点击字母更换手写版本，拖动字母调整位置。选中字母后，可拖动它前方的绿色间距线。</p>
+        </div>
+        <div class="editor-save-actions">
+          <span id="editor-save-state" role="status" aria-live="polite">正在加载…</span>
+          <button id="editor-save" class="editor-secondary" type="button" disabled>保存编辑</button>
+          <button id="editor-export" class="editor-primary" type="button" disabled>下载 PNG</button>
+        </div>
+      </div>
+
+      <p id="editor-error" class="error-message" role="alert" hidden></p>
+      <div id="editor-loading" class="editor-loading">正在读取字形和编辑草稿…</div>
+      <div id="editor-workspace" class="editor-workspace" hidden>
+        <section class="editor-main" aria-label="拼接画布">
+          <div class="editor-toolbar">
+            <div class="editor-toolbar-group">
+              <button id="editor-undo" type="button" disabled>撤销</button>
+              <button id="editor-redo" type="button" disabled>重做</button>
+              <span class="editor-toolbar-divider" aria-hidden="true"></span>
+              <button id="editor-align" type="button">轻度对齐基线</button>
+            </div>
+            <div class="editor-toolbar-group">
+              <label class="editor-guide-toggle"><input id="editor-guides" type="checkbox" checked /> 显示基线</label>
+              <button id="editor-fit" type="button">适合宽度</button>
+              <label for="editor-zoom">缩放</label>
+              <select id="editor-zoom" aria-label="画布缩放">
+                <option value="fit">适合宽度</option>
+                <option value="0.25">25%</option>
+                <option value="0.5">50%</option>
+                <option value="0.75">75%</option>
+                <option value="1" selected>100%</option>
+                <option value="1.5">150%</option>
+                <option value="2">200%</option>
+              </select>
+            </div>
+          </div>
+          <div id="editor-viewport" class="editor-viewport" tabindex="0" aria-label="可滚动的拼接画布">
+            <div id="editor-stage-wrap"><div id="editor-stage"></div></div>
+          </div>
+          <p class="editor-canvas-help">画布按实际像素显示，可横向滚动。方向键微调选中字母，按住 Shift 每次移动 10 px。Ctrl+Z 撤销。</p>
+        </section>
+
+        <aside class="editor-panel" aria-label="编辑属性">
+          <div id="editor-no-selection" class="editor-panel-empty">
+            <strong>选择一个字母</strong>
+            <p>点击画布中的任意手写字，查看其他版本并调整它的位置、大小和字距。</p>
+          </div>
+          <div id="editor-selection" hidden>
+            <div class="editor-panel-heading">
+              <div><small id="editor-character-meta"></small><h2 id="editor-character"></h2></div>
+              <button id="editor-deselect" type="button" aria-label="取消选择">×</button>
+            </div>
+            <p class="editor-panel-label">选择手写版本</p>
+            <div id="editor-variants" class="editor-variants"></div>
+            <button id="editor-toggle-sample" class="editor-danger-link" type="button"></button>
+            <p class="editor-panel-note">停用只影响以后生成的拼接图。当前字母可以继续替换成其他版本。</p>
+
+            <div class="editor-control-group">
+              <h3>位置与大小</h3>
+              <div class="editor-number-grid">
+                <label>横向位置 <input id="editor-x" type="number" min="0" max="12000" step="1" /></label>
+                <label>纵向位置 <input id="editor-y" type="number" min="0" max="12000" step="1" /></label>
+                <label>大小 % <input id="editor-scale" type="number" min="50" max="150" step="1" /></label>
+                <label>字前间距 <input id="editor-gap" type="number" min="-100" max="300" step="1" /></label>
+              </div>
+            </div>
+          </div>
+          <div class="editor-control-group editor-line-controls">
+            <h3>整行位置</h3>
+            <label for="editor-line">选择行</label>
+            <select id="editor-line"></select>
+            <div class="editor-line-buttons">
+              <button id="editor-line-up" type="button">上移 4 px</button>
+              <button id="editor-line-down" type="button">下移 4 px</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>
