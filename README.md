@@ -1,6 +1,6 @@
 # 手写字拼接器：模板字形提取
 
-目前实现了**单页模板上传、字形提取和多行文字拼接**。程序读取四角 ArUco 定位码，校正页面，逐格生成透明 PNG。网页可上传、查看字形，并在多行输入框里粘贴文字，按原有换行生成拼接图。字形接受/删除操作尚未接入。
+目前实现了**模板上传、字形提取和多行文字拼接**。程序读取四角 ArUco 定位码，校正页面，逐格生成透明 PNG。网页可上传、查看字形，并在多行输入框里粘贴文字，按原有换行生成拼接图。同一字体库可以上传多张采集页，字形合并到一个目录。
 
 ## 环境
 
@@ -22,7 +22,7 @@ PNG、JPEG、TIFF 由 Pillow 解码。PDF 输入另外需要系统能运行 `pdf
 .\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8765
 ```
 
-浏览器打开 `http://127.0.0.1:8765/`，选择填写后的照片或单页 PDF，点击“上传并提取字形”。请求完成后，页面展示校正页、提取数量、待复核数量和逐字预览；点击一个字形可对照原格裁图。页面地址中的 `?import=<编号>` 可重新打开该次结果。
+浏览器打开 `http://127.0.0.1:8765/` 即可使用，无需登录。每次上传填写后的照片或单页 PDF 时，都要选择目标字体库；可以选择已有库，也可以填写名称新建库。多次上传到同一个库会合并到 `data/fonts/english/<字体名称>`。顶部可以切换正在查看和拼接的字体库。页面展示所选字体库最近上传的校正页、累计提取数量和逐字预览；点击字形可对照原格裁图。页面地址中的 `?font=<字体名称>` 可直接打开指定字体库。旧版哈希目录如未导入任何命名字体库，会显示导入入口。
 
 在“拼接文字”多行框中直接粘贴文字。**每个换行和空行都会保留**，不会自动折行。每个字符先随机用完所有可用字形，再重新洗牌循环使用；只有完全缺少该字符字形时才阻止生成。可调整字大小、字距随机幅度、行距和背景。每次生成保存随机种子与实际选用的字形，结果可重新打开并下载 PNG。当前不支持 `.txt` 上传。
 
@@ -33,17 +33,17 @@ PNG、JPEG、TIFF 由 Pillow 解码。PDF 输入另外需要系统能运行 `pdf
 ```text
 data/
   file/<编号>.jpg                        原始上传文件
-  fonts/english/<编号>/
-    registered_page.png                  校正页
-    cells/r01_c01.png                    每格原始裁图
-    glyphs/U+0041/001.png                透明字形
-    manifest.json                        提取清单与质检标记
+  fonts/english/<字体名称>/
+    pages/<上传编号>/registered_page.png   该次上传的校正页
+    pages/<上传编号>/cells/r01_c01.png   每格原始裁图
+    glyphs/U+0041/<上传编号>-001.png      合并后的透明字形
+    manifest.json                        累计样本、上传记录与质检标记
   renders/english/<拼接编号>/
     composition.png                      拼接结果
     manifest.json                        原文、参数、随机种子、字形选取与位置
 ```
 
-每次上传和拼接都使用独立编号，避免覆盖旧结果。字形结果目录中还保留一份原图副本，便于单独移动。HTTP 接口包括 `POST /api/imports`、`GET /api/imports/{id}`、`PATCH /api/imports/{id}/sample`、`POST /api/compositions`、`GET /api/compositions/{id}` 和 `GET/PUT /api/compositions/{id}/draft`，以及对应图片、原图和清单的读取接口；FastAPI 的 `/docs` 提供接口文档。编辑保存使用修订号防止旧页面覆盖新结果。上传大小限制为 50 MB。
+每次上传和拼接仍有独立编号，避免覆盖旧结果。HTTP 接口包括 `GET/POST /api/fonts`、`POST /api/fonts/{字体名称}/claim/{旧编号}`、`POST /api/imports`（表单需传 `font_name`）、`GET /api/imports/{字体名称}`、`PATCH /api/imports/{字体名称}/sample`、`POST /api/compositions`、`GET /api/compositions/{id}` 和 `GET/PUT /api/compositions/{id}/draft`，以及对应图片、原图和清单的读取接口；FastAPI 的 `/docs` 提供接口文档。编辑保存使用修订号防止旧页面覆盖新结果。上传大小限制为 50 MB。
 
 ## 命令行运行
 

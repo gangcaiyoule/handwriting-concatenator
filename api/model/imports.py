@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ImportSummary(BaseModel):
@@ -21,14 +21,18 @@ class SampleResponse(BaseModel):
     accepted: bool | None
     original_crop_url: str
     glyph_url: str | None
+    upload_id: str | None = None
 
 
 class ImportResponse(BaseModel):
     id: str
-    original_url: str
-    registered_url: str
+    original_url: str | None
+    registered_url: str | None
     summary: ImportSummary
     samples: list[SampleResponse]
+    upload_count: int = 0
+    latest_upload_id: str | None = None
+    legacy_imports: list[str] = Field(default_factory=list)
 
 
 class SampleAcceptanceUpdate(BaseModel):

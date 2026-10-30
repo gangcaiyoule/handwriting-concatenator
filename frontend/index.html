@@ -16,7 +16,13 @@
           <span class="brand-mark" aria-hidden="true">字</span>
           <span>手写字拼接器</span>
         </a>
-        <a class="header-note" href="#composer">拼接文字 ↓</a>
+        <div class="header-actions">
+          <label class="header-font-label" for="library-select">查看字体库</label>
+          <select id="library-select" class="header-font-select" aria-label="查看字体库">
+            <option value="">暂无字体库</option>
+          </select>
+          <a class="header-note" href="#composer">拼接文字 ↓</a>
+        </div>
       </div>
     </header>
 
@@ -27,13 +33,31 @@
         <p>上传填写好的 A4 模板，或直接使用已提取的字形。粘贴文字时，每个换行都会保留在结果中。</p>
       </section>
 
+      <section id="legacy-banner" class="legacy-banner" aria-label="导入旧字形库" hidden>
+        <div><strong>发现旧字形库</strong><p>可以复制进当前字体库，原始字形库和已生成的拼接图会保留。</p></div>
+        <div id="legacy-list" class="legacy-list"></div>
+      </section>
+
       <div class="workspace">
         <section class="upload-section" aria-labelledby="upload-title">
           <div class="section-heading">
             <h2 id="upload-title">上传手写页</h2>
             <a href="/api/template" target="_blank" rel="noopener">下载采集模板 <span aria-hidden="true">↗</span></a>
           </div>
-          <p class="section-copy">支持 JPG、PNG、TIFF、WEBP、BMP 和单页 PDF，最大 50 MB。</p>
+          <p class="section-copy">每次上传都选择目标字体库。多次上传到同一个库会增加字形版本。支持 JPG、PNG、TIFF、WEBP、BMP 和单页 PDF，最大 50 MB。</p>
+
+          <div class="upload-target">
+            <label for="upload-font">这次上传到</label>
+            <select id="upload-font" required>
+              <option value="">请选择字体库</option>
+              <option value="__new__">＋ 新建字体库</option>
+            </select>
+            <div id="new-font-row" class="new-font-row" hidden>
+              <label for="new-font-name">新字体库名称</label>
+              <input id="new-font-name" type="text" maxlength="40" placeholder="例如：en-潦草" autocomplete="off" />
+              <small>名称会成为 data/fonts/english 下的文件夹名。</small>
+            </div>
+          </div>
 
           <div class="dropzone" id="dropzone">
             <div class="drop-icon" aria-hidden="true">↑</div>
@@ -76,7 +100,7 @@
           </div>
           <div class="empty-overview" id="empty-overview">
             <div class="empty-sheet" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>上传后在这里查看整页校正结果</h3>
+            <h3>选择字体库或上传采集页</h3>
             <p>每个字符会保留原格裁图和透明字形，方便逐一核对。</p>
           </div>
           <div class="result-overview" id="result-overview" hidden>
@@ -103,7 +127,7 @@
             <h2 id="composer-title">拼接文字</h2>
             <p>直接粘贴内容。每一行按原样生成，空行也会保留。</p>
           </div>
-          <span id="composer-font" class="visible-count">等待字形库</span>
+          <span id="composer-font" class="visible-count">尚未选择字体库</span>
         </div>
         <div class="composer-workspace">
           <div class="composer-form">

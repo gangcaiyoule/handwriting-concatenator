@@ -16,6 +16,7 @@ from handwriting_concat.composition import (
 )
 
 from api.handler.imports import checked_run_id
+from api.handler.libraries import library_root
 from api.model.compositions import (
     CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
 )
@@ -61,8 +62,8 @@ def _manifest(data_root: Path, render_id: str) -> tuple[Path, dict]:
 
 def load_draft(data_root: Path, render_id: str) -> DraftResponse:
     _, data = _manifest(data_root, render_id)
-    font_id = checked_run_id(data["font_id"])
-    font_root = data_root / "fonts" / "english" / font_id
+    font_root = library_root(data_root, data["font_id"])
+    font_id = font_root.name
     library = load_library(font_root, include_disabled=True)
     used_characters = {item["character"] for item in data["placements"]}
     variants: list[dict] = []
@@ -77,7 +78,7 @@ def load_draft(data_root: Path, render_id: str) -> DraftResponse:
             variants.append({
                 "character": character,
                 "sample_file": relative,
-                "image_url": f"/api/imports/{font_id}/images/{quote(relative, safe='/')}",
+                "image_url": f"/api/imports/{quote(font_id, safe='')}/images/{quote(relative, safe='/')}",
                 "width": max(1, round(image_width * ratio)),
                 "height": max(1, round(image_height * ratio)),
                 "occurrence": sample.get("occurrence"),
@@ -118,8 +119,7 @@ async def save_draft(data_root: Path, render_id: str,
             "y": edit.y,
             "scale": edit.scale,
         })
-    font_id = checked_run_id(data["font_id"])
-    font_root = data_root / "fonts" / "english" / font_id
+    font_root = library_root(data_root, data["font_id"])
     image = await run_in_threadpool(
         render_edited, font_root, placements, data["cell_height_px"],
         data["background"], (data["width"], data["height"]),
@@ -141,8 +141,7 @@ async def save_draft(data_root: Path, render_id: str,
 
 async def create_composition(data_root: Path,
                              request: CompositionRequest) -> CompositionResponse:
-    checked_run_id(request.font_id)
-    font_dir = data_root / "fonts" / "english" / request.font_id
+    font_dir = library_root(data_root, request.font_id)
     if not (font_dir / "manifest.json").is_file():
         raise FileNotFoundError("找不到所选字形库")
 
@@ -160,7 +159,7 @@ async def create_composition(data_root: Path,
     rendered.image.save(root / "composition.png", format="PNG")
     manifest = {
         "schema_version": 1,
-        "font_id": request.font_id,
+        "font_id": font_dir.name,
         "text": rendered.text,
         "seed": rendered.seed,
         "cell_height_px": options.cell_height_px,

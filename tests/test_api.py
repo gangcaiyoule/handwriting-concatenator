@@ -37,25 +37,57 @@ def test_upload_and_browse_extracted_glyph(tmp_path: Path) -> None:
     Image.fromarray(page).save(data, format="PNG")
 
     with TestClient(create_app(tmp_path / "data")) as client:
+        selected = client.post("/api/fonts", json={"name": "en-潦草"})
+        assert selected.status_code == 201, selected.text
+        assert selected.json()["summary"]["glyph_count"] == 0
+        assert client.get("/api/fonts").json()[0]["name"] == "en-潦草"
         response = client.post(
-            "/api/imports", files={"file": ("filled.png", data.getvalue(), "image/png")}
+            "/api/imports", data={"font_name": "en-潦草"},
+            files={"file": ("filled.png", data.getvalue(), "image/png")}
         )
         assert response.status_code == 201, response.text
         result = response.json()
-        run_id = result["id"]
+        assert result["id"] == "en-潦草"
+        run_id = result["latest_upload_id"]
         assert result["summary"]["sample_count"] == 387
         assert result["summary"]["glyph_count"] == 1
         assert (tmp_path / "data" / "file" / f"{run_id}.png").is_file()
-        run_dir = tmp_path / "data" / "fonts" / "english" / run_id
-        assert (run_dir / "glyphs" / "U+0041" / "001.png").is_file()
-        assert client.get(f"/api/imports/{run_id}").status_code == 200
-        assert client.get(f"/api/imports/{run_id}/manifest").status_code == 200
+        run_dir = tmp_path / "data" / "fonts" / "english" / "en-潦草"
+        assert (run_dir / "glyphs" / "U+0041" / f"{run_id}-001.png").is_file()
+        assert client.get("/api/imports/en-潦草").status_code == 200
+        assert client.get("/api/imports/en-潦草/manifest").status_code == 200
         assert client.get(result["registered_url"]).status_code == 200
         assert client.get(result["original_url"]).status_code == 200
         glyph = next(sample for sample in result["samples"] if sample["glyph_url"])
         assert client.get(glyph["glyph_url"]).status_code == 200
         manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["summary"]["glyph_count"] == 1
+        assert manifest["uploads"][0]["id"] == run_id
+        assert manifest["samples"][0]["upload_id"] == run_id
+
+        second = client.post(
+            "/api/imports", data={"font_name": "en-潦草"},
+            files={"file": ("filled-again.png", data.getvalue(), "image/png")}
+        )
+        assert second.status_code == 201, second.text
+        again = second.json()
+        assert again["upload_count"] == 2
+        assert again["latest_upload_id"] != run_id
+        assert again["summary"]["sample_count"] == 774
+        assert again["summary"]["glyph_count"] == 2
+        assert len(list((run_dir / "glyphs" / "U+0041").glob("*.png"))) == 2
+        composed = client.post("/api/compositions", json={
+            "font_id": "en-潦草", "text": "AA", "seed": 12,
+        })
+        assert composed.status_code == 201, composed.text
+        draft = client.get(f"/api/compositions/{composed.json()['id']}/draft").json()
+        assert len({item["sample_file"] for item in draft["placements"]}) == 2
+
+        other = client.post("/api/fonts", json={"name": "工整体"})
+        assert other.status_code == 201
+        assert other.json()["summary"]["glyph_count"] == 0
+        assert client.get("/api/fonts").json()[1]["name"] == "工整体"
+        assert client.get("/api/imports/工整体").json()["samples"] == []
         assert client.get("/api/template").status_code == 200
         assert client.get("/").status_code == 200
 
@@ -63,7 +95,8 @@ def test_upload_and_browse_extracted_glyph(tmp_path: Path) -> None:
 def test_unsupported_upload_is_rejected(tmp_path: Path) -> None:
     with TestClient(create_app(tmp_path / "data")) as client:
         response = client.post(
-            "/api/imports", files={"file": ("notes.txt", b"not an image", "text/plain")}
+            "/api/imports", data={"font_name": "en-潦草"},
+            files={"file": ("notes.txt", b"not an image", "text/plain")}
         )
         assert response.status_code == 422
         file_dir = tmp_path / "data" / "file"

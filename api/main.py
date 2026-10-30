@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 from api.router.imports import router
 from api.router.compositions import router as compositions_router
+from api.router.fonts import router as fonts_router
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +22,7 @@ def create_app(data_root: Path | None = None) -> FastAPI:
     app.state.data_root = (data_root or PROJECT_ROOT / "data").resolve()
     app.include_router(router)
     app.include_router(compositions_router)
+    app.include_router(fonts_router)
     app.mount("/static", StaticFiles(directory=PROJECT_ROOT / "frontend"),
               name="frontend")
 

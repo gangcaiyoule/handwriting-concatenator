@@ -8,6 +8,8 @@ const state = {
   busy: false,
   composing: false,
   composition: null,
+  fontName: null,
+  loadToken: 0,
 };
 
 const statusLabels = {
@@ -46,7 +48,7 @@ function setFile(file) {
     preview.textContent = "PDF";
   }
   $("selected-file").hidden = false;
-  $("upload-button").disabled = state.busy;
+  updateUploadAvailability();
   $("error-message").hidden = true;
 }
 
@@ -56,14 +58,27 @@ function clearFile() {
   state.file = null;
   $("file-input").value = "";
   $("selected-file").hidden = true;
-  $("upload-button").disabled = true;
+  updateUploadAvailability();
+}
+
+function selectedTargetName() {
+  const target = $("upload-font").value;
+  return target === "__new__" ? $("new-font-name").value.trim() : target;
+}
+
+function updateUploadAvailability() {
+  const target = $("upload-font").value;
+  $("new-font-row").hidden = target !== "__new__";
+  $("upload-button").disabled = state.busy || !state.file || !selectedTargetName();
 }
 
 function setBusy(busy) {
   state.busy = busy;
-  $("upload-button").disabled = busy || !state.file;
+  updateUploadAvailability();
   $("choose-file").disabled = busy;
   $("remove-file").disabled = busy;
+  $("upload-font").disabled = busy;
+  $("new-font-name").disabled = busy;
   $("upload-button").textContent = busy ? "正在提取字形…" : "上传并提取字形";
   $("upload-status").hidden = !busy;
   if (busy) $("status-text").textContent = "正在校正页面并逐格提取，照片可能需要十几秒。";
@@ -75,18 +90,31 @@ function showError(message) {
 }
 
 async function upload() {
-  if (!state.file || state.busy) return;
+  const fontName = selectedTargetName();
+  if (!state.file || state.busy || !fontName) return;
   setBusy(true);
   $("error-message").hidden = true;
   const body = new FormData();
+  body.append("font_name", fontName);
   body.append("file", state.file);
   try {
     const response = await fetch("/api/imports", { method: "POST", body });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.detail || "上传失败，请重试。");
-    window.localStorage.setItem("lastImportId", payload.id);
-    window.history.replaceState(null, "", `/?import=${payload.id}`);
+    const switchedFont = state.fontName !== payload.id;
+    await refreshFontList();
+    state.fontName = payload.id;
+    $("library-select").value = payload.id;
+    window.localStorage.setItem("lastFontName", payload.id);
+    if (switchedFont) {
+      hideCompositionPreview();
+      $("compose-text").value = window.localStorage.getItem(`composeText:${payload.id}`) || "";
+    }
+    window.history.replaceState(null, "", `/?font=${encodeURIComponent(payload.id)}`);
     renderResult(payload);
+    $("upload-font").value = "";
+    $("new-font-name").value = "";
+    clearFile();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     $("library").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   } catch (error) {
@@ -181,22 +209,53 @@ function renderGallery() {
 function renderResult(result) {
   state.result = result;
   state.visible = 48;
-  $("empty-overview").hidden = true;
-  $("result-overview").hidden = false;
-  $("library").hidden = false;
-  $("run-caption").textContent = "已完成提取";
+  const hasSamples = result.summary.sample_count > 0;
+  $("empty-overview").hidden = hasSamples;
+  $("result-overview").hidden = !hasSamples;
+  $("library").hidden = !hasSamples;
+  $("run-caption").textContent = hasSamples ? `已合并 ${result.upload_count} 份采集页` : "还没有上传";
   $("sample-count").textContent = result.summary.sample_count;
   $("glyph-count").textContent = result.summary.glyph_count;
   $("review-count").textContent = result.summary.review_count;
-  $("registered-image").src = result.registered_url;
-  $("registered-link").href = result.registered_url;
-  $("original-link").href = result.original_url;
-  $("manifest-link").href = `/api/imports/${result.id}/manifest`;
+  if (result.registered_url) {
+    $("registered-image").src = result.registered_url;
+    $("registered-link").href = result.registered_url;
+  }
+  if (result.original_url) $("original-link").href = result.original_url;
+  $("manifest-link").href = `/api/imports/${encodeURIComponent(result.id)}/manifest`;
   $("save-location").textContent = `data/fonts/english/${result.id}`;
-  renderGallery();
-  $("composer-font").textContent = `使用当前字形库 · ${result.id.slice(0, 8)}`;
-  if (state.composition && state.composition.font_id !== result.id) clearCompositionPreview();
+  if (hasSamples) renderGallery();
+  $("composer-font").textContent = `当前字体库 · ${result.id}`;
+  if (state.composition && state.composition.font_id !== result.id) hideCompositionPreview();
   updateComposeAvailability();
+  renderLegacy(result.legacy_imports || []);
+}
+
+function renderLegacy(ids) {
+  const list = $("legacy-list");
+  list.replaceChildren();
+  $("legacy-banner").hidden = ids.length === 0;
+  for (const id of ids) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = `导入旧字形库 ${id.slice(0, 8)}`;
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      button.textContent = "正在导入…";
+      try {
+        const response = await fetch(`/api/fonts/${encodeURIComponent(state.fontName)}/claim/${id}`, { method: "POST" });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.detail || "导入旧字形库失败");
+        renderResult(result);
+        await refreshFontList();
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = `重试导入 ${id.slice(0, 8)}`;
+        showError(error.message);
+      }
+    });
+    list.append(button);
+  }
 }
 
 function labelCharacter(character) {
@@ -216,7 +275,9 @@ function updateComposeAvailability() {
 
   let canCompose = false;
   if (!state.result) {
-    availability.textContent = "先上传采集页，或打开已有提取结果。";
+    availability.textContent = "先选择字体库，或上传到新字体库。";
+  } else if (!state.result.summary.glyph_count) {
+    availability.textContent = "先上传采集页，或导入旧字形库。";
   } else if (!characters.length) {
     availability.textContent = "粘贴要拼接的文字后，系统会检查是否有缺失的字形。";
   } else if (lineCount > 40) {
@@ -271,13 +332,17 @@ function updateComposeAvailability() {
   return canCompose;
 }
 
-function clearCompositionPreview() {
+function hideCompositionPreview() {
   state.composition = null;
   $("compose-empty").hidden = false;
   $("compose-rendered").hidden = true;
   $("compose-error").hidden = true;
-  window.localStorage.removeItem("lastCompositionId");
-  if (state.result) window.history.replaceState(null, "", `/?import=${state.result.id}`);
+}
+
+function clearCompositionPreview() {
+  hideCompositionPreview();
+  if (state.fontName) window.localStorage.removeItem(`lastCompositionId:${state.fontName}`);
+  if (state.result) window.history.replaceState(null, "", `/?font=${encodeURIComponent(state.result.id)}`);
 }
 
 function renderComposition(result) {
@@ -290,8 +355,8 @@ function renderComposition(result) {
   $("compose-download").href = result.download_url;
   $("compose-edit").href = `/editor?composition=${result.id}`;
   $("compose-render-meta").textContent = `${result.line_count} 行 · ${result.width} × ${result.height} px · 随机编号 ${result.seed}`;
-  window.localStorage.setItem("lastCompositionId", result.id);
-  window.history.replaceState(null, "", `/?import=${result.font_id}&composition=${result.id}`);
+  window.localStorage.setItem(`lastCompositionId:${result.font_id}`, result.id);
+  window.history.replaceState(null, "", `/?font=${encodeURIComponent(result.font_id)}&composition=${result.id}`);
 }
 
 async function compose() {
@@ -349,19 +414,83 @@ function openDetail(sample) {
   $("glyph-dialog").showModal();
 }
 
+async function refreshFontList() {
+  const response = await fetch("/api/fonts");
+  const fonts = await response.json();
+  if (!response.ok) throw new Error("读取字体库列表失败");
+  const currentTarget = $("upload-font").value;
+  const browsing = $("library-select");
+  browsing.replaceChildren();
+  const target = $("upload-font");
+  target.replaceChildren(new Option("请选择字体库", ""));
+  for (const font of fonts) {
+    browsing.add(new Option(`${font.name} · ${font.glyph_count} 字形`, font.name));
+    target.add(new Option(`${font.name} · ${font.glyph_count} 字形`, font.name));
+  }
+  if (!fonts.length) browsing.add(new Option("暂无字体库", ""));
+  target.add(new Option("＋ 新建字体库", "__new__"));
+  target.value = currentTarget && [...target.options].some((option) => option.value === currentTarget)
+    ? currentTarget : "";
+  if (state.fontName && fonts.some((font) => font.name === state.fontName)) browsing.value = state.fontName;
+  updateUploadAvailability();
+  return fonts;
+}
+
+async function selectFont(fontName) {
+  const token = ++state.loadToken;
+  const params = new URLSearchParams(window.location.search);
+  const requestedComposition = params.get("font") === fontName ? params.get("composition") : null;
+  try {
+    const response = await fetch(`/api/imports/${encodeURIComponent(fontName)}`);
+    const result = await response.json();
+    if (!response.ok) throw new Error(typeof result.detail === "string" ? result.detail : "无法打开字体库");
+    if (token !== state.loadToken) return;
+    hideCompositionPreview();
+    state.fontName = result.id;
+    $("library-select").value = result.id;
+    window.localStorage.setItem("lastFontName", result.id);
+    $("compose-text").value = window.localStorage.getItem(`composeText:${result.id}`) || "";
+    renderResult(result);
+    window.history.replaceState(null, "", `/?font=${encodeURIComponent(result.id)}`);
+
+    const previousComposition = requestedComposition ||
+      window.localStorage.getItem(`lastCompositionId:${result.id}`);
+    if (previousComposition) {
+      const saved = await fetch(`/api/compositions/${previousComposition}`);
+      if (token !== state.loadToken) return;
+      if (saved.ok) {
+        const composition = await saved.json();
+        if (composition.font_id === result.id) {
+          $("compose-text").value = composition.text;
+          window.localStorage.setItem(`composeText:${result.id}`, composition.text);
+          updateComposeAvailability();
+          renderComposition(composition);
+        }
+      }
+    }
+  } catch (error) {
+    if (token === state.loadToken) showError(error.message || "打开字体库失败");
+  }
+}
+
 $("choose-file").addEventListener("click", () => $("file-input").click());
 $("file-input").addEventListener("change", (event) => setFile(event.target.files[0]));
 $("remove-file").addEventListener("click", clearFile);
 $("upload-button").addEventListener("click", upload);
+$("upload-font").addEventListener("change", updateUploadAvailability);
+$("new-font-name").addEventListener("input", updateUploadAvailability);
+$("library-select").addEventListener("change", (event) => {
+  if (event.target.value) selectFont(event.target.value);
+});
 $("character-search").addEventListener("input", () => { state.visible = 48; renderGallery(); });
 $("status-filter").addEventListener("change", () => { state.visible = 48; renderGallery(); });
 $("load-more").addEventListener("click", () => { state.visible += 48; renderGallery(); });
 $("dialog-close").addEventListener("click", () => $("glyph-dialog").close());
 $("compose-button").addEventListener("click", compose);
 $("compose-reroll").addEventListener("click", compose);
-$("compose-text").value = window.localStorage.getItem("composeText") || "";
+$("compose-text").value = "";
 $("compose-text").addEventListener("input", () => {
-  window.localStorage.setItem("composeText", $("compose-text").value);
+  if (state.fontName) window.localStorage.setItem(`composeText:${state.fontName}`, $("compose-text").value);
   if (state.composition && state.composition.text !== $("compose-text").value) clearCompositionPreview();
   updateComposeAvailability();
 });
@@ -397,25 +526,9 @@ dropzone.addEventListener("drop", (event) => {
   if (!state.busy) setFile(event.dataTransfer.files[0]);
 });
 
-const previousImport = new URLSearchParams(window.location.search).get("import") ||
-  window.localStorage.getItem("lastImportId");
-if (previousImport) {
-  fetch(`/api/imports/${previousImport}`)
-    .then((response) => response.ok ? response.json() : null)
-    .then(async (result) => {
-      if (!result) return;
-      renderResult(result);
-      const previousComposition = new URLSearchParams(window.location.search).get("composition") ||
-        window.localStorage.getItem("lastCompositionId");
-      if (!previousComposition) return;
-      const response = await fetch(`/api/compositions/${previousComposition}`);
-      if (!response.ok) return;
-      const composition = await response.json();
-      if (composition.font_id !== result.id) return;
-      $("compose-text").value = composition.text;
-      window.localStorage.setItem("composeText", composition.text);
-      updateComposeAvailability();
-      renderComposition(composition);
-    })
-    .catch(() => {});
-}
+refreshFontList().then((fonts) => {
+  const requested = new URLSearchParams(window.location.search).get("font") ||
+    window.localStorage.getItem("lastFontName");
+  const first = fonts.find((font) => font.name === requested) || fonts[0];
+  if (first) selectFont(first.name);
+}).catch((error) => showError(error.message || "读取字体库失败"));

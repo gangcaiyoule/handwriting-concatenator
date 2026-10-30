@@ -483,7 +483,7 @@ async function toggleSample() {
   $("editor-toggle-sample").disabled = true;
   clearError();
   try {
-    await requestJSON(`/api/imports/${state.draft.font_id}/sample`, {
+    await requestJSON(`/api/imports/${encodeURIComponent(state.draft.font_id)}/sample`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sample_file: variant.sample_file, accepted: !variant.accepted }),
@@ -548,7 +548,7 @@ async function load() {
     state.placements = draft.placements.map((item) => ({ ...item }));
     state.variants = new Map(draft.variants.map((variant) => [variant.sample_file, variant]));
     state.saved = snapshot();
-    $("editor-back").href = `/?import=${draft.font_id}&composition=${draft.id}`;
+    $("editor-back").href = `/?font=${encodeURIComponent(draft.font_id)}&composition=${draft.id}`;
     for (let line = 0; line < draft.line_count; line++) {
       const option = document.createElement("option");
       option.value = String(line);

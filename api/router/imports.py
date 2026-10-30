@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import APIRouter, File, HTTPException, Request, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse
 
 from api.handler.imports import (
@@ -15,6 +15,7 @@ from api.handler.imports import (
     save_and_extract,
     set_sample_acceptance,
 )
+from api.handler.libraries import LibraryError
 from api.model.imports import ImportResponse, SampleAcceptanceUpdate
 
 
@@ -36,10 +37,11 @@ def template(request: Request) -> FileResponse:
 
 
 @router.post("/imports", response_model=ImportResponse, status_code=201)
-async def upload_page(request: Request, file: UploadFile = File(...)) -> ImportResponse:
+async def upload_page(request: Request, font_name: str = Form(...),
+                      file: UploadFile = File(...)) -> ImportResponse:
     try:
-        return await save_and_extract(file, request.app.state.data_root)
-    except ImportErrorMessage as exc:
+        return await save_and_extract(file, request.app.state.data_root, font_name)
+    except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
@@ -47,7 +49,7 @@ async def upload_page(request: Request, file: UploadFile = File(...)) -> ImportR
 def get_import(request: Request, run_id: str) -> ImportResponse:
     try:
         return load_result(request.app.state.data_root, run_id)
-    except ImportErrorMessage as exc:
+    except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -61,7 +63,7 @@ def update_sample(request: Request, run_id: str,
             request.app.state.data_root, run_id,
             payload.sample_file, payload.accepted,
         )
-    except ImportErrorMessage as exc:
+    except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -71,7 +73,7 @@ def update_sample(request: Request, run_id: str,
 def get_original(request: Request, run_id: str) -> FileResponse:
     try:
         return FileResponse(resolve_original(request.app.state.data_root, run_id))
-    except ImportErrorMessage as exc:
+    except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -81,7 +83,7 @@ def get_original(request: Request, run_id: str) -> FileResponse:
 def get_manifest(request: Request, run_id: str) -> FileResponse:
     try:
         result = load_result(request.app.state.data_root, run_id)
-    except ImportErrorMessage as exc:
+    except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -95,7 +97,7 @@ def get_image(request: Request, run_id: str, image_path: str) -> FileResponse:
         return FileResponse(resolve_result_image(
             request.app.state.data_root, run_id, image_path
         ))
-    except ImportErrorMessage as exc:
+    except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc

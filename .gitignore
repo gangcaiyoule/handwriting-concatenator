@@ -7,6 +7,7 @@ output/
 data/file/*
 data/fonts/english/*
 data/renders/*
+data/migrations/*
 !data/file/.gitkeep
 !data/fonts/english/.gitkeep
 docs/

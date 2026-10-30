@@ -16,6 +16,7 @@ from api.handler.compositions import (
     save_draft,
 )
 from api.handler.imports import ImportErrorMessage
+from api.handler.libraries import LibraryError
 from api.model.compositions import (
     CompositionRequest, CompositionResponse, DraftResponse, DraftUpdate,
 )
@@ -34,7 +35,7 @@ async def render_text(request: Request,
             status_code=422,
             detail={"message": "存在没有可用字形的字符，无法拼接", "missing": exc.missing},
         ) from exc
-    except (CompositionError, ImportErrorMessage) as exc:
+    except (CompositionError, ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -54,7 +55,7 @@ def get_composition(request: Request, render_id: str) -> CompositionResponse:
 def get_draft(request: Request, render_id: str) -> DraftResponse:
     try:
         return load_draft(request.app.state.data_root, render_id)
-    except (CompositionError, ImportErrorMessage) as exc:
+    except (CompositionError, ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -67,7 +68,7 @@ async def put_draft(request: Request, render_id: str,
         return await save_draft(request.app.state.data_root, render_id, payload)
     except EditConflict as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
-    except (CompositionError, ImportErrorMessage) as exc:
+    except (CompositionError, ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
