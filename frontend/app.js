@@ -119,11 +119,13 @@ async function upload() {
     }
     window.history.replaceState(null, "", `/?font=${encodeURIComponent(payload.id)}`);
     renderResult(payload);
+    if ($("upload-dialog").open) $("upload-dialog").close();
     $("upload-font").value = "";
     UI.syncPopSelect("upload-font");
     $("new-font-name").value = "";
     clearFile();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    activateSection("library");
     $("library").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   } catch (error) {
     showError(error.message || "上传失败，请检查图片后重试。");
@@ -423,8 +425,16 @@ function renderComposition(result) {
   $("compose-image-link").classList.toggle("is-transparent", result.background === "transparent");
   $("compose-download").href = result.download_url;
   $("compose-edit").href = `/editor?composition=${result.id}`;
+  $("compose-save-words").href = `/editor?composition=${result.id}#save-words`;
   $("compose-render-meta").textContent = `${result.line_count} 行 · ${result.width} × ${result.height} px · 随机编号 ${result.seed}`;
   window.localStorage.setItem(`lastCompositionId:${result.font_id}`, result.id);
+  let recent = [];
+  try { recent = JSON.parse(window.localStorage.getItem("recentCompositions") || "[]"); }
+  catch { recent = []; }
+  if (!Array.isArray(recent)) recent = [];
+  const updated = [{ id: result.id, font: result.font_id, text: result.text, time: Date.now() },
+    ...recent.filter((item) => item.id !== result.id)].slice(0, 12);
+  window.localStorage.setItem("recentCompositions", JSON.stringify(updated));
   window.history.replaceState(null, "", `/?font=${encodeURIComponent(result.font_id)}&composition=${result.id}`);
 }
 
@@ -464,7 +474,7 @@ async function compose() {
   } finally {
     state.composing = false;
     $("compose-reroll").disabled = false;
-    $("compose-button").textContent = "生成拼接预览";
+    $("compose-button").textContent = "生成拼接图";
     updateComposeAvailability();
   }
 }
@@ -573,6 +583,7 @@ async function selectFont(fontName) {
   const token = ++state.loadToken;
   const params = new URLSearchParams(window.location.search);
   const requestedComposition = params.get("font") === fontName ? params.get("composition") : null;
+  const requestedSection = window.location.hash;
   try {
     const response = await fetch(`/api/imports/${encodeURIComponent(fontName)}`);
     const result = await response.json();
@@ -588,6 +599,10 @@ async function selectFont(fontName) {
     $("compose-text").value = window.localStorage.getItem(`composeText:${result.id}`) || "";
     renderResult(result);
     window.history.replaceState(null, "", `/?font=${encodeURIComponent(result.id)}`);
+    if (requestedSection === "#library") {
+      activateSection("library");
+      $("library").scrollIntoView({ block: "start" });
+    }
 
     const previousComposition = requestedComposition ||
       window.localStorage.getItem(`lastCompositionId:${result.id}`);
@@ -610,6 +625,48 @@ async function selectFont(fontName) {
 }
 
 $("choose-file").addEventListener("click", () => $("file-input").click());
+function showUploadDialog() {
+  if (!$("upload-dialog").open) $("upload-dialog").showModal();
+  $("upload-font").focus();
+}
+function activateSection(section) {
+  document.querySelectorAll(".sidebar-nav a[href^='#']").forEach((link) => {
+    link.classList.toggle("is-active", link.getAttribute("href") === `#${section}`);
+  });
+}
+document.querySelectorAll(".sidebar-nav a[href^='#']").forEach((link) => {
+  link.addEventListener("click", () => activateSection(link.hash.slice(1)));
+});
+$("open-upload").addEventListener("click", showUploadDialog);
+$("open-upload-mobile").addEventListener("click", showUploadDialog);
+$("close-upload").addEventListener("click", () => $("upload-dialog").close());
+$("open-recents").addEventListener("click", () => {
+  const list = $("recents-list");
+  list.replaceChildren();
+  let recent = [];
+  try { recent = JSON.parse(window.localStorage.getItem("recentCompositions") || "[]"); }
+  catch { recent = []; }
+  if (!Array.isArray(recent)) recent = [];
+  if (!recent.length) {
+    const empty = document.createElement("p");
+    empty.className = "recents-empty";
+    empty.textContent = "还没有最近作品。生成拼接图后，就能从这里重新打开。";
+    list.append(empty);
+  }
+  for (const item of recent) {
+    const link = document.createElement("a");
+    link.className = "recent-item";
+    link.href = `/?font=${encodeURIComponent(item.font)}&composition=${encodeURIComponent(item.id)}`;
+    const title = document.createElement("strong");
+    title.textContent = item.text.split("\n").find((line) => line.trim())?.slice(0, 60) || "未命名拼接图";
+    const meta = document.createElement("small");
+    meta.textContent = `${item.font} · ${new Date(item.time).toLocaleString("zh-CN")}`;
+    link.append(title, meta);
+    list.append(link);
+  }
+  $("recents-dialog").showModal();
+});
+$("close-recents").addEventListener("click", () => $("recents-dialog").close());
 $("file-input").addEventListener("change", (event) => setFile(event.target.files[0]));
 $("remove-file").addEventListener("click", clearFile);
 $("upload-button").addEventListener("click", upload);

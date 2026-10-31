@@ -756,6 +756,10 @@ async function load() {
     $("editor-zoom").value = "fit";
     UI.syncPopSelect("editor-zoom");
     renderAll();
+    if (location.hash === "#save-words") {
+      history.replaceState(null, "", location.pathname + location.search);
+      await chooseWords();
+    }
   } catch (error) {
     $("editor-loading").hidden = true;
     showError(error.message);
