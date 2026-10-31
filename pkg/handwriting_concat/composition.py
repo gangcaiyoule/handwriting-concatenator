@@ -14,6 +14,8 @@ from statistics import median
 
 from PIL import Image, ImageDraw
 
+from .marks import STRIKE_CHARACTERS
+
 
 MAX_TEXT_LENGTH = 2000
 MAX_LINES = 40
@@ -101,12 +103,37 @@ def parse_strikethrough(text: str) -> tuple[str, list[dict]]:
     return "\n".join(lines), spans
 
 
-def draw_strikethrough(image: Image.Image, placements: list[dict],
-                       spans: list[dict], cell_height_px: int) -> None:
-    """Draw over the current placement geometry, including reused word PNGs."""
+def choose_strike_samples(font_dir: str | Path, spans: list[dict],
+                          seed: int) -> None:
+    """Assign available handwritten stroke images without repeating a pool early."""
     if not spans:
         return
-    draw = ImageDraw.Draw(image, "RGBA")
+    library = load_library(font_dir)
+    samples = [sample for mark in STRIKE_CHARACTERS for sample in library.get(mark, [])]
+    if not samples:
+        raise CompositionError("当前字体库没有手写删除线样本，请先上传新版 A4 模板并填写末行的横线或斜线格")
+    rng = random.Random(seed ^ 0x9E3779B9)
+    pool = samples.copy()
+    rng.shuffle(pool)
+    for span in spans:
+        if not pool:
+            pool = samples.copy()
+            rng.shuffle(pool)
+        sample = pool.pop()
+        span["mark_character"] = sample["character"]
+        span["sample_file"] = sample["glyph_file"]
+
+
+def draw_strikethrough(image: Image.Image, placements: list[dict],
+                       spans: list[dict], cell_height_px: int,
+                       font_dir: str | Path | None = None) -> None:
+    """Overlay a saved handwritten stroke across each marked word."""
+    if not spans:
+        return
+    root = Path(font_dir).resolve() if font_dir is not None else None
+    samples = ({sample["glyph_file"]: sample
+                for variants in load_library(root, include_disabled=True).values()
+                for sample in variants} if root is not None else {})
     for span in spans:
         covered = [item for item in placements
                    if item["line"] == span["line"] and
@@ -117,8 +144,24 @@ def draw_strikethrough(image: Image.Image, placements: list[dict],
         left = min(item["x"] for item in covered)
         right = max(item["x"] + item["width"] for item in covered)
         y = round(median(item["y"] + item["height"] * 0.52 for item in covered))
-        draw.line((left, y, right, y), fill=(28, 28, 28, 230),
-                  width=max(2, round(cell_height_px * 0.055)))
+        sample_file = span.get("sample_file")
+        if sample_file:
+            sample = samples.get(sample_file)
+            if sample is None or sample["character"] not in STRIKE_CHARACTERS:
+                raise CompositionError("找不到此拼接图使用的手写删除线样本")
+            glyph, _ = _load_scaled_glyph(sample, root, cell_height_px)
+            ink_box = glyph.getchannel("A").getbbox()
+            if ink_box is None:
+                raise CompositionError("手写删除线样本没有可见笔迹")
+            glyph = glyph.crop(ink_box)
+            height = min(glyph.height, max(3, round(cell_height_px * 0.7)))
+            mark = glyph.resize((max(1, right - left), height), Image.Resampling.LANCZOS)
+            image.alpha_composite(mark, (left, max(0, y - height // 2)))
+        else:
+            # Older drafts saved before handwritten mark samples existed.
+            draw = ImageDraw.Draw(image, "RGBA")
+            draw.line((left, y, right, y), fill=(28, 28, 28, 230),
+                      width=max(2, round(cell_height_px * 0.055)))
 
 
 def _glyph_path(font_dir: Path, relative: str) -> Path:

@@ -26,8 +26,10 @@ def test_template_has_four_unique_markers_and_expected_samples() -> None:
     layout = load_template()
     assert layout.version == 2
     assert {marker.id for marker in layout.markers} == {11, 17, 23, 29}
-    assert sum(cell.write for cell in layout.cells) == 387
+    assert sum(cell.write for cell in layout.cells) == 395
     assert any(cell.character == "i" and cell.write for cell in layout.cells)
+    assert sum(cell.character == "→" and cell.write for cell in layout.cells) == 4
+    assert sum(cell.character in {"\ue000", "\ue001"} for cell in layout.cells) == 4
 
 
 @pytest.mark.skipif(shutil.which("pdftoppm") is None or
@@ -35,10 +37,40 @@ def test_template_has_four_unique_markers_and_expected_samples() -> None:
                     reason="Poppler is needed to render the printed template")
 def test_blank_template_does_not_create_false_glyphs(tmp_path: Path) -> None:
     report = extract_page(TEMPLATE_PDF, tmp_path / "blank", pdf_dpi=160)
-    assert report.sample_count == 387
+    assert report.sample_count == 395
     assert report.glyph_count == 0
     manifest = json.loads(report.manifest_path.read_text(encoding="utf-8"))
     assert all(sample["flags"] == ["empty"] for sample in manifest["samples"])
+
+
+@pytest.mark.skipif(shutil.which("pdftoppm") is None or
+                    shutil.which("pdfinfo") is None,
+                    reason="Poppler is needed to render the printed template")
+def test_arrow_and_handwritten_strokes_extract_from_new_sheet(tmp_path: Path) -> None:
+    layout = load_template()
+    page = load_image(TEMPLATE_PDF, pdf_dpi=160)
+    for character in ("→", "\ue000", "\ue001"):
+        cell = next(cell for cell in layout.cells if cell.character == character)
+        left, top, right, bottom = mm_bbox_to_px(cell.safe_bbox_mm, page.shape, layout)
+        middle = (top + bottom) // 2
+        if character == "→":
+            cv2.arrowedLine(page, (left + 5, middle), (right - 5, middle),
+                            (0, 0, 0), 2, tipLength=0.25)
+        elif character == "\ue000":
+            cv2.line(page, (left + 7, middle + 1), (right - 7, middle - 1),
+                     (0, 0, 0), 3)
+        else:
+            cv2.line(page, (left + 7, bottom - 7), (right - 7, top + 7),
+                     (0, 0, 0), 3)
+    source = tmp_path / "filled.png"
+    Image.fromarray(page).save(source)
+    report = extract_page(source, tmp_path / "marks")
+    manifest = json.loads(report.manifest_path.read_text(encoding="utf-8"))
+    extracted = {item["character"]: item for item in manifest["samples"]
+                 if item["glyph_file"]}
+    assert set(extracted) == {"→", "\ue000", "\ue001"}
+    assert all((report.output_dir / item["glyph_file"]).is_file()
+               for item in extracted.values())
 
 
 def test_perspective_and_rotation_keep_detached_ink_in_one_glyph(
@@ -88,7 +120,7 @@ def test_perspective_and_rotation_keep_detached_ink_in_one_glyph(
     Image.fromarray(transformed).save(input_file)
 
     report = extract_page(input_file, tmp_path / "result")
-    assert report.sample_count == 387
+    assert report.sample_count == 395
     assert report.glyph_count == 2
     manifest = json.loads(report.manifest_path.read_text(encoding="utf-8"))
     glyphs = {sample["character"]: sample for sample in manifest["samples"]

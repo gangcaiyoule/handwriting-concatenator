@@ -14,6 +14,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+template = [
+    "reportlab>=4,<5",
+]
 web = [
     "fastapi>=0.115,<1",
     "uvicorn>=0.32,<1",

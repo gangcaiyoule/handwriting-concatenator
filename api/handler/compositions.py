@@ -11,12 +11,14 @@ from PIL import Image
 from starlette.concurrency import run_in_threadpool
 
 from handwriting_concat.composition import (
-    CompositionError, CompositionOptions, WORD_PATTERN, compose_text, draw_strikethrough,
+    CompositionError, CompositionOptions, WORD_PATTERN, choose_strike_samples,
+    compose_text, draw_strikethrough,
     parse_strikethrough, load_library,
     load_word_library, word_spans,
     render_edited,
 )
 from handwriting_concat.editing import align_baselines_exact, apply_edit_operations
+from handwriting_concat.marks import STRIKE_CHARACTERS
 
 from api.handler.imports import checked_run_id
 from api.handler.libraries import library_root
@@ -70,6 +72,7 @@ def load_draft(data_root: Path, render_id: str) -> DraftResponse:
     font_id = font_root.name
     library = load_library(font_root, include_disabled=True)
     used_characters = {char for char in data["text"] if char not in {" ", "\n"}}
+    used_characters.update(STRIKE_CHARACTERS if data.get("strikes") else ())
     variants: list[dict] = []
     for character, samples in library.items():
         if character not in used_characters:
@@ -78,6 +81,11 @@ def load_draft(data_root: Path, render_id: str) -> DraftResponse:
             relative = sample["glyph_file"]
             with Image.open(font_root / relative) as image:
                 image_width, image_height = image.size
+                if character in STRIKE_CHARACTERS:
+                    ink_box = image.getchannel("A").getbbox()
+                    if ink_box is not None:
+                        image_width = ink_box[2] - ink_box[0]
+                        image_height = ink_box[3] - ink_box[1]
             ratio = data["cell_height_px"] / sample["crop_size_px"][1]
             variants.append({
                 "kind": "glyph",
@@ -228,7 +236,8 @@ async def save_draft(data_root: Path, render_id: str,
         render_edited, font_root, placements, data["cell_height_px"],
         data["background"], (data["width"], data["height"]),
     )
-    draw_strikethrough(image, placements, data.get("strikes", []), data["cell_height_px"])
+    draw_strikethrough(image, placements, data.get("strikes", []),
+                       data["cell_height_px"], font_root)
     root = path.parent
     image_tmp = root / "composition.png.tmp"
     manifest_tmp = root / "manifest.json.tmp"
@@ -259,7 +268,9 @@ async def create_composition(data_root: Path,
     )
     visible_text, strikes = parse_strikethrough(request.text)
     rendered = await run_in_threadpool(compose_text, visible_text, font_dir, options)
-    draw_strikethrough(rendered.image, rendered.placements, strikes, options.cell_height_px)
+    choose_strike_samples(font_dir, strikes, rendered.seed)
+    draw_strikethrough(rendered.image, rendered.placements, strikes,
+                       options.cell_height_px, font_dir)
     render_id = uuid4().hex
     root = _render_root(data_root, render_id)
     root.mkdir(parents=True, exist_ok=False)

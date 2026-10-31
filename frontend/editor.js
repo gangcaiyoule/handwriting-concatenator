@@ -103,7 +103,11 @@ async function requestJSON(url, options) {
 
 function markState() {
   if (!state.draft) return;
-  $("editor-save-state").textContent = state.saving ? "保存中…" : isDirty() ? "尚未保存" : "已保存";
+  const saveState = $("editor-save-state");
+  saveState.textContent = state.saving ? "保存中…" : isDirty() ? "尚未保存" : "已保存";
+  saveState.classList.toggle("is-busy", state.saving);
+  saveState.classList.toggle("is-dirty", !state.saving && isDirty());
+  saveState.classList.toggle("is-saved", !state.saving && !isDirty());
   $("editor-save").disabled = state.saving || !isDirty();
   $("editor-export").disabled = state.saving;
   $("editor-save-words").disabled = state.saving;
@@ -264,12 +268,16 @@ function renderStrikes() {
     const left = Math.min(...covered.map((item) => item.x));
     const right = Math.max(...covered.map((item) => item.x + item.width));
     const y = Math.round(median(covered.map((item) => item.y + item.height * 0.52)));
-    const line = document.createElement("div");
+    const variant = span.sample_file ? variantFor(span.sample_file) : null;
+    const line = document.createElement(variant ? "img" : "div");
     line.className = "edit-strike";
+    if (variant) { line.src = variant.image_url; line.alt = ""; }
     line.style.left = `${left}px`;
-    line.style.top = `${y}px`;
+    const height = variant ? Math.min(variant.height, Math.max(3, Math.round(state.draft.cell_height_px * 0.7)))
+      : Math.max(2, Math.round(state.draft.cell_height_px * 0.055));
+    line.style.top = `${variant ? Math.max(0, y - Math.floor(height / 2)) : y}px`;
     line.style.width = `${right - left}px`;
-    line.style.height = `${Math.max(2, Math.round(state.draft.cell_height_px * 0.055))}px`;
+    line.style.height = `${height}px`;
     stage.append(line);
   }
 }
@@ -308,6 +316,7 @@ function renderPanel() {
   const isWord = item.kind === "word";
   $("editor-character-meta").textContent = `第 ${item.line + 1} 行 · 第 ${item.column + 1} 位 · ${isWord ? "整词" : "字母"}`;
   $("editor-line").value = String(item.line);
+  UI.syncPopSelect("editor-line");
   const variants = [...state.variants.values()].filter((variant) =>
     variant.character === item.character && variant.kind === (isWord ? "word" : "glyph"));
   const list = $("editor-variants");
@@ -733,14 +742,19 @@ async function load() {
     const returnUrl = `/?font=${encodeURIComponent(draft.font_id)}&composition=${draft.id}`;
     $("editor-back").href = returnUrl;
     $("editor-return").href = returnUrl;
+    $("editor-document-meta").textContent = `${draft.font_id} · ${draft.line_count} 行`;
     for (let line = 0; line < draft.line_count; line++) {
       const option = document.createElement("option");
       option.value = String(line);
       option.textContent = `第 ${line + 1} 行`;
       $("editor-line").append(option);
     }
+    UI.syncPopSelect("editor-line");
     $("editor-loading").hidden = true;
     $("editor-workspace").hidden = false;
+    state.zoom = Math.max(0.1, Math.min(2, ($("editor-viewport").clientWidth - 64) / stageSize()[0]));
+    $("editor-zoom").value = "fit";
+    UI.syncPopSelect("editor-zoom");
     renderAll();
   } catch (error) {
     $("editor-loading").hidden = true;
@@ -858,6 +872,7 @@ $("editor-fit").addEventListener("click", () => {
   const width = stageSize()[0];
   state.zoom = Math.max(0.1, Math.min(2, ($("editor-viewport").clientWidth - 64) / width));
   $("editor-zoom").value = "fit";
+  UI.syncPopSelect("editor-zoom");
   applyZoom();
 });
 for (const field of ["x", "y"]) {

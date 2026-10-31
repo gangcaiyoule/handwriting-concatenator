@@ -20,6 +20,7 @@ const statusLabels = {
   low_contrast: "笔迹对比度低",
   suspected_mismatch: "字符可能写错",
 };
+const markLabels = { "\uE000": "横删除线", "\uE001": "斜删除线" };
 
 function formatBytes(size) {
   if (size >= 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(1)} MB`;
@@ -80,6 +81,7 @@ function setBusy(busy) {
   $("choose-file").disabled = busy;
   $("remove-file").disabled = busy;
   $("upload-font").disabled = busy;
+  UI.syncPopSelect("upload-font");
   $("new-font-name").disabled = busy;
   $("upload-button").textContent = busy ? "正在提取字形…" : "上传并提取字形";
   $("upload-status").hidden = !busy;
@@ -107,6 +109,9 @@ async function upload() {
     await refreshFontList();
     state.fontName = payload.id;
     $("library-select").value = payload.id;
+    $("mobile-library-select").value = payload.id;
+    UI.syncPopSelect("library-select");
+    UI.syncPopSelect("mobile-library-select");
     window.localStorage.setItem("lastFontName", payload.id);
     if (switchedFont) {
       hideCompositionPreview();
@@ -115,6 +120,7 @@ async function upload() {
     window.history.replaceState(null, "", `/?font=${encodeURIComponent(payload.id)}`);
     renderResult(payload);
     $("upload-font").value = "";
+    UI.syncPopSelect("upload-font");
     $("new-font-name").value = "";
     clearFile();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -151,7 +157,8 @@ function filteredSamples() {
   const filter = $("status-filter").value;
   return sortedSamples(state.result.samples).filter((sample) => {
     const matchesCharacter = !query ||
-      (query.length === 1 ? sample.character === query : sample.codepoint.toUpperCase().includes(query.toUpperCase()));
+      (query.length === 1 ? sample.character === query : sample.codepoint.toUpperCase().includes(query.toUpperCase())) ||
+      (markLabels[sample.character] || "").includes(query);
     const status = sampleState(sample);
     const matchesStatus = filter === "all" ||
       (filter === "ready" && status === "ready") ||
@@ -166,7 +173,7 @@ function makeGlyphCard(sample) {
   const card = document.createElement("button");
   card.type = "button";
   card.className = "glyph-card";
-  card.setAttribute("aria-label", `查看字符 ${sample.character} 的第 ${sample.occurrence} 个样本`);
+  card.setAttribute("aria-label", `查看字符 ${labelCharacter(sample.character)} 的第 ${sample.occurrence} 个样本`);
   card.addEventListener("click", () => openDetail(sample));
 
   const imageBox = document.createElement("span");
@@ -186,7 +193,7 @@ function makeGlyphCard(sample) {
   const info = document.createElement("span");
   info.className = "glyph-info";
   const character = document.createElement("strong");
-  character.textContent = sample.character;
+  character.textContent = markLabels[sample.character] || sample.character;
   const number = document.createElement("small");
   number.textContent = `样本 ${sample.occurrence}`;
   info.append(character, number);
@@ -262,6 +269,7 @@ function renderLegacy(ids) {
 }
 
 function labelCharacter(character) {
+  if (markLabels[character]) return markLabels[character];
   if (character === "\t") return "Tab（制表符）";
   if (character === "\u00a0") return "不换行空格";
   return character;
@@ -291,6 +299,7 @@ function visibleComposeText(source) {
 function updateComposeAvailability() {
   const parsed = visibleComposeText($("compose-text").value);
   const text = parsed.text || "";
+  const strikeCount = [...$("compose-text").value.matchAll(/~~[A-Za-z]+~~/g)].length;
   const characters = [...text].filter((char) => char !== " " && char !== "\n");
   const fallbackCharacters = [];
   let wholeWords = 0;
@@ -322,6 +331,10 @@ function updateComposeAvailability() {
     availability.textContent = "先上传采集页，或导入旧字形库。";
   } else if (!characters.length) {
     availability.textContent = "粘贴要拼接的文字后，系统会检查是否有缺失的字形。";
+  } else if (strikeCount && !state.result.samples.some((sample) =>
+    markLabels[sample.character] && sample.glyph_url && sample.accepted !== false)) {
+    availability.textContent = "当前字体库缺少手写删除线，请打印新版模板，在末行宽格写横线或斜线后上传。";
+    availability.classList.add("is-error");
   } else if (lineCount > 40) {
     availability.textContent = "最多输入 40 行，请减少换行。";
     availability.classList.add("is-error");
@@ -389,6 +402,20 @@ function clearCompositionPreview() {
 
 function renderComposition(result) {
   state.composition = result;
+  for (const [id, value, output, format] of [
+    ["compose-size", result.cell_height_px, "size-value", (v) => `${v} px`],
+    ["compose-jitter", result.spacing_jitter == null ? null : Math.round(result.spacing_jitter * 100), "jitter-value", (v) => `${v}%`],
+    ["compose-line-height", result.line_height, "line-height-value", (v) => Number(v).toFixed(2)],
+  ]) {
+    if (value != null) {
+      $(id).value = String(value);
+      $(output).textContent = format(value);
+    }
+  }
+  if (result.background) {
+    $("compose-background").value = result.background;
+    UI.syncPopSelect("compose-background");
+  }
   $("compose-empty").hidden = true;
   $("compose-rendered").hidden = false;
   $("compose-image").src = result.image_url;
@@ -448,7 +475,7 @@ function openDetail(sample) {
   $("dialog-toggle-sample").hidden = !sample.sample_file;
   $("dialog-delete-sample").hidden = !sample.sample_file;
   $("dialog-toggle-sample").textContent = sample.accepted === false ? "重新启用此版本" : "停用此版本";
-  $("dialog-title").textContent = `${sample.character} · 样本 ${sample.occurrence}`;
+  $("dialog-title").textContent = `${labelCharacter(sample.character)} · 样本 ${sample.occurrence}`;
   $("dialog-crop").src = sample.original_crop_url;
   const glyph = $("dialog-glyph");
   glyph.hidden = !sample.glyph_url;
@@ -465,10 +492,10 @@ async function manageDetailSample(action) {
   const sample = state.detailSample;
   if (!sample || (action !== "delete-character" && !sample.sample_file) ||
       state.managingSample || !state.result) return;
-  if (action === "delete" && !window.confirm(`确定从 ${state.result.id} 字库删除 ${sample.character} 的样本 ${sample.occurrence}？旧拼接图会保留，之后生成不再使用它。`)) return;
+  if (action === "delete" && !await UI.confirm({ title: "删除这个字形版本？", message: `确定从 ${state.result.id} 字库删除 ${labelCharacter(sample.character)} 的样本 ${sample.occurrence}？旧拼接图会保留，之后生成不再使用它。`, confirmText: "删除版本", danger: true })) return;
   if (action === "delete-character") {
     const count = state.result.samples.filter((item) => item.character === sample.character).length;
-    if (!window.confirm(`确定从 ${state.result.id} 字库删除 ${sample.character} 的全部 ${count} 个样本？旧拼接图会保留，之后生成不再使用它们。`)) return;
+    if (!await UI.confirm({ title: "删除这个字符的全部版本？", message: `确定从 ${state.result.id} 字库删除 ${labelCharacter(sample.character)} 的全部 ${count} 个样本？旧拼接图会保留，之后生成不再使用它们。`, confirmText: "删除全部版本", danger: true })) return;
   }
   state.managingSample = true;
   $("dialog-action-error").hidden = true;
@@ -515,17 +542,29 @@ async function refreshFontList() {
   const currentTarget = $("upload-font").value;
   const browsing = $("library-select");
   browsing.replaceChildren();
+  const mobileBrowsing = $("mobile-library-select");
+  mobileBrowsing.replaceChildren();
   const target = $("upload-font");
   target.replaceChildren(new Option("请选择字体库", ""));
   for (const font of fonts) {
     browsing.add(new Option(`${font.name} · ${font.glyph_count} 字形`, font.name));
+    mobileBrowsing.add(new Option(`${font.name} · ${font.glyph_count} 字形`, font.name));
     target.add(new Option(`${font.name} · ${font.glyph_count} 字形`, font.name));
   }
-  if (!fonts.length) browsing.add(new Option("暂无字体库", ""));
+  if (!fonts.length) {
+    browsing.add(new Option("暂无字体库", ""));
+    mobileBrowsing.add(new Option("暂无字体库", ""));
+  }
   target.add(new Option("＋ 新建字体库", "__new__"));
   target.value = currentTarget && [...target.options].some((option) => option.value === currentTarget)
     ? currentTarget : "";
-  if (state.fontName && fonts.some((font) => font.name === state.fontName)) browsing.value = state.fontName;
+  if (state.fontName && fonts.some((font) => font.name === state.fontName)) {
+    browsing.value = state.fontName;
+    mobileBrowsing.value = state.fontName;
+  }
+  UI.syncPopSelect("library-select");
+  UI.syncPopSelect("mobile-library-select");
+  UI.syncPopSelect("upload-font");
   updateUploadAvailability();
   return fonts;
 }
@@ -542,6 +581,9 @@ async function selectFont(fontName) {
     hideCompositionPreview();
     state.fontName = result.id;
     $("library-select").value = result.id;
+    $("mobile-library-select").value = result.id;
+    UI.syncPopSelect("library-select");
+    UI.syncPopSelect("mobile-library-select");
     window.localStorage.setItem("lastFontName", result.id);
     $("compose-text").value = window.localStorage.getItem(`composeText:${result.id}`) || "";
     renderResult(result);
@@ -574,6 +616,9 @@ $("upload-button").addEventListener("click", upload);
 $("upload-font").addEventListener("change", updateUploadAvailability);
 $("new-font-name").addEventListener("input", updateUploadAvailability);
 $("library-select").addEventListener("change", (event) => {
+  if (event.target.value) selectFont(event.target.value);
+});
+$("mobile-library-select").addEventListener("change", (event) => {
   if (event.target.value) selectFont(event.target.value);
 });
 $("character-search").addEventListener("input", () => { state.visible = 48; renderGallery(); });

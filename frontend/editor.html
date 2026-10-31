@@ -1,142 +1,45 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ffffff" />
-    <title>编辑拼接文字 · 手写字拼接器</title>
-    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <link rel="stylesheet" href="/static/editor.css" />
-    <script src="/static/editor.js" defer></script>
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="editor-shell editor-header">
-        <a class="brand" id="editor-back" href="/" aria-label="返回拼接页面">
-          <span class="brand-mark" aria-hidden="true">字</span>
-          <span>手写字拼接器</span>
-        </a>
-        <a id="editor-return" class="editor-return" href="/">← 返回主界面</a>
-      </div>
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f8fc" /><title>编辑拼接结果 · 手写字拼接器</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/components.css?v=4" /><link rel="stylesheet" href="/static/editor.css?v=4" />
+  <script src="/static/components.js?v=4" defer></script><script src="/static/editor.js?v=4" defer></script>
+</head>
+<body class="editor-page">
+  <aside class="editor-rail" aria-label="主导航">
+    <a class="rail-brand" href="/" aria-label="返回拼接工作台"><svg class="ui-icon ui-icon--lg"><use href="/static/icons.svg#edit-01"></use></svg></a>
+    <nav><a class="is-active" href="#editor-workspace" aria-label="编辑画布" title="编辑画布"><svg class="ui-icon"><use href="/static/icons.svg#edit-01"></use></svg></a><a href="/" aria-label="拼接工作台" title="拼接工作台"><svg class="ui-icon"><use href="/static/icons.svg#dashboard-square-01"></use></svg></a><a href="/#library" aria-label="字形库" title="字形库"><svg class="ui-icon"><use href="/static/icons.svg#grid-view"></use></svg></a></nav>
+  </aside>
+  <main class="editor-shell">
+    <header class="editor-header">
+      <div class="editor-title"><a class="editor-back-icon" id="editor-back" href="/" aria-label="返回拼接页面"><svg class="ui-icon"><use href="/static/icons.svg#arrow-left-01"></use></svg></a><h1>编辑拼接结果</h1><span id="editor-document-meta" class="editor-document-meta"></span></div>
+      <a id="editor-return" class="editor-return" href="/">返回主界面</a>
+      <div class="editor-save-actions"><span id="editor-save-state" class="ui-status" role="status" aria-live="polite">正在加载…</span><button id="editor-save" class="ui-btn" type="button" disabled>保存编辑</button><button id="editor-save-words" class="ui-btn" type="button" disabled>挑选词存入词库</button><button id="editor-export" class="ui-btn ui-btn--primary" type="button" disabled><svg class="ui-icon ui-icon--sm"><use href="/static/icons.svg#download-01"></use></svg>下载 PNG</button></div>
     </header>
-
-    <main class="editor-shell">
-      <div class="editor-title-row">
-        <div>
-          <p class="editor-overline">逐字调整</p>
-          <h1>编辑拼接结果</h1>
-          <p class="editor-intro">点击字母或整词调整位置；选中整词后可拆成字母重新拼接。Shift 点击连选，Ctrl 点击增减，或从画布空白处拖动框选。</p>
+    <p id="editor-error" class="error-message editor-banner" role="alert" hidden></p><p id="editor-word-status" class="editor-word-status editor-banner" role="status" hidden></p>
+    <div id="editor-loading" class="editor-loading">正在读取字形和编辑草稿…</div>
+    <div id="editor-workspace" class="editor-workspace" hidden>
+      <section class="editor-main" aria-label="拼接画布">
+        <div class="editor-toolbar">
+          <div class="editor-toolbar-group"><button id="editor-undo" class="ui-btn ui-btn--quiet" type="button" disabled><svg class="ui-icon ui-icon--sm"><use href="/static/icons.svg#undo"></use></svg>撤销</button><button id="editor-redo" class="ui-btn ui-btn--quiet" type="button" disabled><svg class="ui-icon ui-icon--sm"><use href="/static/icons.svg#redo"></use></svg>重做</button><span class="editor-toolbar-divider" aria-hidden="true"></span><button id="editor-align" class="ui-btn ui-btn--quiet" type="button"><svg class="ui-icon ui-icon--sm"><use href="/static/icons.svg#align-bottom"></use></svg>轻度对齐基线</button></div>
+          <div class="editor-toolbar-group"><label class="editor-guide-toggle"><input id="editor-guides" type="checkbox" checked />显示基线</label><button id="editor-fit" class="ui-btn ui-btn--quiet" type="button">适合宽度</button><label class="sr-only" for="editor-zoom">画布缩放</label><select id="editor-zoom" data-popup aria-label="画布缩放"><option value="fit" selected>适合宽度</option><option value="0.25">25%</option><option value="0.5">50%</option><option value="0.75">75%</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></div>
         </div>
-        <div class="editor-save-actions">
-          <span id="editor-save-state" role="status" aria-live="polite">正在加载…</span>
-          <button id="editor-save" class="editor-secondary" type="button" disabled>保存编辑</button>
-          <button id="editor-save-words" class="editor-secondary" type="button" disabled>挑选词存入词库</button>
-          <button id="editor-export" class="editor-primary" type="button" disabled>下载 PNG</button>
+        <div id="editor-viewport" class="editor-viewport" tabindex="0" aria-label="可滚动的拼接画布"><div id="editor-stage-wrap"><div id="editor-stage"></div></div></div>
+        <p class="editor-canvas-help"><svg class="ui-icon ui-icon--sm"><use href="/static/icons.svg#file-02"></use></svg>按住 Shift 可连选，按住 Ctrl 可增减选中；方向键微调位置，空白处拖动可框选。</p>
+      </section>
+      <aside class="editor-panel" aria-label="编辑属性">
+        <div id="editor-no-selection" class="editor-panel-empty"><svg class="ui-icon ui-icon--lg"><use href="/static/icons.svg#edit-01"></use></svg><strong>选择字母或整词</strong><p>点击画布中的字形，查看其他版本并调整位置、大小和间距。</p></div>
+        <div id="editor-selection" hidden><div class="editor-panel-heading"><div><small id="editor-character-meta"></small><h2 id="editor-character"></h2></div><button id="editor-deselect" class="ui-modal__close" type="button" aria-label="取消选择">×</button></div>
+          <p class="editor-panel-label">字形版本</p><div id="editor-variants" class="editor-variants"></div><button id="editor-toggle-sample" class="editor-danger-link" type="button"></button><button id="editor-break-word" class="editor-break-word" type="button" hidden>拆成字母重新拼接</button><p id="editor-sample-note" class="editor-panel-note">停用后，当前草稿中使用该版本的字母会自动换成可用版本。</p>
+          <div class="editor-control-group"><h3>位置与大小</h3><div class="editor-number-grid"><label>横向位置 <span><input id="editor-x" type="number" min="0" max="12000" step="1" />px</span></label><label>纵向位置 <span><input id="editor-y" type="number" min="0" max="12000" step="1" />px</span></label><label>大小 <span><input id="editor-scale" type="number" min="50" max="150" step="1" />%</span></label><label>字前间距 <span><input id="editor-gap" type="number" min="-100" max="300" step="1" />px</span></label></div></div>
         </div>
-      </div>
-
-      <p id="editor-error" class="error-message" role="alert" hidden></p>
-      <p id="editor-word-status" class="editor-word-status" role="status" hidden></p>
-      <div id="editor-loading" class="editor-loading">正在读取字形和编辑草稿…</div>
-      <div id="editor-workspace" class="editor-workspace" hidden>
-        <section class="editor-main" aria-label="拼接画布">
-          <div class="editor-toolbar">
-            <div class="editor-toolbar-group">
-              <button id="editor-undo" type="button" disabled>撤销</button>
-              <button id="editor-redo" type="button" disabled>重做</button>
-              <span class="editor-toolbar-divider" aria-hidden="true"></span>
-              <button id="editor-align" type="button">轻度对齐基线</button>
-            </div>
-            <div class="editor-toolbar-group">
-              <label class="editor-guide-toggle"><input id="editor-guides" type="checkbox" checked /> 显示基线</label>
-              <button id="editor-fit" type="button">适合宽度</button>
-              <label for="editor-zoom">缩放</label>
-              <select id="editor-zoom" aria-label="画布缩放">
-                <option value="fit">适合宽度</option>
-                <option value="0.25">25%</option>
-                <option value="0.5">50%</option>
-                <option value="0.75">75%</option>
-                <option value="1" selected>100%</option>
-                <option value="1.5">150%</option>
-                <option value="2">200%</option>
-              </select>
-            </div>
-          </div>
-          <div id="editor-viewport" class="editor-viewport" tabindex="0" aria-label="可滚动的拼接画布">
-            <div id="editor-stage-wrap"><div id="editor-stage"></div></div>
-          </div>
-          <p class="editor-canvas-help">画布可横向滚动。Shift 点击连选，Ctrl 点击增减，空白处拖动框选。方向键移动选区 1 px，按住 Shift 移动 10 px；Esc 清除选择，Ctrl+Z 撤销。</p>
-        </section>
-
-        <aside class="editor-panel" aria-label="编辑属性">
-          <div id="editor-no-selection" class="editor-panel-empty">
-            <strong>选择字母或整词</strong>
-            <p>点击画布中的字形，查看其他版本并调整位置、大小和间距。</p>
-          </div>
-          <div id="editor-selection" hidden>
-            <div class="editor-panel-heading">
-              <div><small id="editor-character-meta"></small><h2 id="editor-character"></h2></div>
-              <button id="editor-deselect" type="button" aria-label="取消选择">×</button>
-            </div>
-            <p class="editor-panel-label">选择手写版本</p>
-            <div id="editor-variants" class="editor-variants"></div>
-            <button id="editor-toggle-sample" class="editor-danger-link" type="button"></button>
-            <button id="editor-break-word" class="editor-break-word" type="button" hidden>拆成字母重新拼接</button>
-            <p id="editor-sample-note" class="editor-panel-note">停用后，当前草稿中使用该版本的字母会自动换成可用版本。</p>
-
-            <div class="editor-control-group">
-              <h3>位置与大小</h3>
-              <div class="editor-number-grid">
-                <label>横向位置 <input id="editor-x" type="number" min="0" max="12000" step="1" /></label>
-                <label>纵向位置 <input id="editor-y" type="number" min="0" max="12000" step="1" /></label>
-                <label>大小 % <input id="editor-scale" type="number" min="50" max="150" step="1" /></label>
-                <label>字前间距 <input id="editor-gap" type="number" min="-100" max="300" step="1" /></label>
-              </div>
-            </div>
-          </div>
-          <div id="editor-group-selection" hidden>
-            <div class="editor-panel-heading">
-              <div><small>批量调整</small><h2>已选 <span id="editor-group-count">0</span> 项</h2></div>
-              <button id="editor-clear-group" type="button" aria-label="清除选择">×</button>
-            </div>
-            <p class="editor-panel-note">拖动任一选中字形，整组会保持内部间距一起移动。方向键也可微调。</p>
-            <div class="editor-control-group">
-              <h3>整组位置</h3>
-              <div class="editor-number-grid">
-                <label>左边界 <input id="editor-group-x" type="number" min="0" max="12000" step="1" /></label>
-                <label>上边界 <input id="editor-group-y" type="number" min="0" max="12000" step="1" /></label>
-              </div>
-            </div>
-          </div>
-          <div class="editor-control-group editor-line-controls">
-            <h3>整行位置</h3>
-            <label for="editor-line">选择行</label>
-            <select id="editor-line"></select>
-            <div class="editor-line-buttons">
-              <button id="editor-line-up" type="button">上移 4 px</button>
-              <button id="editor-line-down" type="button">下移 4 px</button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </main>
-    <dialog id="editor-words-dialog" class="editor-words-dialog" aria-labelledby="editor-words-title">
-      <div class="editor-words-heading">
-        <div><p>完成编辑后</p><h2 id="editor-words-title">选择要保存的词</h2></div>
-        <button id="editor-words-close" type="button" aria-label="关闭">×</button>
-      </div>
-      <p>只保存勾选的词。每个出现位置可单独选择；以后拼接相同词时会优先使用整词图片。</p>
-      <div class="editor-words-select">
-        <button id="editor-words-toggle-all" type="button">取消全选</button>
-        <span id="editor-words-selected-count" aria-live="polite"></span>
-      </div>
-      <div id="editor-words-list" class="editor-words-list"></div>
-      <p id="editor-words-error" class="error-message" role="alert" hidden></p>
-      <div class="editor-words-actions">
-        <button id="editor-words-skip" type="button">暂不保存</button>
-        <button id="editor-words-confirm" type="button" disabled>保存选中的词</button>
-      </div>
-    </dialog>
-  </body>
+        <div id="editor-group-selection" hidden><div class="editor-panel-heading"><div><small>批量调整</small><h2>已选 <span id="editor-group-count">0</span> 项</h2></div><button id="editor-clear-group" class="ui-modal__close" type="button" aria-label="清除选择">×</button></div><p class="editor-panel-note">拖动任一选中字形，整组会保持内部间距一起移动。方向键也可微调。</p><div class="editor-control-group"><h3>整组位置</h3><div class="editor-number-grid"><label>左边界 <span><input id="editor-group-x" type="number" min="0" max="12000" step="1" />px</span></label><label>上边界 <span><input id="editor-group-y" type="number" min="0" max="12000" step="1" />px</span></label></div></div></div>
+        <div class="editor-control-group editor-line-controls"><h3>整行位置</h3><label for="editor-line">选择行</label><select id="editor-line" data-popup></select><div class="editor-line-buttons"><button id="editor-line-up" class="ui-btn ui-icon-btn" type="button" aria-label="上移 4 px" title="上移 4 px">↑</button><button id="editor-line-down" class="ui-btn ui-icon-btn" type="button" aria-label="下移 4 px" title="下移 4 px">↓</button></div></div>
+      </aside>
+    </div>
+  </main>
+  <dialog id="editor-words-dialog" class="ui-modal editor-words-dialog" aria-labelledby="editor-words-title"><div class="ui-modal__header editor-words-heading"><div><p>完成编辑后</p><h2 id="editor-words-title">选择要保存的词</h2></div><button id="editor-words-close" class="ui-modal__close" type="button" aria-label="关闭">×</button></div><div class="ui-modal__body"><p>只保存勾选的词。每个出现位置可单独选择；以后拼接相同词时会优先使用整词图片。</p><div class="editor-words-select"><button id="editor-words-toggle-all" class="ui-btn ui-btn--sm" type="button">取消全选</button><span id="editor-words-selected-count" aria-live="polite"></span></div><div id="editor-words-list" class="editor-words-list"></div><p id="editor-words-error" class="error-message" role="alert" hidden></p></div><div class="ui-modal__actions editor-words-actions"><button id="editor-words-skip" class="ui-btn" type="button">暂不保存</button><button id="editor-words-confirm" class="ui-btn ui-btn--primary" type="button" disabled>保存选中的词</button></div></dialog>
+</body>
 </html>

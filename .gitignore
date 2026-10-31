@@ -4,10 +4,10 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 output/
+tmp/
 data/file/*
 data/fonts/english/*
 data/renders/*
 data/migrations/*
 !data/file/.gitkeep
 !data/fonts/english/.gitkeep
-docs/

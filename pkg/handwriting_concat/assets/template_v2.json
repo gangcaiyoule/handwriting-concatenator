@@ -159,7 +159,7 @@
     },
     {
       "section": "supplement",
-      "prompt": "YZ!\"'():;?"
+      "prompt": "YZ!\"'():;?→→→→"
     }
   ],
   "final_character_counts": {
@@ -256,7 +256,10 @@
     "6": 1,
     "7": 1,
     "8": 1,
-    "9": 1
+    "9": 1,
+    "→": 4,
+    "": 2,
+    "": 2
   },
   "cells": [
     {
@@ -9583,9 +9586,9 @@
       "row": 19,
       "column": 10,
       "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "character": "→",
+      "write": true,
+      "occurrence": 1,
       "cell_bbox_mm": [
         92.5,
         269.55,
@@ -9603,9 +9606,9 @@
       "row": 19,
       "column": 11,
       "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "character": "→",
+      "write": true,
+      "occurrence": 2,
       "cell_bbox_mm": [
         100.0,
         269.55,
@@ -9623,9 +9626,9 @@
       "row": 19,
       "column": 12,
       "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "character": "→",
+      "write": true,
+      "occurrence": 3,
       "cell_bbox_mm": [
         107.5,
         269.55,
@@ -9643,9 +9646,9 @@
       "row": 19,
       "column": 13,
       "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "character": "→",
+      "write": true,
+      "occurrence": 4,
       "cell_bbox_mm": [
         115.0,
         269.55,
@@ -9662,200 +9665,80 @@
     {
       "row": 19,
       "column": 14,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "section": "strike",
+      "character": "",
+      "write": true,
+      "occurrence": 1,
       "cell_bbox_mm": [
         122.5,
         269.55,
-        130.0,
+        141.25,
         276.85
       ],
       "safe_bbox_mm": [
-        123.05,
+        123.3,
         270.1,
-        129.45,
+        140.45,
         276.3
       ]
     },
     {
       "row": 19,
       "column": 15,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "section": "strike",
+      "character": "",
+      "write": true,
+      "occurrence": 2,
       "cell_bbox_mm": [
-        130.0,
+        141.25,
         269.55,
-        137.5,
+        160.0,
         276.85
       ],
       "safe_bbox_mm": [
-        130.55,
+        142.05,
         270.1,
-        136.95,
+        159.2,
         276.3
       ]
     },
     {
       "row": 19,
       "column": 16,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "section": "strike",
+      "character": "",
+      "write": true,
+      "occurrence": 1,
       "cell_bbox_mm": [
-        137.5,
+        160.0,
         269.55,
-        145.0,
+        178.75,
         276.85
       ],
       "safe_bbox_mm": [
-        138.05,
+        160.8,
         270.1,
-        144.45,
+        177.95,
         276.3
       ]
     },
     {
       "row": 19,
       "column": 17,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
+      "section": "strike",
+      "character": "",
+      "write": true,
+      "occurrence": 2,
       "cell_bbox_mm": [
-        145.0,
-        269.55,
-        152.5,
-        276.85
-      ],
-      "safe_bbox_mm": [
-        145.55,
-        270.1,
-        151.95,
-        276.3
-      ]
-    },
-    {
-      "row": 19,
-      "column": 18,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
-      "cell_bbox_mm": [
-        152.5,
-        269.55,
-        160.0,
-        276.85
-      ],
-      "safe_bbox_mm": [
-        153.05,
-        270.1,
-        159.45,
-        276.3
-      ]
-    },
-    {
-      "row": 19,
-      "column": 19,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
-      "cell_bbox_mm": [
-        160.0,
-        269.55,
-        167.5,
-        276.85
-      ],
-      "safe_bbox_mm": [
-        160.55,
-        270.1,
-        166.95,
-        276.3
-      ]
-    },
-    {
-      "row": 19,
-      "column": 20,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
-      "cell_bbox_mm": [
-        167.5,
-        269.55,
-        175.0,
-        276.85
-      ],
-      "safe_bbox_mm": [
-        168.05,
-        270.1,
-        174.45,
-        276.3
-      ]
-    },
-    {
-      "row": 19,
-      "column": 21,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
-      "cell_bbox_mm": [
-        175.0,
-        269.55,
-        182.5,
-        276.85
-      ],
-      "safe_bbox_mm": [
-        175.55,
-        270.1,
-        181.95,
-        276.3
-      ]
-    },
-    {
-      "row": 19,
-      "column": 22,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
-      "cell_bbox_mm": [
-        182.5,
-        269.55,
-        190.0,
-        276.85
-      ],
-      "safe_bbox_mm": [
-        183.05,
-        270.1,
-        189.45,
-        276.3
-      ]
-    },
-    {
-      "row": 19,
-      "column": 23,
-      "section": "supplement",
-      "character": null,
-      "write": false,
-      "occurrence": null,
-      "cell_bbox_mm": [
-        190.0,
+        178.75,
         269.55,
         197.5,
         276.85
       ],
       "safe_bbox_mm": [
-        190.55,
+        179.55,
         270.1,
-        196.95,
+        196.7,
         276.3
       ]
     }

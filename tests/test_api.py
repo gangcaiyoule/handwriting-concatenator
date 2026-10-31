@@ -49,7 +49,7 @@ def test_upload_and_browse_extracted_glyph(tmp_path: Path) -> None:
         result = response.json()
         assert result["id"] == "en-潦草"
         run_id = result["latest_upload_id"]
-        assert result["summary"]["sample_count"] == 387
+        assert result["summary"]["sample_count"] == 395
         assert result["summary"]["glyph_count"] == 1
         assert (tmp_path / "data" / "file" / f"{run_id}.png").is_file()
         run_dir = tmp_path / "data" / "fonts" / "english" / "en-潦草"
@@ -73,7 +73,7 @@ def test_upload_and_browse_extracted_glyph(tmp_path: Path) -> None:
         again = second.json()
         assert again["upload_count"] == 2
         assert again["latest_upload_id"] != run_id
-        assert again["summary"]["sample_count"] == 774
+        assert again["summary"]["sample_count"] == 790
         assert again["summary"]["glyph_count"] == 2
         assert len(list((run_dir / "glyphs" / "U+0041").glob("*.png"))) == 2
         composed = client.post("/api/compositions", json={
