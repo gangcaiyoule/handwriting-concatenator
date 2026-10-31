@@ -17,7 +17,7 @@
           <span class="brand-mark" aria-hidden="true">字</span>
           <span>手写字拼接器</span>
         </a>
-        <span class="editor-header-label">拼接编辑器</span>
+        <a id="editor-return" class="editor-return" href="/">← 返回主界面</a>
       </div>
     </header>
 
@@ -83,7 +83,7 @@
             <div id="editor-variants" class="editor-variants"></div>
             <button id="editor-toggle-sample" class="editor-danger-link" type="button"></button>
             <button id="editor-break-word" class="editor-break-word" type="button" hidden>拆成字母重新拼接</button>
-            <p id="editor-sample-note" class="editor-panel-note">停用只影响以后生成的拼接图。当前字母可以继续替换成其他版本。</p>
+            <p id="editor-sample-note" class="editor-panel-note">停用后，当前草稿中使用该版本的字母会自动换成可用版本。</p>
 
             <div class="editor-control-group">
               <h3>位置与大小</h3>
@@ -127,6 +127,10 @@
         <button id="editor-words-close" type="button" aria-label="关闭">×</button>
       </div>
       <p>只保存勾选的词。每个出现位置可单独选择；以后拼接相同词时会优先使用整词图片。</p>
+      <div class="editor-words-select">
+        <button id="editor-words-toggle-all" type="button">取消全选</button>
+        <span id="editor-words-selected-count" aria-live="polite"></span>
+      </div>
       <div id="editor-words-list" class="editor-words-list"></div>
       <p id="editor-words-error" class="error-message" role="alert" hidden></p>
       <div class="editor-words-actions">

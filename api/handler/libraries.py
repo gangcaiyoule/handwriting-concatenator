@@ -170,10 +170,11 @@ def merge_extraction(data_root: Path, font_name: str, upload_id: str,
             "source_file": source_file,
             "registered_page": f"pages/{upload_id}/registered_page.png",
         })
+        active = [item for item in library["samples"] if not item.get("deleted")]
         library["summary"] = {
-            "sample_count": len(library["samples"]),
-            "glyph_count": sum(bool(item["glyph_file"]) for item in library["samples"]),
-            "review_count": sum(bool(item["flags"]) for item in library["samples"]),
+            "sample_count": len(active),
+            "glyph_count": sum(bool(item["glyph_file"]) for item in active),
+            "review_count": sum(bool(item["flags"]) for item in active),
         }
         _write_manifest(path, library)
 

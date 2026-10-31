@@ -53,7 +53,7 @@ class AlignBaselinesRequest(BaseModel):
 
 
 class EditOperation(BaseModel):
-    type: Literal["move", "move_line", "set_gap", "replace_variant", "split_word"]
+    type: Literal["move", "move_line", "set_gap", "replace_variant", "replace_unavailable", "split_word"]
     line: int | None = Field(default=None, ge=0)
     column: int | None = Field(default=None, ge=0)
     end_column: int | None = Field(default=None, ge=0)
@@ -84,6 +84,7 @@ class DraftResponse(BaseModel):
     cell_height_px: int
     placements: list[dict]
     variants: list[dict]
+    strikes: list[dict] = Field(default_factory=list)
 
 
 class WordCandidate(BaseModel):

@@ -11,7 +11,8 @@ from PIL import Image
 from starlette.concurrency import run_in_threadpool
 
 from handwriting_concat.composition import (
-    CompositionError, CompositionOptions, WORD_PATTERN, compose_text, load_library,
+    CompositionError, CompositionOptions, WORD_PATTERN, compose_text, draw_strikethrough,
+    parse_strikethrough, load_library,
     load_word_library, word_spans,
     render_edited,
 )
@@ -45,7 +46,7 @@ def load_composition(data_root: Path, render_id: str) -> CompositionResponse:
     return CompositionResponse(
         id=render_id,
         font_id=data["font_id"],
-        text=data["text"],
+        text=data.get("source_text", data["text"]),
         seed=data["seed"],
         width=data["width"],
         height=data["height"],
@@ -86,7 +87,8 @@ def load_draft(data_root: Path, render_id: str) -> DraftResponse:
                 "width": max(1, round(image_width * ratio)),
                 "height": max(1, round(image_height * ratio)),
                 "occurrence": sample.get("occurrence"),
-                "accepted": sample.get("accepted") is not False,
+                "accepted": sample.get("accepted") is not False and not sample.get("deleted"),
+                "deleted": bool(sample.get("deleted")),
                 "flags": sample.get("flags", []),
             })
     used_words = {word for line in data["text"].split("\n")
@@ -116,7 +118,7 @@ def load_draft(data_root: Path, render_id: str) -> DraftResponse:
         height=data["height"], line_count=data["line_count"],
         background=data["background"],
         cell_height_px=data["cell_height_px"],
-        placements=placements, variants=variants,
+        placements=placements, variants=variants, strikes=data.get("strikes", []),
     )
 
 
@@ -226,6 +228,7 @@ async def save_draft(data_root: Path, render_id: str,
         render_edited, font_root, placements, data["cell_height_px"],
         data["background"], (data["width"], data["height"]),
     )
+    draw_strikethrough(image, placements, data.get("strikes", []), data["cell_height_px"])
     root = path.parent
     image_tmp = root / "composition.png.tmp"
     manifest_tmp = root / "manifest.json.tmp"
@@ -254,7 +257,9 @@ async def create_composition(data_root: Path,
         background=request.background,
         seed=request.seed,
     )
-    rendered = await run_in_threadpool(compose_text, request.text, font_dir, options)
+    visible_text, strikes = parse_strikethrough(request.text)
+    rendered = await run_in_threadpool(compose_text, visible_text, font_dir, options)
+    draw_strikethrough(rendered.image, rendered.placements, strikes, options.cell_height_px)
     render_id = uuid4().hex
     root = _render_root(data_root, render_id)
     root.mkdir(parents=True, exist_ok=False)
@@ -263,6 +268,8 @@ async def create_composition(data_root: Path,
         "schema_version": 1,
         "font_id": font_dir.name,
         "text": rendered.text,
+        "source_text": request.text,
+        "strikes": strikes,
         "seed": rendered.seed,
         "cell_height_px": options.cell_height_px,
         "spacing_jitter": options.spacing_jitter,

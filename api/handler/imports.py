@@ -67,9 +67,10 @@ def load_result(data_root: Path, font_name: str) -> ImportResponse:
             original_crop_url=f"{base_url}/images/{quote(sample['original_crop'], safe='/')}",
             glyph_url=(f"{base_url}/images/{quote(sample['glyph_file'], safe='/')}"
                        if sample["glyph_file"] else None),
+            sample_file=sample.get("glyph_file"),
             upload_id=sample.get("upload_id", latest_upload_id),
         )
-        for sample in manifest["samples"]
+        for sample in manifest["samples"] if not sample.get("deleted")
     ]
     return ImportResponse(
         id=name,
@@ -98,12 +99,52 @@ def set_sample_acceptance(data_root: Path, font_name: str,
                    if item.get("glyph_file") == sample_file), None)
     if sample is None:
         raise ImportErrorMessage("找不到这个字形版本")
+    if sample.get("deleted"):
+        raise ImportErrorMessage("这个字形版本已从字库删除")
     sample["accepted"] = accepted
     temporary = path.with_suffix(".json.tmp")
     temporary.write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
                          encoding="utf-8")
     temporary.replace(path)
     return load_result(data_root, name)
+
+
+def delete_sample(data_root: Path, font_name: str, sample_file: str) -> ImportResponse:
+    """Remove a glyph from the active library while preserving historical renders."""
+    return _delete_matching_samples(data_root, font_name,
+                                    lambda item: item.get("glyph_file") == sample_file)
+
+
+def delete_character(data_root: Path, font_name: str, character: str) -> ImportResponse:
+    if len(character) != 1:
+        raise ImportErrorMessage("请选择单个字符")
+    return _delete_matching_samples(data_root, font_name,
+                                    lambda item: item.get("character") == character)
+
+
+def _delete_matching_samples(data_root: Path, font_name: str, matches) -> ImportResponse:
+    root = library_root(data_root, font_name)
+    path = root / "manifest.json"
+    if not path.is_file():
+        raise FileNotFoundError("找不到字形库")
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    selected = [item for item in manifest["samples"]
+                if matches(item) and not item.get("deleted")]
+    if not selected:
+        raise ImportErrorMessage("找不到可删除的字形")
+    for sample in selected:
+        sample["deleted"] = True
+        sample["accepted"] = False
+    active = [item for item in manifest["samples"] if not item.get("deleted")]
+    manifest["summary"] = {
+        "sample_count": len(active),
+        "glyph_count": sum(bool(item.get("glyph_file")) for item in active),
+        "review_count": sum(bool(item.get("flags")) for item in active),
+    }
+    temporary = path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary.replace(path)
+    return load_result(data_root, root.name)
 
 
 async def save_and_extract(upload: UploadFile, data_root: Path,

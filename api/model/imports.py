@@ -21,6 +21,7 @@ class SampleResponse(BaseModel):
     accepted: bool | None
     original_crop_url: str
     glyph_url: str | None
+    sample_file: str | None = None
     upload_id: str | None = None
 
 

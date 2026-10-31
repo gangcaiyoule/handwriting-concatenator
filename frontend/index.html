@@ -125,7 +125,7 @@
         <div class="library-heading">
           <div>
             <h2 id="composer-title">拼接文字</h2>
-            <p>直接粘贴内容。优先使用已保存的整词；没有整词时逐字母拼接。换行和空行都会保留。</p>
+            <p>直接粘贴内容。优先使用已保存的整词；没有整词时逐字母拼接。换行和空行都会保留。要划掉英文词，输入 <code>~~word~~</code>。</p>
           </div>
           <span id="composer-font" class="visible-count">尚未选择字体库</span>
         </div>
@@ -186,7 +186,7 @@
         <div class="library-heading">
           <div>
             <h2 id="library-title">逐字查看</h2>
-            <p>点开字形，可并排对照原格与透明提取结果。</p>
+            <p>点开字形，可对照原格、停用版本或从字库删除。</p>
           </div>
           <span id="visible-count" class="visible-count"></span>
         </div>
@@ -223,6 +223,12 @@
       </div>
       <p id="dialog-meta" class="dialog-meta"></p>
       <p id="dialog-flags" class="dialog-flags"></p>
+      <p id="dialog-action-error" class="error-message" role="alert" hidden></p>
+      <div class="glyph-dialog-actions">
+        <button id="dialog-toggle-sample" type="button">停用此版本</button>
+        <button id="dialog-delete-sample" type="button">从字库删除</button>
+        <button id="dialog-delete-character" type="button">删除此字符全部版本</button>
+      </div>
     </dialog>
   </body>
 </html>

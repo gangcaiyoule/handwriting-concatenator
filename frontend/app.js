@@ -10,6 +10,8 @@ const state = {
   composition: null,
   fontName: null,
   loadToken: 0,
+  detailSample: null,
+  managingSample: false,
 };
 
 const statusLabels = {
@@ -265,8 +267,30 @@ function labelCharacter(character) {
   return character;
 }
 
+function visibleComposeText(source) {
+  const lines = [];
+  for (const line of source.replace(/\r\n?/g, "\n").split("\n")) {
+    let visible = "", cursor = 0;
+    for (const match of line.matchAll(/~~([A-Za-z]+)~~/g)) {
+      if ((match.index > 0 && /[A-Za-z]/.test(line[match.index - 1])) ||
+          (match.index + match[0].length < line.length && /[A-Za-z]/.test(line[match.index + match[0].length]))) {
+        return { error: "删除线标记须包住完整的英文词。" };
+      }
+      const prefix = line.slice(cursor, match.index);
+      if (prefix.includes("~~")) return { error: "删除线请写成 ~~word~~，一次只标记一个英文词。" };
+      visible += prefix + match[1];
+      cursor = match.index + match[0].length;
+    }
+    const rest = line.slice(cursor);
+    if (rest.includes("~~")) return { error: "删除线请写成 ~~word~~，一次只标记一个英文词。" };
+    lines.push(visible + rest);
+  }
+  return { text: lines.join("\n") };
+}
+
 function updateComposeAvailability() {
-  const text = $("compose-text").value.replace(/\r\n?|\n/g, "\n");
+  const parsed = visibleComposeText($("compose-text").value);
+  const text = parsed.text || "";
   const characters = [...text].filter((char) => char !== " " && char !== "\n");
   const fallbackCharacters = [];
   let wholeWords = 0;
@@ -288,7 +312,10 @@ function updateComposeAvailability() {
   availability.className = "compose-availability";
 
   let canCompose = false;
-  if (!state.result) {
+  if (parsed.error) {
+    availability.textContent = parsed.error;
+    availability.classList.add("is-error");
+  } else if (!state.result) {
     availability.textContent = "先选择字体库，或上传到新字体库。";
   } else if (!state.result.summary.glyph_count &&
              !Object.values(state.result.word_counts || {}).some((count) => count > 0)) {
@@ -416,6 +443,11 @@ async function compose() {
 }
 
 function openDetail(sample) {
+  state.detailSample = sample;
+  $("dialog-action-error").hidden = true;
+  $("dialog-toggle-sample").hidden = !sample.sample_file;
+  $("dialog-delete-sample").hidden = !sample.sample_file;
+  $("dialog-toggle-sample").textContent = sample.accepted === false ? "重新启用此版本" : "停用此版本";
   $("dialog-title").textContent = `${sample.character} · 样本 ${sample.occurrence}`;
   $("dialog-crop").src = sample.original_crop_url;
   const glyph = $("dialog-glyph");
@@ -426,7 +458,54 @@ function openDetail(sample) {
   $("dialog-flags").textContent = sample.flags.length
     ? sample.flags.map((flag) => statusLabels[flag] || flag).join(" · ")
     : "自动检查通过，仍建议对照原格确认。";
-  $("glyph-dialog").showModal();
+  if (!$("glyph-dialog").open) $("glyph-dialog").showModal();
+}
+
+async function manageDetailSample(action) {
+  const sample = state.detailSample;
+  if (!sample || (action !== "delete-character" && !sample.sample_file) ||
+      state.managingSample || !state.result) return;
+  if (action === "delete" && !window.confirm(`确定从 ${state.result.id} 字库删除 ${sample.character} 的样本 ${sample.occurrence}？旧拼接图会保留，之后生成不再使用它。`)) return;
+  if (action === "delete-character") {
+    const count = state.result.samples.filter((item) => item.character === sample.character).length;
+    if (!window.confirm(`确定从 ${state.result.id} 字库删除 ${sample.character} 的全部 ${count} 个样本？旧拼接图会保留，之后生成不再使用它们。`)) return;
+  }
+  state.managingSample = true;
+  $("dialog-action-error").hidden = true;
+  $("dialog-toggle-sample").disabled = true;
+  $("dialog-delete-sample").disabled = true;
+  $("dialog-delete-character").disabled = true;
+  try {
+    const url = `/api/imports/${encodeURIComponent(state.result.id)}/sample`;
+    const target = action === "delete-character"
+      ? `/api/imports/${encodeURIComponent(state.result.id)}/character?character=${encodeURIComponent(sample.character)}`
+      : action === "delete" ? `${url}?sample_file=${encodeURIComponent(sample.sample_file)}` : url;
+    const response = await fetch(target, {
+      method: action === "toggle" ? "PATCH" : "DELETE",
+      ...(action !== "toggle" ? {} : {
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sample_file: sample.sample_file, accepted: sample.accepted === false }),
+      }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.detail || "管理字形失败，请重试。");
+    renderResult(result);
+    await refreshFontList();
+    if (action !== "toggle") {
+      state.detailSample = null;
+      $("glyph-dialog").close();
+    } else {
+      openDetail(result.samples.find((item) => item.sample_file === sample.sample_file));
+    }
+  } catch (error) {
+    $("dialog-action-error").textContent = error.message;
+    $("dialog-action-error").hidden = false;
+  } finally {
+    state.managingSample = false;
+    $("dialog-toggle-sample").disabled = false;
+    $("dialog-delete-sample").disabled = false;
+    $("dialog-delete-character").disabled = false;
+  }
 }
 
 async function refreshFontList() {
@@ -501,6 +580,9 @@ $("character-search").addEventListener("input", () => { state.visible = 48; rend
 $("status-filter").addEventListener("change", () => { state.visible = 48; renderGallery(); });
 $("load-more").addEventListener("click", () => { state.visible += 48; renderGallery(); });
 $("dialog-close").addEventListener("click", () => $("glyph-dialog").close());
+$("dialog-toggle-sample").addEventListener("click", () => manageDetailSample("toggle"));
+$("dialog-delete-sample").addEventListener("click", () => manageDetailSample("delete"));
+$("dialog-delete-character").addEventListener("click", () => manageDetailSample("delete-character"));
 $("compose-button").addEventListener("click", compose);
 $("compose-reroll").addEventListener("click", compose);
 $("compose-text").value = "";

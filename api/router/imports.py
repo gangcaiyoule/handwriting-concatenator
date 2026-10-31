@@ -14,6 +14,8 @@ from api.handler.imports import (
     resolve_result_image,
     save_and_extract,
     set_sample_acceptance,
+    delete_sample,
+    delete_character,
 )
 from api.handler.libraries import LibraryError
 from api.model.imports import ImportResponse, SampleAcceptanceUpdate
@@ -63,6 +65,26 @@ def update_sample(request: Request, run_id: str,
             request.app.state.data_root, run_id,
             payload.sample_file, payload.accepted,
         )
+    except (ImportErrorMessage, LibraryError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.delete("/imports/{run_id}/sample", response_model=ImportResponse)
+def remove_sample(request: Request, run_id: str, sample_file: str) -> ImportResponse:
+    try:
+        return delete_sample(request.app.state.data_root, run_id, sample_file)
+    except (ImportErrorMessage, LibraryError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.delete("/imports/{run_id}/character", response_model=ImportResponse)
+def remove_character(request: Request, run_id: str, character: str) -> ImportResponse:
+    try:
+        return delete_character(request.app.state.data_root, run_id, character)
     except (ImportErrorMessage, LibraryError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except FileNotFoundError as exc:

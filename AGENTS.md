@@ -1,6 +1,6 @@
 # 本地手写字拼接工作流
 
-用户给出需要拼接的段落时，直接使用项目内 CLI 完成工作。默认字体库是 `en-潦草`；若它不存在，先运行 `fonts` 并选择现有字体库。保留用户原文的换行、空行和大小写。不要修改 `data/fonts` 中的原始字形。
+用户给出需要拼接的段落时，直接使用项目内 CLI 完成工作。默认字体库是 `en-潦草`；若它不存在，先运行 `fonts` 并选择现有字体库。保留用户原文的换行、空行和大小写。`~~word~~` 表示给完整英文词加删除线，标记不会出现在成品中。不要修改 `data/fonts` 中的原始字形。
 
 在项目根目录运行 `./.venv/Scripts/python.exe -m api.agent_cli`。所有成功命令向 stdout 输出 UTF-8 JSON；失败向 stderr 输出 JSON 并返回非零状态。无需启动网页或配置 MCP。输入文字用 `compose --font en-潦草 --text-file -` 从标准输入读取，也可以传 UTF-8 文件路径。不要把多行文字拼在 shell 参数里。
 
@@ -23,11 +23,12 @@
   {"type": "set_gap", "line": 0, "column": 12, "gap_px": 6},
   {"type": "move_line", "line": 1, "dx": 0, "dy": 5},
   {"type": "replace_variant", "line": 1, "column": 2, "sample_file": "glyphs/U+0041/示例.png"},
+  {"type": "replace_unavailable"},
   {"type": "split_word", "line": 2, "column": 0}
 ]
 ```
 
-`move` 不带 `end_column` 时移动该位置的单个字形或整词；带结束列时选中 `[column, end_column)` 内的完整字形。`set_gap` 把目标与前一个字形的间距设为指定像素，并平移该行后续字形。`replace_variant` 的 `sample_file` 从 `inspect` 返回的 `variants` 中选，字符和整词类型必须相同。`split_word` 把已复用的词拆成可编辑字母；原词只保存了 PNG，因此拆开时会重新选字母并估算初始位置，需要再次查看和调整。所有操作都会检查画布边界、字形归属及修订号。
+`move` 不带 `end_column` 时移动该位置的单个字形或整词；带结束列时选中 `[column, end_column)` 内的完整字形。`set_gap` 把目标与前一个字形的间距设为指定像素，并平移该行后续字形。`replace_variant` 的 `sample_file` 从 `inspect` 返回的 `variants` 中选，字符和整词类型必须相同。`replace_unavailable` 把当前草稿中已停用或已从字库删除的字形换成可用版本；若字符没有其他版本，该位置保留原图并需要提示用户。`split_word` 把已复用的词拆成可编辑字母；原词只保存了 PNG，因此拆开时会重新选字母并估算初始位置，需要再次查看和调整。所有操作都会检查画布边界、字形归属及修订号。
 
 `align-baselines` 只处理普通英文字母，跳过小写 `g、j、p、q、y`、标点和整词图片。它按每行字母 `y + 高度` 的中位数对齐；如果某个字母太高，目标基线会下移，避免将笔迹移出画布上边缘。对齐后仍需看图确认视觉效果。
 

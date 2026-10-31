@@ -191,6 +191,12 @@ h1 { margin: 0; font-size: clamp(30px, 3.8vw, 45px); letter-spacing: -0.025em; l
 .comparison figcaption { margin-top: 8px; color: var(--muted); font-size: 12px; }
 .dialog-meta, .dialog-flags { font-size: 13px; color: var(--muted); margin: 19px 0 0; }
 .dialog-flags { margin-top: 6px; color: var(--warning); }
+.glyph-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.glyph-dialog-actions button { min-height: 36px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--ink); font-size: 12px; font-weight: 650; }
+.glyph-dialog-actions button:hover:not(:disabled) { border-color: var(--green); }
+#dialog-delete-sample, #dialog-delete-character { color: var(--error); }
+#dialog-delete-sample:hover:not(:disabled), #dialog-delete-character:hover:not(:disabled) { border-color: var(--error); background: var(--error-soft); }
+.glyph-dialog-actions button:disabled { opacity: .5; cursor: not-allowed; }
 
 @media (max-width: 800px) {
   .workspace { grid-template-columns: 1fr; gap: 44px; }

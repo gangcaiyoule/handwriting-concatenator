@@ -12,7 +12,7 @@ import re
 import secrets
 from statistics import median
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 
 MAX_TEXT_LENGTH = 2000
@@ -70,6 +70,55 @@ class Composition:
 
 def normalize_text(text: str) -> str:
     return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
+def parse_strikethrough(text: str) -> tuple[str, list[dict]]:
+    """Turn ~~word~~ into visible text plus stable line/column strike spans."""
+    lines = []
+    spans = []
+    for line_index, source in enumerate(normalize_text(text).split("\n")):
+        visible = ""
+        cursor = 0
+        for match in re.finditer(r"~~([A-Za-z]+)~~", source):
+            if ((match.start() and source[match.start() - 1].isascii() and
+                 source[match.start() - 1].isalpha()) or
+                    (match.end() < len(source) and source[match.end()].isascii() and
+                     source[match.end()].isalpha())):
+                raise CompositionError("删除线标记须包住完整的英文词")
+            prefix = source[cursor:match.start()]
+            if "~~" in prefix:
+                raise CompositionError("删除线请写成 ~~word~~，一次只标记一个英文词")
+            visible += prefix
+            start = len(visible)
+            visible += match.group(1)
+            spans.append({"line": line_index, "column": start,
+                          "end_column": len(visible)})
+            cursor = match.end()
+        rest = source[cursor:]
+        if "~~" in rest:
+            raise CompositionError("删除线请写成 ~~word~~，一次只标记一个英文词")
+        lines.append(visible + rest)
+    return "\n".join(lines), spans
+
+
+def draw_strikethrough(image: Image.Image, placements: list[dict],
+                       spans: list[dict], cell_height_px: int) -> None:
+    """Draw over the current placement geometry, including reused word PNGs."""
+    if not spans:
+        return
+    draw = ImageDraw.Draw(image, "RGBA")
+    for span in spans:
+        covered = [item for item in placements
+                   if item["line"] == span["line"] and
+                   item["column"] < span["end_column"] and
+                   item["column"] + len(item["character"]) > span["column"]]
+        if not covered:
+            continue
+        left = min(item["x"] for item in covered)
+        right = max(item["x"] + item["width"] for item in covered)
+        y = round(median(item["y"] + item["height"] * 0.52 for item in covered))
+        draw.line((left, y, right, y), fill=(28, 28, 28, 230),
+                  width=max(2, round(cell_height_px * 0.055)))
 
 
 def _glyph_path(font_dir: Path, relative: str) -> Path:
@@ -139,7 +188,8 @@ def load_library(font_dir: str | Path, *, include_disabled: bool = False) -> dic
     seen_files: set[Path] = set()
     for sample in manifest.get("samples", []):
         relative = sample.get("glyph_file")
-        if not relative or (sample.get("accepted") is False and not include_disabled):
+        if not relative or ((sample.get("accepted") is False or sample.get("deleted"))
+                            and not include_disabled):
             continue
         path = _glyph_path(root, relative)
         if path in seen_files or not path.is_file():

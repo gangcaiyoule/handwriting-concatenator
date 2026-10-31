@@ -225,6 +225,7 @@ function renderStage() {
     glyph.addEventListener("click", (event) => event.stopPropagation());
     stage.append(glyph);
   }
+  renderStrikes();
   if (state.selectedIndices.size > 1) {
     const bounds = selectionBounds();
     const outline = document.createElement("div");
@@ -250,6 +251,26 @@ function renderStage() {
     handle.addEventListener("pointerdown", (event) => startDrag(event, "gap", state.selected));
     handle.addEventListener("click", (event) => event.stopPropagation());
     stage.append(handle);
+  }
+}
+
+function renderStrikes() {
+  const stage = $("editor-stage");
+  stage.querySelectorAll(".edit-strike").forEach((line) => line.remove());
+  for (const span of state.draft.strikes || []) {
+    const covered = state.placements.filter((item) => item.line === span.line &&
+      item.column < span.end_column && item.column + item.character.length > span.column);
+    if (!covered.length) continue;
+    const left = Math.min(...covered.map((item) => item.x));
+    const right = Math.max(...covered.map((item) => item.x + item.width));
+    const y = Math.round(median(covered.map((item) => item.y + item.height * 0.52)));
+    const line = document.createElement("div");
+    line.className = "edit-strike";
+    line.style.left = `${left}px`;
+    line.style.top = `${y}px`;
+    line.style.width = `${right - left}px`;
+    line.style.height = `${Math.max(2, Math.round(state.draft.cell_height_px * 0.055))}px`;
+    stage.append(line);
   }
 }
 
@@ -296,22 +317,22 @@ function renderPanel() {
     button.type = "button";
     button.className = `editor-variant${variant.sample_file === item.sample_file ? " is-selected" : ""}`;
     button.disabled = !variant.accepted;
-    button.setAttribute("aria-label", `使用 ${item.character} 的版本 ${variant.occurrence}${variant.accepted ? "" : "，已停用"}`);
+    button.setAttribute("aria-label", `使用 ${item.character} 的版本 ${variant.occurrence}${variant.accepted ? "" : variant.deleted ? "，已删除" : "，已停用"}`);
     const image = document.createElement("img");
     image.src = variant.image_url;
     image.alt = "";
     const label = document.createElement("span");
-    label.textContent = variant.accepted ? `版本 ${variant.occurrence}` : "已停用";
+    label.textContent = variant.accepted ? `版本 ${variant.occurrence}` : variant.deleted ? "已删除" : "已停用";
     button.append(image, label);
     button.addEventListener("click", () => replaceVariant(variant));
     list.append(button);
   }
   const current = variantFor(item.sample_file);
-  $("editor-toggle-sample").hidden = isWord;
+  $("editor-toggle-sample").hidden = isWord || current.deleted;
   $("editor-break-word").hidden = !isWord;
   $("editor-sample-note").textContent = isWord
     ? "整词会作为一张图片使用。拆成字母后可重新调整并保存为新词版本。"
-    : "停用只影响以后生成的拼接图。当前字母可以继续替换成其他版本。";
+    : "停用后，当前草稿中使用该版本的字母会自动换成可用版本；没有其他版本时会提示。";
   $("editor-toggle-sample").textContent = current.accepted ? "以后不再使用这个版本" : "重新启用这个版本";
   $("editor-toggle-sample").disabled = state.toggling;
   renderSelectionFields();
@@ -329,6 +350,27 @@ function shiftFollowing(index, difference) {
     if (state.placements[next].line !== line) break;
     state.placements[next].x = Math.max(0, state.placements[next].x + difference);
   }
+}
+
+async function repairUnavailableGlyphs() {
+  const before = snapshot();
+  const unavailable = state.placements.filter((item) => item.kind !== "word" &&
+    !variantFor(item.sample_file)?.accepted);
+  if (!unavailable.length) return { repaired: 0, unresolved: 0 };
+  const transformed = await requestJSON(`/api/compositions/${state.draft.id}/transform`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      revision: state.draft.revision, placements: editPayload(),
+      operations: [{ type: "replace_unavailable" }],
+    }),
+  });
+  state.placements = transformed.placements;
+  const unresolved = state.placements.filter((item) => item.kind !== "word" &&
+    !variantFor(item.sample_file)?.accepted).length;
+  const repaired = unavailable.length - unresolved;
+  if (repaired) commit(before);
+  return { repaired, unresolved };
 }
 
 function replaceVariant(variant) {
@@ -421,6 +463,7 @@ function refreshPositions() {
     glyph.style.left = `${item.x}px`;
     glyph.style.top = `${item.y}px`;
   }
+  renderStrikes();
   const handle = $("editor-stage").querySelector(".edit-gap-handle");
   if (handle && state.selected !== null) {
     handle.style.left = `${state.placements[state.selected].x - 7}px`;
@@ -532,6 +575,14 @@ async function toggleSample() {
       body: JSON.stringify({ sample_file: variant.sample_file, accepted: !variant.accepted }),
     });
     variant.accepted = !variant.accepted;
+    if (!variant.accepted) {
+      const result = await repairUnavailableGlyphs();
+      if (result.repaired && await save()) {
+        state.undo.length = 0;
+        state.redo.length = 0;
+      }
+      if (result.unresolved) showError(`已停用这个版本，但 ${result.unresolved} 处没有其他可用的 ${variant.character} 字形。`);
+    }
     renderPanel();
   } catch (error) {
     showError(error.message);
@@ -599,9 +650,8 @@ async function chooseWords() {
       checkbox.type = "checkbox";
       checkbox.value = candidate.key;
       checkbox.disabled = candidate.saved;
-      checkbox.addEventListener("change", () => {
-        $("editor-words-confirm").disabled = !list.querySelector("input:checked");
-      });
+      checkbox.checked = !candidate.saved;
+      checkbox.addEventListener("change", updateWordSelection);
       const title = document.createElement("span");
       const word = document.createElement("strong");
       word.textContent = candidate.word;
@@ -616,12 +666,28 @@ async function chooseWords() {
       row.append(checkbox, title, preview);
       list.append(row);
     }
-    $("editor-words-confirm").disabled = true;
+    updateWordSelection();
     $("editor-words-error").hidden = true;
     $("editor-words-dialog").showModal();
   } catch (error) {
     showError(error.message);
   }
+}
+
+function updateWordSelection() {
+  const available = [...$("editor-words-list").querySelectorAll("input:not(:disabled)")];
+  const checked = available.filter((input) => input.checked).length;
+  $("editor-words-confirm").disabled = checked === 0;
+  $("editor-words-toggle-all").disabled = available.length === 0;
+  $("editor-words-toggle-all").textContent = available.length && checked === available.length ? "取消全选" : "全选";
+  $("editor-words-selected-count").textContent = `已选 ${checked} / ${available.length} 个可保存的词`;
+}
+
+function toggleAllWords() {
+  const available = [...$("editor-words-list").querySelectorAll("input:not(:disabled)")];
+  const select = available.some((input) => !input.checked);
+  for (const input of available) input.checked = select;
+  updateWordSelection();
 }
 
 async function saveSelectedWords() {
@@ -658,7 +724,15 @@ async function load() {
     state.placements = draft.placements.map((item) => ({ ...item }));
     state.variants = new Map(draft.variants.map((variant) => [variant.sample_file, variant]));
     state.saved = snapshot();
-    $("editor-back").href = `/?font=${encodeURIComponent(draft.font_id)}&composition=${draft.id}`;
+    const repair = await repairUnavailableGlyphs();
+    if (repair.repaired && await save()) {
+      state.undo.length = 0;
+      state.redo.length = 0;
+    }
+    if (repair.unresolved) showError(`${repair.unresolved} 处使用了已停用或已删除的字形，当前字库没有可替换版本。`);
+    const returnUrl = `/?font=${encodeURIComponent(draft.font_id)}&composition=${draft.id}`;
+    $("editor-back").href = returnUrl;
+    $("editor-return").href = returnUrl;
     for (let line = 0; line < draft.line_count; line++) {
       const option = document.createElement("option");
       option.value = String(line);
@@ -772,6 +846,7 @@ $("editor-break-word").addEventListener("click", breakWord);
 $("editor-words-close").addEventListener("click", () => $("editor-words-dialog").close());
 $("editor-words-skip").addEventListener("click", () => $("editor-words-dialog").close());
 $("editor-words-confirm").addEventListener("click", saveSelectedWords);
+$("editor-words-toggle-all").addEventListener("click", toggleAllWords);
 $("editor-guides").addEventListener("change", renderStage);
 $("editor-zoom").addEventListener("change", () => {
   state.zoom = $("editor-zoom").value === "fit"

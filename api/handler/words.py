@@ -44,8 +44,12 @@ def _candidates(data_root: Path, render_id: str) -> tuple[dict, Path, list[dict]
     indexed = {(item["line"], item["column"]): item
                for item in draft["placements"]}
     candidates = []
+    struck = {(item["line"], item["column"], item["end_column"])
+              for item in draft.get("strikes", [])}
     for line_index, line in enumerate(draft["text"].split("\n")):
         for start, end, word in word_spans(line):
+            if (line_index, start, end) in struck:
+                continue
             letters = [indexed.get((line_index, column))
                        for column in range(start, end)]
             if any(item is None or item.get("kind", "glyph") != "glyph" or

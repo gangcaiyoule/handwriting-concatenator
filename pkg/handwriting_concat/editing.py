@@ -126,6 +126,31 @@ def apply_edit_operations(placements: list[dict], variants: list[dict],
             item["y"] += round((old_height - item["height"]) / 2)
             if index + 1 < len(items) and items[index + 1]["line"] == item["line"]:
                 _shift_following(items, index + 1, item["width"] - old_width)
+        elif kind == "replace_unavailable":
+            usage: dict[str, int] = {}
+            for item in items:
+                variant = by_file.get(item["sample_file"])
+                if variant and variant["accepted"]:
+                    usage[item["sample_file"]] = usage.get(item["sample_file"], 0) + 1
+            for index, item in enumerate(items):
+                current = by_file.get(item["sample_file"])
+                if item.get("kind", "glyph") == "word" or (current and current["accepted"]):
+                    continue
+                alternatives = [variant for variant in variants
+                                if variant["kind"] == "glyph" and
+                                variant["character"] == item["character"] and
+                                variant["accepted"]]
+                if not alternatives:
+                    continue
+                choice = min(alternatives, key=lambda variant: usage.get(variant["sample_file"], 0))
+                old_width, old_height = item["width"], item["height"]
+                item["sample_file"] = choice["sample_file"]
+                item["width"] = max(1, round(choice["width"] * item.get("scale", 1)))
+                item["height"] = max(1, round(choice["height"] * item.get("scale", 1)))
+                item["y"] = max(0, item["y"] + round((old_height - item["height"]) / 2))
+                if index + 1 < len(items) and items[index + 1]["line"] == item["line"]:
+                    _shift_following(items, index + 1, item["width"] - old_width)
+                usage[choice["sample_file"]] = usage.get(choice["sample_file"], 0) + 1
         elif kind == "split_word":
             _required(op, "line", "column")
             index = _target(items, op["line"], op["column"])

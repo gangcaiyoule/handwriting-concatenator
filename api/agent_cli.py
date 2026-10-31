@@ -153,6 +153,7 @@ async def _execute(args: argparse.Namespace) -> dict:
             "id": draft.id, "font": draft.font_id, "revision": draft.revision,
             "image": str(composition_image(data_root, draft.id).resolve()),
             "width": draft.width, "height": draft.height, "text": draft.text,
+            "strikes": draft.strikes,
             "lines": [_line_summary(draft, line) for line in lines],
             "variants": [
                 {**variant,
